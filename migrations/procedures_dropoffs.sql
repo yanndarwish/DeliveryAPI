@@ -1,3 +1,5 @@
+USE geostar;
+
 -- CREATE A DROPOFF (should be called on Delivery creation)
 DELIMITER $$
 CREATE PROCEDURE CreateDropoff(

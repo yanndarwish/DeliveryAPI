@@ -14,12 +14,5 @@ Setup and populate databases (only with base data)
 
 ```bash
 # in project root
-npm run database:up
-```
-
-Delete databases (This removes all additionnal data added after the setup)
-
-```bash
-# in project root
-npm run database:down
+npm run database:reload
 ```

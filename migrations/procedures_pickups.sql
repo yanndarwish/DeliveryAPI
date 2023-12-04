@@ -1,3 +1,5 @@
+USE geostar;
+
 -- CREATE A PICKUP (should be called on Delivery creation)
 DELIMITER $$
 CREATE PROCEDURE CreatePickup(

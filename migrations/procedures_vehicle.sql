@@ -1,3 +1,5 @@
+USE geostar;
+
 -- CREATE A VEHICLE
 DELIMITER $$
 CREATE PROCEDURE CreateVehicle(

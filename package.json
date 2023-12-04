@@ -5,8 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"database:up": "cat ./migrations/*.sql | mysql -h 127.0.0.1 -u root -p",
-		"database:down": "mysql -h 127.0.0.1 -u root -p -e 'DROP DATABASE IF EXISTS dmt; DROP DATABASE IF EXISTS geostar;'"
+		"database:reload": "sh ./migration.sh"
 	},
 	"keywords": [],
 	"author": "",
