@@ -11,8 +11,6 @@ INSERT INTO geostar.tours_operations (tour_operation_name) VALUES
 ('DEACTIVATE'),
 ('DELETE');
 
--- TODO : CREATE TOURS, TOURS MEMBERS, TOURS HISTORY
-
 -- Insert sample addresses
 CALL geostar.CreateAddress(123, 'Main Street', 'Cityville', 12345, 'Countryland', NULL);
 CALL geostar.CreateAddress(456, 'Oak Avenue', 'Townburg', 56789, 'Countrytop', NULL);
@@ -28,6 +26,12 @@ INSERT INTO geostar.companies (company_name, company_address, company_siret, com
 CALL geostar.CreateClient('Client One', 1, 'Main Street', 'Cityville', 12345, 'Countryland', TRUE, 0606060606, 'client1@example.com');
 CALL geostar.CreateClient('Client Two', 2, 'Oak Avenue', 'Townsville', 67890, 'Countryland', FALSE, 0606060606, 'client2@example.com');
 CALL geostar.CreateClient('Client Three', 3, 'Pine Street', 'Villageton', 54321, 'Countryland', TRUE, 0707070707, 'client3@example.com');
+
+-- Insert sample tours
+CALL geostar.CreateTour('Tour One', TRUE, 1, '[1, 2, 3]');
+
+-- Update tour members active status
+CALL geostar.UpdateTourMemberStatus(1, 1, FALSE);
 
 -- Insert sample drivers
 CALL geostar.CreateDriver('Smith', 'John', TRUE, 'driver1@example.com', 0606060606);

@@ -12,7 +12,7 @@ BEGIN
     INSERT INTO tours (
         tour_name,
         tour_active,
-        tour_company
+        company_id
     )
     VALUES (
         p_tour_name,
@@ -37,6 +37,14 @@ BEGIN
             @client_id,
             p_company_id
         );
+
+        CALL CreateToursHistory(
+            NOW(),
+            'CREATE',
+            @new_tour_id,
+            @client_id,
+            p_company_id
+        );
     END WHILE;
 
 END $$
@@ -49,7 +57,6 @@ CREATE PROCEDURE GetTours(
     IN p_company_id INT
 )
 BEGIN
-    -- check if p_status is 'active' or 'inactive' or 'all'
     IF p_status = 'active' THEN
         SELECT * FROM tours_info WHERE tour_active = TRUE AND company_id = p_company_id;
     ELSEIF p_status = 'inactive' THEN
@@ -66,6 +73,48 @@ BEGIN
     SELECT * FROM tours WHERE tour_id = p_tour_id;
 END $$
 
+-- GET TOUR MEMBERS STATUS AT A GIVEN DATE
+DELIMITER $$
+CREATE PROCEDURE GetTourMembersStatus(
+    IN p_tour_id INT,
+    IN p_company_id INT,
+    IN p_date DATETIME
+)
+BEGIN
+    -- GET all members of a tour
+    SET @tour_members = JSON_ARRAY();
+
+    -- assign tour_members to the result of the stored procedure
+    CALL GetTourMembers('all', p_company_id, @tour_members);
+    SET @active_tour_members = JSON_ARRAY();    
+
+    SELECT @tour_members;
+
+    -- loop through tour_members
+    WHILE JSON_LENGTH(@tour_members) > 0 DO
+        -- get the first element of the array
+        SET @tour_member = JSON_EXTRACT(@tour_members, '$[0]');
+        SET @client_id = JSON_EXTRACT(@tour_member, '$.client_id');
+
+        -- get the last operation of the tour member
+        CALL GetMemberLastOperation(p_tour_id, p_company_id, @client_id, p_date, @last_operation);
+
+        -- check if the last operation is 'CREATE', 'ACTIVATE' then add the tour member to the active_tour_members array
+        IF @last_operation = 'CREATE' OR @last_operation = 'ACTIVATE' THEN
+            SET @active_tour_members = JSON_ARRAY_APPEND(@active_tour_members, '$', @client_id);
+        END IF;
+
+        -- remove the first element of the array
+        SET @tour_members = JSON_REMOVE(@tour_members, '$[0]');
+
+    END WHILE;
+
+    -- return the active_tour_members array
+    SELECT @active_tour_members;
+
+END $$ 
+DELIMITER ;
+
 -- UPDATE A TOUR
 DELIMITER $$
 CREATE PROCEDURE UpdateTour(
@@ -79,7 +128,7 @@ BEGIN
     SET
         tour_name = p_tour_name,
         tour_active = p_tour_active,
-        tour_company = p_company_id
+        company_id = p_company_id
     WHERE tour_id = p_tour_id;
 END $$
 DELIMITER ;
