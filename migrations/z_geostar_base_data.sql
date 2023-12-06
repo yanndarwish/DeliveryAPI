@@ -62,17 +62,20 @@ CALL geostar.CreateVehicle('Honda', 'Accord', 'LMN456', TRUE);
 
 -- Insert sample deliveries
 CALL geostar.CreateDelivery(
-    1, 1, 1, 101,
+    1, 1, 1, 1, 101,
     '[{"client_id": 1, "pickup_date": "2023-11-25 10:00:00"}, {"client_id": 2, "pickup_date": "2023-11-25 14:00:00"}]',
-    '[{"client_id": 3, "dropoff_date": "2023-11-26 11:00:00"}, {"client_id": 3, "dropoff_date": "2023-11-26 13:00:00"}]'
+    '[{"client_id": 3, "dropoff_date": "2023-11-26 11:00:00"}, {"client_id": 3, "dropoff_date": "2023-11-26 13:00:00"}]',
+    NULL
 );
 CALL geostar.CreateDelivery(
-    2, 2, 2, 202,
+    2, 2, 2, 2, 202,
     '[{"client_id": 2, "pickup_date": "2023-11-25 10:00:00"}]',
-    '[{"client_id": 1, "dropoff_date": "2023-11-26 11:00:00"}]'
+    '[{"client_id": 1, "dropoff_date": "2023-11-26 11:00:00"}]',
+    1
 );
 CALL geostar.CreateDelivery(
-    3, 3, 3, 303,
+    3, 3, 3, 3, 303,
     '[{"client_id": 1, "pickup_date": "2023-11-25 10:00:00"}, {"client_id": 2, "pickup_date": "2023-11-25 10:00:00"}, {"client_id": 3, "pickup_date": "2023-11-25 10:00:00"}]',
-    '[{"client_id": 1, "dropoff_date": "2023-11-26 11:00:00"}]'
+    '[{"client_id": 1, "dropoff_date": "2023-11-26 11:00:00"}]',
+    NULL
 );

@@ -3,12 +3,14 @@ USE geostar;
 -- CREATE A DELIVERY
 DELIMITER $$
 CREATE PROCEDURE CreateDelivery(
+    IN p_company_id INT,
     IN p_driver_id INT,
     IN p_vehicle_id INT,
     IN p_provider_id INT,
     IN p_hotel_price INT,
     IN p_pickup_clients JSON,
-    IN p_dropoff_clients JSON
+    IN p_dropoff_clients JSON,
+    IN p_outsourced_to INT
 )
 BEGIN
     DECLARE last_delivery_id INT;
@@ -16,21 +18,50 @@ BEGIN
     DECLARE pickup_date DATETIME;
     DECLARE dropoff_client_id INT;
     DECLARE dropoff_date DATETIME;
+    DECLARE outsourced_delivery_id INT;
 
     INSERT INTO deliveries (
+        company_id,
         delivery_driver,
         delivery_vehicle,
         delivery_provider,
-        delivery_hotel_price
+        delivery_hotel_price,
+        delivery_outsourced_to
     )
     VALUES (
+        p_company_id,
         p_driver_id,
         p_vehicle_id,
         p_provider_id,
-        p_hotel_price
+        p_hotel_price,
+        p_outsourced_to
     );
 
     SET last_delivery_id = LAST_INSERT_ID();
+    SET outsourced_delivery_id = NULL;
+
+    -- if outsourced, insert into deliveries with the company id as the provider
+    IF p_outsourced_to IS NOT NULL THEN
+        INSERT INTO deliveries (
+            company_id,
+            delivery_driver,
+            delivery_vehicle,
+            delivery_provider,
+            delivery_hotel_price,
+            delivery_outsourced_to
+        )
+        VALUES (
+            p_outsourced_to,
+            p_driver_id,
+            p_vehicle_id,
+            p_company_id,
+            p_hotel_price,
+            NULL
+        );
+
+        SET outsourced_delivery_id = LAST_INSERT_ID();
+    END IF;
+
     SET @i = 0;
     SET @n = JSON_LENGTH(JSON_UNQUOTE(p_pickup_clients)); 
 
@@ -39,6 +70,11 @@ BEGIN
         SET pickup_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_pickup_clients, CONCAT('$[', @i, '].pickup_date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
 
         CALL CreatePickup(last_delivery_id, pickup_client_id, pickup_date);
+
+        IF outsourced_delivery_id IS NOT NULL THEN
+            CALL CreatePickup(outsourced_delivery_id, pickup_client_id, pickup_date);
+        END IF;
+
         SET @i = @i + 1;
     END WHILE;
 
@@ -50,6 +86,11 @@ BEGIN
         SET dropoff_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_dropoff_clients, CONCAT('$[', @i, '].dropoff_date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
 
         CALL CreateDropoff(last_delivery_id, dropoff_client_id, dropoff_date);
+
+        IF outsourced_delivery_id IS NOT NULL THEN
+            CALL CreateDropoff(outsourced_delivery_id, dropoff_client_id, dropoff_date);
+        END IF;
+
         SET @i = @i + 1;
     END WHILE;
 END $$

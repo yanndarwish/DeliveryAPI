@@ -13,16 +13,8 @@ SET @@session.sql_mode = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
 
 -- add email and phone to companies
 
--- TODO: Create a 'tournées' table
--- notion of active client inside the tourné (if you have 10 clients on a tourné, 
--- and one of them is inactive for a day, you can still deliver to the other 9 
--- without having to create a new tourné)
--- keep track of the tourné members for each delivery (if a client is added to a tourné, removed)
--- we need to keep track of everything even 3 years later
--- notion of history
 
--- TODO: Create a sous-traitance case (if all drivers or vehicles are busy, 
--- we can outsource the delivery to another company, geostar or dmt)
+-- TODO: Fix providers table (merge with companies ?) 
 
 -- Create addresses table
 CREATE TABLE IF NOT EXISTS addresses (
