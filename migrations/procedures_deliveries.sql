@@ -100,7 +100,17 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_get_deliveries()
 BEGIN
-    SELECT * FROM deliveries_info;
+    SELECT
+        delivery_id,
+        delivery_driver,
+        delivery_vehicle,
+        delivery_provider,
+        delivery_hotel_price,
+        delivery_outsourced_to,
+        pickups,
+        dropoffs,
+        company_id
+    FROM view_deliveries_info;
 END $$
 DELIMITER ;
 
@@ -108,7 +118,17 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_get_delivery_by_id(IN p_delivery_id INT)
 BEGIN
-    SELECT * FROM deliveries_info WHERE delivery_id = p_delivery_id;
+    SELECT
+        delivery_id,
+        delivery_driver,
+        delivery_vehicle,
+        delivery_provider,
+        delivery_hotel_price,
+        delivery_outsourced_to,
+        pickups,
+        dropoffs,
+        company_id
+    FROM view_deliveries_info WHERE delivery_id = p_delivery_id;
 END $$
 DELIMITER ;
 

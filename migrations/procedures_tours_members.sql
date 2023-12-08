@@ -81,7 +81,20 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_get_tour_member_by_id(IN p_tour_member_id INT)
 BEGIN
-    SELECT * FROM tours_members WHERE tour_member_id = p_tour_member_id;
+    SELECT
+        tour_member_id,
+        company_id,
+        tour_id,
+        tour_name,
+        client_id,
+        client_name,
+        address_street_number,
+        address_street,
+        address_city,
+        address_postal_code,
+        address_country,
+        tour_member_active
+    FROM view_tour_members_info;
 END $$
 DELIMITER ;
 

@@ -11,7 +11,8 @@ CREATE PROCEDURE sp_create_client(
     IN p_country VARCHAR(30),
     IN p_active BOOLEAN,
     IN p_phone VARCHAR(100),
-    IN p_email VARCHAR(100)
+    IN p_email VARCHAR(100),
+    IN p_company_id INT
 )
 BEGIN
     DECLARE new_address_id INT;
@@ -25,12 +26,14 @@ BEGIN
     INSERT INTO clients (
         client_name,
         client_address,
-        client_active
+        client_active,
+        company_id
     )
     VALUES (
         p_client_name,
         new_address_id,
-        p_active
+        p_active,
+        p_company_id
     );
 
     SET new_client_id = LAST_INSERT_ID();

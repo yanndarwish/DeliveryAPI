@@ -58,11 +58,26 @@ CREATE PROCEDURE sp_get_tours(
 )
 BEGIN
     IF p_status = 'active' THEN
-        SELECT * FROM tours WHERE tour_active = TRUE AND company_id = p_company_id;
+        SELECT
+            tour_id,
+            tour_name,
+            tour_active,
+            company_id
+        FROM tours WHERE tour_active = TRUE AND company_id = p_company_id;
     ELSEIF p_status = 'inactive' THEN
-        SELECT * FROM tours WHERE tour_active = FALSE AND company_id = p_company_id;
+        SELECT
+            tour_id,
+            tour_name,
+            tour_active,
+            company_id
+        FROM tours WHERE tour_active = FALSE AND company_id = p_company_id;
     ELSE
-        SELECT * FROM tours WHERE company_id = p_company_id;
+        SELECT
+            tour_id,
+            tour_name,
+            tour_active,
+            company_id
+        FROM tours WHERE company_id = p_company_id;
     END IF;
 END $$
 
@@ -70,7 +85,12 @@ END $$
 DELIMITER $$
 CREATE PROCEDURE sp_get_tour_by_id(IN p_tour_id INT)
 BEGIN
-    SELECT * FROM tours WHERE tour_id = p_tour_id;
+    SELECT
+        tour_id,
+        tour_name,
+        tour_active,
+        company_id
+    FROM tours WHERE tour_id = p_tour_id;
 END $$
 
 -- UPDATE A TOUR

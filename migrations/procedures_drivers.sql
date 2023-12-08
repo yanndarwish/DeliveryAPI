@@ -7,7 +7,8 @@ CREATE PROCEDURE sp_create_driver(
     IN p_first_name VARCHAR(25),
     IN p_active BOOLEAN,
     IN p_email VARCHAR(100),
-    IN p_phone VARCHAR(100)
+    IN p_phone VARCHAR(100),
+    IN p_company_id INT
 )
 BEGIN
     DECLARE new_driver_id INT;
@@ -16,12 +17,14 @@ BEGIN
     INSERT INTO drivers (
         driver_last_name,
         driver_first_name,
-        driver_active
+        driver_active,
+        company_id
     )
     VALUES (
         p_last_name,
         p_first_name,
-        p_active
+        p_active,
+        p_company_id
     );
 
     SET new_driver_id = LAST_INSERT_ID();

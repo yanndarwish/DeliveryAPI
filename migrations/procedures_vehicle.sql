@@ -28,7 +28,13 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_get_vehicles()
 BEGIN
-    SELECT * FROM vehicles;
+    SELECT
+        vehicle_id,
+        vehicle_brand,
+        vehicle_model,
+        vehicle_immatriculation,
+        vehicle_active
+    FROM vehicles;
 END $$
 DELIMITER ;
 
@@ -36,7 +42,13 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_get_vehicle_by_id(IN p_vehicle_id INT)
 BEGIN
-    SELECT * FROM vehicles WHERE vehicle_id = p_vehicle_id;
+    SELECT
+        vehicle_id,
+        vehicle_brand,
+        vehicle_model,
+        vehicle_immatriculation,
+        vehicle_active
+    FROM vehicles WHERE vehicle_id = p_vehicle_id;
 END $$
 DELIMITER ;
 

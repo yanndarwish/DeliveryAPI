@@ -90,7 +90,13 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_get_companies()
 BEGIN
-    SELECT * FROM companies;
+    SELECT
+        company_id,
+        company_name,
+        company_siret,
+        contacts,
+        company_active
+    FROM companies;
 END$$
 DELIMITER ;
 
@@ -100,7 +106,13 @@ CREATE PROCEDURE sp_get_company_by_id(
     IN p_company_id INT
 )
 BEGIN
-    SELECT * FROM companies WHERE company_id = p_company_id;
+    SELECT
+        company_id,
+        company_name,
+        company_siret,
+        contacts,
+        company_active
+    FROM companies WHERE company_id = p_company_id;
 END$$
 DELIMITER ;
 
@@ -166,7 +178,13 @@ BEGIN
     WHERE company_id = p_company_id;
 
     -- Select the updated company
-    SELECT * FROM companies WHERE company_id = p_company_id;
+    SELECT
+        company_id,
+        company_name,
+        company_siret,
+        contacts,
+        company_active
+    FROM companies WHERE company_id = p_company_id;
 END$$
 DELIMITER ;
 

@@ -137,21 +137,30 @@ CREATE TABLE IF NOT EXISTS deliveries (
 
 CREATE TABLE IF NOT EXISTS pickups (
     pickup_id SERIAL PRIMARY KEY,
-    delivery_id INTEGER REFERENCES deliveries(delivery_id),
-    client_id INTEGER REFERENCES clients(client_id),
-    pickup_date DATETIME
+    company_id INT,
+    delivery_id INT,
+    client_id INT,
+    pickup_date DATETIME,
+    FOREIGN KEY (company_id) REFERENCES companies(company_id),
+    FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id),
+    FOREIGN KEY (client_id) REFERENCES clients(client_id)
 );
 
 CREATE TABLE IF NOT EXISTS dropoffs (
     dropoff_id SERIAL PRIMARY KEY,
-    delivery_id INTEGER REFERENCES deliveries(delivery_id),
-    client_id INTEGER REFERENCES clients(client_id),
-    dropoff_date DATETIME
+    company_id INT,
+    delivery_id INT,
+    client_id INT,
+    dropoff_date DATETIME,
+    FOREIGN KEY (company_id) REFERENCES companies(company_id),
+    FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id),
+    FOREIGN KEY (client_id) REFERENCES clients(client_id)
 );
 
 CREATE VIEW IF NOT EXISTS view_pickups_info AS
 SELECT
     d.delivery_id,
+    d.company_id,
     JSON_ARRAYAGG(
         JSON_OBJECT(
             'date', p.pickup_date,
@@ -172,6 +181,7 @@ GROUP BY d.delivery_id;
 CREATE VIEW IF NOT EXISTS view_dropoffs_info AS
 SELECT
     d.delivery_id,
+    d.company_id,
     JSON_ARRAYAGG(
         JSON_OBJECT(
             'date', do.dropoff_date,
@@ -195,6 +205,8 @@ SELECT
     CONCAT(dr.driver_last_name, ', ', dr.driver_first_name) AS delivery_driver,
     CONCAT(v.vehicle_brand, ' ', v.vehicle_model) AS delivery_vehicle,
     c.company_name AS delivery_provider,
+    d.delivery_hotel_price,
+    d.delivery_outsourced_to,
     pi.pickups,
     di.dropoffs,
     d.company_id
@@ -217,7 +229,8 @@ SELECT
     a.address_comment,
     c.client_active,
     p.phone,
-    e.email
+    e.email,
+    c.company_id
 FROM clients c
 LEFT JOIN addresses a ON c.client_address = a.address_id
 LEFT JOIN phones p ON c.client_id = p.entity_id AND p.entity_type = 'CLIENT'
@@ -230,7 +243,8 @@ SELECT
     d.driver_first_name,
     d.driver_active,
     e.email,
-    p.phone
+    p.phone,
+    d.company_id
 FROM drivers d
 LEFT JOIN emails e ON d.driver_id = e.entity_id AND e.entity_type = 'DRIVER'
 LEFT JOIN phones p ON d.driver_id = p.entity_id AND p.entity_type = 'DRIVER';
@@ -261,4 +275,22 @@ LEFT JOIN addresses a_warehouse ON c.company_warehouse = a_warehouse.address_id
 LEFT JOIN emails e ON c.company_id = e.entity_id AND e.entity_type = 'COMPANY'
 LEFT JOIN phones p ON c.company_id = p.entity_id AND p.entity_type = 'COMPANY';
 
-
+CREATE VIEW IF NOT EXISTS view_tour_members_info AS
+SELECT
+    tm.tour_member_id,
+    co.company_id,
+    tm.tour_id,
+    t.tour_name,
+    tm.client_id,
+    c.client_name,
+    a.address_street_number,
+    a.address_street,
+    a.address_city,
+    a.address_postal_code,
+    a.address_country,
+    tm.tour_member_active
+FROM tours_members tm
+LEFT JOIN companies co ON tm.company_id = co.company_id
+LEFT JOIN tours t ON tm.tour_id = t.tour_id
+LEFT JOIN clients c ON tm.client_id = c.client_id
+LEFT JOIN addresses a ON c.client_address = a.address_id;

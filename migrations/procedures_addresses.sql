@@ -31,7 +31,14 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_get_addresses()
 BEGIN
-    SELECT * FROM addresses;
+    SELECT 
+        address_id,
+        address_street_number,
+        address_street,
+        address_city,
+        address_postal_code,
+        address_country 
+    FROM addresses;
 END $$
 DELIMITER ;
 
@@ -39,7 +46,15 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_get_address(IN p_address_id INT)
 BEGIN
-    SELECT * FROM addresses WHERE address_id = p_address_id;
+    SELECT 
+        address_id,
+        address_street_number,
+        address_street,
+        address_city,
+        address_postal_code,
+        address_country
+    FROM addresses
+    WHERE address_id = p_address_id;
 END $$
 DELIMITER ;
 

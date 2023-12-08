@@ -18,9 +18,9 @@ CALL geostar.sp_create_company('JLR', TRUE, '12345678901234', 'jlr@mail.com', '0
 CALL geostar.sp_create_company('TEST', TRUE, '12345678901234', 'test@mail.com', '0101010101','[{},{}]', 2, 'Oak Avenue', 'Townburg', 56789, 'Countrytop',2, 'Oak Avenue', 'Townburg', 56789, 'Countrytop');
 
 -- Insert sample clients
-CALL geostar.sp_create_client('Client One', 1, 'Main Street', 'Cityville', 12345, 'Countryland', TRUE, 0606060606, 'client1@example.com');
-CALL geostar.sp_create_client('Client Two', 2, 'Oak Avenue', 'Townsville', 67890, 'Countryland', FALSE, 0606060606, 'client2@example.com');
-CALL geostar.sp_create_client('Client Three', 3, 'Pine Street', 'Villageton', 54321, 'Countryland', TRUE, 0707070707, 'client3@example.com');
+CALL geostar.sp_create_client('Client One', 1, 'Main Street', 'Cityville', 12345, 'Countryland', TRUE, 0606060606, 'client1@example.com', 1);
+CALL geostar.sp_create_client('Client Two', 2, 'Oak Avenue', 'Townsville', 67890, 'Countryland', FALSE, 0606060606, 'client2@example.com', 1);
+CALL geostar.sp_create_client('Client Three', 3, 'Pine Street', 'Villageton', 54321, 'Countryland', TRUE, 0707070707, 'client3@example.com', 1);
 
 -- Insert sample tours
 CALL geostar.sp_create_tour('Tour One', TRUE, 1, '[1, 2, 3]');
@@ -29,9 +29,9 @@ CALL geostar.sp_create_tour('Tour One', TRUE, 1, '[1, 2, 3]');
 CALL geostar.sp_update_tour_member_status(1, 1, FALSE);
 
 -- Insert sample drivers
-CALL geostar.sp_create_driver('Smith', 'John', TRUE, 'driver1@example.com', 0606060606);
-CALL geostar.sp_create_driver('Johnson', 'Alice', FALSE, 'driver2@example.com', 0606060606);
-CALL geostar.sp_create_driver('Brown', 'Bob', TRUE, 'driver3@example.com', 0606060606);
+CALL geostar.sp_create_driver('Smith', 'John', TRUE, 'driver1@example.com', 0606060606, 1);
+CALL geostar.sp_create_driver('Johnson', 'Alice', FALSE, 'driver2@example.com', 0606060606, 1);
+CALL geostar.sp_create_driver('Brown', 'Bob', TRUE, 'driver3@example.com', 0606060606, 1);
 
 -- Insert sample vehicles
 CALL geostar.sp_create_vehicle('Toyota', 'Camry', 'ABC123', TRUE);
