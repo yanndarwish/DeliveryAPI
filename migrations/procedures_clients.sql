@@ -2,7 +2,7 @@ USE geostar;
 
 -- CREATE A CLIENT
 DELIMITER $$ 
-CREATE PROCEDURE CreateClient(
+CREATE PROCEDURE sp_create_client(
     IN p_client_name VARCHAR(30),
     IN p_street_number INT,
     IN p_street VARCHAR(100),
@@ -17,23 +17,8 @@ BEGIN
     DECLARE new_address_id INT;
     DECLARE new_client_id INT;
 
-    -- Insert into addresses table
-    INSERT INTO addresses (
-        address_street_number,
-        address_street,
-        address_city,
-        address_postal_code,
-        address_country
-    )
-    VALUES (
-        p_street_number,
-        p_street,
-        p_city,
-        p_postal_code,
-        p_country
-    );
+    CALL sp_create_address(p_street_number, p_street, p_city, p_postal_code, p_country);
 
-    -- Get the last inserted address_id
     SET new_address_id = LAST_INSERT_ID();
 
     -- Insert into clients table
@@ -48,38 +33,16 @@ BEGIN
         p_active
     );
 
-    -- Get the last inserted client_id
     SET new_client_id = LAST_INSERT_ID();
 
-    -- Insert into phones table
-    INSERT INTO phones (
-        entity_type,
-        entity_id,
-        phone
-    )
-    VALUES (
-        'CLIENT',
-        new_client_id,
-        p_phone
-    );
-
-    -- Insert into emails table
-    INSERT INTO emails (
-        entity_type,
-        entity_id,
-        email
-    )
-    VALUES (
-        'CLIENT',
-        new_client_id,
-        p_email
-    );
+    CALL sp_create_phone('CLIENT', new_client_id, p_phone);
+    CALL sp_create_email('CLIENT', new_client_id, p_email);
 END $$
 DELIMITER ;
 
 -- GET CLIENTS
 DELIMITER $$
-CREATE PROCEDURE GetClients()
+CREATE PROCEDURE sp_get_clients()
 BEGIN
     SELECT 
         ci.client_id,
@@ -99,7 +62,7 @@ DELIMITER ;
 
 -- GET A CLIENT
 DELIMITER $$
-CREATE PROCEDURE GetClient(IN p_client_id INT)
+CREATE PROCEDURE sp_get_client(IN p_client_id INT)
 BEGIN
     SELECT 
         ci.client_id,
@@ -120,7 +83,7 @@ DELIMITER ;
 
 -- UPDATE A CLIENT
 DELIMITER $$
-CREATE PROCEDURE UpdateClient(
+CREATE PROCEDURE sp_update_client(
     IN p_client_id INT,
     IN p_client_name VARCHAR(30),
     IN p_street_number INT,
@@ -133,18 +96,11 @@ CREATE PROCEDURE UpdateClient(
     IN p_email VARCHAR(100)
 )
 BEGIN
-    -- Update the addresses table
-    UPDATE addresses
-    SET
-        address_street_number = p_street_number,
-        address_street = p_street,
-        address_city = p_city,
-        address_postal_code = p_postal_code,
-        address_country = p_country
-    WHERE
-        address_id = (SELECT client_address FROM clients WHERE client_id = p_client_id);
+    -- GET THE ADDRESS ID OF THE CLIENT
+    SET @address_id = (SELECT client_address FROM clients WHERE client_id = p_client_id);
 
-    -- Update the clients table
+    CALL sp_update_address(@address_id, p_street_number, p_street, p_city, p_postal_code, p_country);
+
     UPDATE clients
     SET
         client_name = p_client_name,
@@ -152,40 +108,22 @@ BEGIN
     WHERE
         client_id = p_client_id;
 
-    -- Update the phones table
-    UPDATE phones
-    SET
-        phone = p_phone
-    WHERE
-        entity_type = 'CLIENT' AND entity_id = p_client_id;
-
-    -- Update the emails table
-    UPDATE emails
-    SET
-        email = p_email
-    WHERE
-        entity_type = 'CLIENT' AND entity_id = p_client_id;
+    CALL sp_update_phone('CLIENT', p_client_id, p_phone);
+    CALL sp_update_email('CLIENT', p_client_id, p_email);
 END $$
 DELIMITER ;
 
 -- DELETE A CLIENT
 DELIMITER $$
-CREATE PROCEDURE DeleteClient(IN p_client_id INT)
+CREATE PROCEDURE sp_delete_client(IN p_client_id INT)
 BEGIN
-    -- Get the existing address_id
     DECLARE existing_address_id INT;
     SELECT client_address INTO existing_address_id FROM clients WHERE client_id = p_client_id;
 
-    -- Delete from clients table
     DELETE FROM clients WHERE client_id = p_client_id;
 
-    -- Delete from addresses table
-    DELETE FROM addresses WHERE address_id = existing_address_id;
-
-    -- Delete from phones table
-    DELETE FROM phones WHERE entity_type = 'CLIENT' AND entity_id = p_client_id;
-
-    -- Delete from emails table
-    DELETE FROM emails WHERE entity_type = 'CLIENT' AND entity_id = p_client_id;
+    CALL sp_delete_address(existing_address_id);
+    CALL sp_delete_phone('CLIENT', p_client_id);
+    CALL sp_delete_email('CLIENT', p_client_id);
 END $$
 DELIMITER ;

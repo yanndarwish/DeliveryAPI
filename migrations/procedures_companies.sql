@@ -2,7 +2,7 @@ USE geostar;
 
 -- CREATE A COMPANY
 DELIMITER $$
-CREATE PROCEDURE CreateCompany(
+CREATE PROCEDURE sp_create_company(
     IN p_name VARCHAR(50),
     IN p_active BOOLEAN,
     IN p_siret VARCHAR(14),
@@ -14,13 +14,11 @@ CREATE PROCEDURE CreateCompany(
     IN p_headquarter_city VARCHAR(30),
     IN p_headquarter_postal_code INT,
     IN p_headquarter_country VARCHAR(30),
-    IN p_headquarter_comment TEXT,
     IN p_warehouse_street_number INT,
     IN p_warehouse_street VARCHAR(100),
     IN p_warehouse_city VARCHAR(30),
     IN p_warehouse_postal_code INT,
-    IN p_warehouse_country VARCHAR(30),
-    IN p_warehouse_comment TEXT
+    IN p_warehouse_country VARCHAR(30)
 )
 BEGIN
     DECLARE new_company_id INT;
@@ -28,26 +26,24 @@ BEGIN
     DECLARE new_warehouse_id INT;
 
     -- Insert into addresses table for headquarter
-    CALL CreateAddress(
+    CALL sp_create_address(
         p_headquarter_street_number,
         p_headquarter_street,
         p_headquarter_city,
         p_headquarter_postal_code,
-        p_headquarter_country,
-        p_headquarter_comment
+        p_headquarter_country
     );
 
     -- Get the last inserted headquarter_id
     SET new_headquarter_id = LAST_INSERT_ID();
 
     -- Insert into addresses table for warehouse
-    CALL CreateAddress(
+    CALL sp_create_address(
         p_warehouse_street_number,
         p_warehouse_street,
         p_warehouse_city,
         p_warehouse_postal_code,
-        p_warehouse_country,
-        p_warehouse_comment
+        p_warehouse_country
     );
 
     -- Get the last inserted warehouse_id
@@ -74,15 +70,15 @@ BEGIN
     -- Get the last inserted company_id
     SET new_company_id = LAST_INSERT_ID();
 
-     -- INSERT INTO emails table
-    CALL CreateEmail(
+    -- INSERT INTO emails table
+    CALL sp_create_email(
         'COMPANY',
         new_company_id,
         p_email
     );
 
     -- INSERT INTO phones table
-    CALL CreatePhone(
+    CALL sp_create_phone(
         'COMPANY',
         new_company_id,
         p_phone_number
@@ -92,7 +88,7 @@ DELIMITER ;
 
 -- GET ALL COMPANIES
 DELIMITER $$
-CREATE PROCEDURE GetAllCompanies()
+CREATE PROCEDURE sp_get_companies()
 BEGIN
     SELECT * FROM companies;
 END$$
@@ -100,7 +96,7 @@ DELIMITER ;
 
 -- GET COMPANY BY ID
 DELIMITER $$
-CREATE PROCEDURE GetCompanyById(
+CREATE PROCEDURE sp_get_company_by_id(
     IN p_company_id INT
 )
 BEGIN
@@ -110,7 +106,7 @@ DELIMITER ;
 
 -- UPDATE COMPANY
 DELIMITER $$
-CREATE PROCEDURE UpdateCompany(
+CREATE PROCEDURE sp_update_company(
     IN p_company_id INT,
     IN p_name VARCHAR(50),
     IN p_active BOOLEAN,
@@ -137,7 +133,7 @@ BEGIN
 
     -- Update the headquarter address headquarter_id is not null
     IF headquarter_id IS NOT NULL THEN
-        CALL UpdateAddress(
+        CALL sp_update_address(
             headquarter_id,
             p_headquarter_street_number,
             p_headquarter_street,
@@ -150,7 +146,7 @@ BEGIN
 
     -- Update the warehouse address warehouse_id is not null
     IF warehouse_id IS NOT NULL THEN
-        CALL UpdateAddress(
+        CALL sp_update_address(
             warehouse_id,
             p_warehouse_street_number,
             p_warehouse_street,
@@ -176,7 +172,7 @@ DELIMITER ;
 
 -- DELETE COMPANY
 DELIMITER $$
-CREATE PROCEDURE DeleteCompany(
+CREATE PROCEDURE sp_delete_company(
     IN p_company_id INT
 )
 BEGIN

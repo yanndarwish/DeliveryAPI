@@ -2,7 +2,7 @@ USE geostar;
 
 -- CREATE A VEHICLE
 DELIMITER $$
-CREATE PROCEDURE CreateVehicle(
+CREATE PROCEDURE sp_create_vehicle(
     IN p_brand VARCHAR(20),
     IN p_model VARCHAR(20),
     IN p_immatriculation VARCHAR(20),
@@ -26,7 +26,7 @@ DELIMITER ;
 
 -- GET VEHICLES
 DELIMITER $$
-CREATE PROCEDURE GetVehicles()
+CREATE PROCEDURE sp_get_vehicles()
 BEGIN
     SELECT * FROM vehicles;
 END $$
@@ -34,7 +34,7 @@ DELIMITER ;
 
 -- GET A VEHICLE
 DELIMITER $$
-CREATE PROCEDURE GetVehicle(IN p_vehicle_id INT)
+CREATE PROCEDURE sp_get_vehicle_by_id(IN p_vehicle_id INT)
 BEGIN
     SELECT * FROM vehicles WHERE vehicle_id = p_vehicle_id;
 END $$
@@ -42,7 +42,7 @@ DELIMITER ;
 
 -- UPDATE A VEHICLE
 DELIMITER $$
-CREATE PROCEDURE UpdateVehicle(
+CREATE PROCEDURE sp_update_vehicle(
     IN p_vehicle_id INT,
     IN p_brand VARCHAR(20),
     IN p_model VARCHAR(20),
@@ -63,14 +63,14 @@ DELIMITER ;
 
 -- DELETE A VEHICLE
 DELIMITER $$
-CREATE PROCEDURE DeleteVehicle(IN p_vehicle_id INT)
+CREATE PROCEDURE sp_delete_vehicle(IN p_vehicle_id INT)
 BEGIN
     DELETE FROM vehicles WHERE vehicle_id = p_vehicle_id;
 END $$
 DELIMITER ;
 
--- CALL CreateVehicle('Example Brand', 'Example Model', '123ABC', true);
--- CALL GetVehicles();
--- CALL GetVehicle(1);
--- CALL UpdateVehicle(1, 'Updated Brand', 'Updated Model', '987XYZ', false);
--- CALL DeleteVehicle(2);
+-- CALL sp_create_vehicle('Example Brand', 'Example Model', '123ABC', true);
+-- CALL sp_get_vehicles();
+-- CALL sp_get_vehicle_by_id(1);
+-- CALL sp_update_vehicle(1, 'Updated Brand', 'Updated Model', '987XYZ', false);
+-- CALL sp_delete_vehicle(2);

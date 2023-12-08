@@ -2,7 +2,7 @@ USE geostar;
 
 -- CREATE A PICKUP (should be called on Delivery creation)
 DELIMITER $$
-CREATE PROCEDURE CreatePickup(
+CREATE PROCEDURE sp_create_pickup(
     IN p_delivery_id INT,
     IN p_client_id INT,
     IN p_pickup_date DATETIME
@@ -21,4 +21,4 @@ BEGIN
 END $$
 DELIMITER ;
 
--- CALL CreatePickup(1, 2, '2023-03-15 12:00:00');
+-- CALL sp_create_pickup(1, 2, '2023-03-15 12:00:00');

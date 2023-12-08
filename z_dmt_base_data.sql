@@ -106,19 +106,19 @@ INSERT INTO dmt.entities (entity_name) VALUES
 ('PROVIDER');
 
 -- Insert sample addresses
-CALL dmt.CreateAddress(123, 'Main Street', 'Cityville', 12345, 'Countryland', NULL);
-CALL dmt.CreateAddress(456, 'Oak Avenue', 'Townburg', 56789, 'Countrytop', NULL);
-CALL dmt.CreateAddress(789, 'Pine Road', 'Villagetown', 10111, 'Countryville', NULL);
+CALL dmt.sp_create_address(123, 'Main Street', 'Cityville', 12345, 'Countryland', NULL);
+CALL dmt.sp_create_address(456, 'Oak Avenue', 'Townburg', 56789, 'Countrytop', NULL);
+CALL dmt.sp_create_address(789, 'Pine Road', 'Villagetown', 10111, 'Countryville', NULL);
 
 -- Insert sample clients
-CALL dmt.CreateClient('Client One', 1, 'Main Street', 'Cityville', 12345, 'Countryland', TRUE, 0606060606, 'client1@example.com');
-CALL dmt.CreateClient('Client Two', 2, 'Oak Avenue', 'Townsville', 67890, 'Countryland', FALSE, 0606060606, 'client2@example.com');
-CALL dmt.CreateClient('Client Three', 3, 'Pine Street', 'Villageton', 54321, 'Countryland', TRUE, 0707070707, 'client3@example.com');
+CALL dmt.sp_create_client('Client One', 1, 'Main Street', 'Cityville', 12345, 'Countryland', TRUE, 0606060606, 'client1@example.com');
+CALL dmt.sp_create_client('Client Two', 2, 'Oak Avenue', 'Townsville', 67890, 'Countryland', FALSE, 0606060606, 'client2@example.com');
+CALL dmt.sp_create_client('Client Three', 3, 'Pine Street', 'Villageton', 54321, 'Countryland', TRUE, 0707070707, 'client3@example.com');
 
 -- Insert sample drivers
-CALL dmt.CreateDriver('Smith', 'John', TRUE, 'driver1@example.com', 0606060606);
-CALL dmt.CreateDriver('Johnson', 'Alice', FALSE, 'driver2@example.com', 0606060606);
-CALL dmt.CreateDriver('Brown', 'Bob', TRUE, 'driver3@example.com', 0606060606);
+CALL dmt.sp_create_driver('Smith', 'John', TRUE, 'driver1@example.com', 0606060606);
+CALL dmt.sp_create_driver('Johnson', 'Alice', FALSE, 'driver2@example.com', 0606060606);
+CALL dmt.sp_create_driver('Brown', 'Bob', TRUE, 'driver3@example.com', 0606060606);
 
 -- Insert sample providers
 CALL dmt.CreateProvider(
@@ -138,22 +138,22 @@ CALL dmt.CreateProvider(
 );
 
 -- Insert sample vehicles
-CALL dmt.CreateVehicle('Toyota', 'Camry', 'ABC123', TRUE);
-CALL dmt.CreateVehicle('Ford', 'Fusion', 'XYZ789', FALSE);
-CALL dmt.CreateVehicle('Honda', 'Accord', 'LMN456', TRUE);
+CALL dmt.sp_create_vehicle('Toyota', 'Camry', 'ABC123', TRUE);
+CALL dmt.sp_create_vehicle('Ford', 'Fusion', 'XYZ789', FALSE);
+CALL dmt.sp_create_vehicle('Honda', 'Accord', 'LMN456', TRUE);
 
 -- Insert sample deliveries
-CALL dmt.CreateDelivery(
+CALL dmt.sp_create_delivery(
     1, 1, 1, 101,
     '[1, 2]', '2023-11-25 10:00:00',
     '[1]', '2023-11-25 14:00:00'
 );
-CALL dmt.CreateDelivery(
+CALL dmt.sp_create_delivery(
     2, 2, 2, 202,
     '[3]', '2023-11-26 12:00:00',
     '[2]', '2023-11-26 15:30:00'
 );
-CALL dmt.CreateDelivery(
+CALL dmt.sp_create_delivery(
     3, 3, 3, 303,
     '[]', '2023-11-27 16:00:00',
     '[3]', '2023-11-27 18:00:00'

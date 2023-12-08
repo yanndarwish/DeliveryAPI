@@ -2,7 +2,7 @@ USE geostar;
 
 -- CREATE A DELIVERY
 DELIMITER $$
-CREATE PROCEDURE CreateDelivery(
+CREATE PROCEDURE sp_create_delivery(
     IN p_company_id INT,
     IN p_driver_id INT,
     IN p_vehicle_id INT,
@@ -69,10 +69,10 @@ BEGIN
         SET pickup_client_id = JSON_EXTRACT(p_pickup_clients, CONCAT('$[', @i, '].client_id'));
         SET pickup_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_pickup_clients, CONCAT('$[', @i, '].pickup_date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
 
-        CALL CreatePickup(last_delivery_id, pickup_client_id, pickup_date);
+        CALL sp_create_pickup(last_delivery_id, pickup_client_id, pickup_date);
 
         IF outsourced_delivery_id IS NOT NULL THEN
-            CALL CreatePickup(outsourced_delivery_id, pickup_client_id, pickup_date);
+            CALL sp_create_pickup(outsourced_delivery_id, pickup_client_id, pickup_date);
         END IF;
 
         SET @i = @i + 1;
@@ -85,10 +85,10 @@ BEGIN
         SET dropoff_client_id = JSON_EXTRACT(p_dropoff_clients, CONCAT('$[', @i, '].client_id'));
         SET dropoff_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_dropoff_clients, CONCAT('$[', @i, '].dropoff_date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
 
-        CALL CreateDropoff(last_delivery_id, dropoff_client_id, dropoff_date);
+        CALL sp_create_dropoff(last_delivery_id, dropoff_client_id, dropoff_date);
 
         IF outsourced_delivery_id IS NOT NULL THEN
-            CALL CreateDropoff(outsourced_delivery_id, dropoff_client_id, dropoff_date);
+            CALL sp_create_dropoff(outsourced_delivery_id, dropoff_client_id, dropoff_date);
         END IF;
 
         SET @i = @i + 1;
@@ -98,7 +98,7 @@ DELIMITER ;
 
 -- GET DELIVERIES
 DELIMITER $$
-CREATE PROCEDURE GetDeliveries()
+CREATE PROCEDURE sp_get_deliveries()
 BEGIN
     SELECT * FROM deliveries_info;
 END $$
@@ -106,7 +106,7 @@ DELIMITER ;
 
 -- GET DELIVERY
 DELIMITER $$
-CREATE PROCEDURE GetDelivery(IN p_delivery_id INT)
+CREATE PROCEDURE sp_get_delivery_by_id(IN p_delivery_id INT)
 BEGIN
     SELECT * FROM deliveries_info WHERE delivery_id = p_delivery_id;
 END $$
@@ -114,7 +114,7 @@ DELIMITER ;
 
 -- UPDATE A DELIVERY (necessary ?)
 DELIMITER $$
-CREATE PROCEDURE UpdateDelivery(
+CREATE PROCEDURE sp_update_delivery(
     IN p_delivery_id INT,
     IN p_driver_id INT,
     IN p_vehicle_id INT,
@@ -134,7 +134,7 @@ DELIMITER ;
 
 -- DELETE A DELIVERY
 DELIMITER $$
-CREATE PROCEDURE DeleteDelivery(IN p_delivery_id INT)
+CREATE PROCEDURE sp_delete_delivery(IN p_delivery_id INT)
 BEGIN
     DELETE FROM deliveries WHERE delivery_id = p_delivery_id;
 END $$

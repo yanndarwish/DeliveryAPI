@@ -2,7 +2,7 @@ USE geostar;
 
 -- CREATE A PHONE
 DELIMITER $$
-CREATE PROCEDURE CreatePhone(
+CREATE PROCEDURE sp_create_phone(
     IN p_entity_type VARCHAR(30),
     IN p_entity_id INT,
     IN p_phone VARCHAR(30)
@@ -18,5 +18,32 @@ BEGIN
         p_entity_id,
         p_phone
     );
+END $$
+DELIMITER ;
+
+-- UPDATE PHONE
+DELIMITER $$
+CREATE PROCEDURE sp_update_phone(
+    IN p_entity_type VARCHAR(30),
+    IN p_phone_id INT,
+    IN p_phone VARCHAR(30)
+)
+BEGIN
+    UPDATE phones
+    SET
+        phone = p_phone
+    WHERE
+        entity_type = p_entity_type AND phone_id = p_phone_id;
+END $$
+DELIMITER ;
+
+-- DELETE A PHONE
+DELIMITER $$
+CREATE PROCEDURE sp_delete_phone(
+    IN p_entity_type VARCHAR(30),
+    IN p_phone_id INT
+)
+BEGIN
+    DELETE FROM phones WHERE entity_type = p_entity_type AND phone_id = p_phone_id;
 END $$
 DELIMITER ;
