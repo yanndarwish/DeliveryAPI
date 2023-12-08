@@ -8,13 +8,7 @@ USE geostar;
 -- TODO : prevent vehicle insert if immatriculation already exists (trigger)
 -- TODO : add error handlers
 
-
 SET @@session.sql_mode = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
-
--- add email and phone to companies
-
-
--- TODO: Fix providers table (merge with companies ?) 
 
 -- Create addresses table
 CREATE TABLE IF NOT EXISTS addresses (
@@ -27,13 +21,32 @@ CREATE TABLE IF NOT EXISTS addresses (
     address_comment TEXT
 ) ENGINE=InnoDB;
 
+-- Create emails table
+CREATE TABLE IF NOT EXISTS emails (
+    email_id INT AUTO_INCREMENT PRIMARY KEY,
+    entity_type VARCHAR(10),
+    entity_id INTEGER,
+    email VARCHAR(50)
+);
+
+-- Create phone numbers table
+CREATE TABLE IF NOT EXISTS phones (
+    phone_id INT AUTO_INCREMENT PRIMARY KEY,
+    entity_type VARCHAR(10),
+    entity_id INTEGER,
+    phone VARCHAR(15)
+);
+
 CREATE TABLE IF NOT EXISTS companies (
     company_id INT AUTO_INCREMENT PRIMARY KEY,
     company_name VARCHAR(30),
-    company_address INTEGER,
+    company_headquarter INTEGER,
+    company_warehouse INTEGER,
     company_siret VARCHAR(14),
+    contacts JSON,
     company_active BOOLEAN,
-    FOREIGN KEY (company_address) REFERENCES addresses(address_id)
+    FOREIGN KEY (company_headquarter) REFERENCES addresses(address_id),
+    FOREIGN KEY (company_warehouse) REFERENCES addresses(address_id)
 ) ENGINE=InnoDB;
 
 -- Create clients table
@@ -84,8 +97,6 @@ CREATE TABLE IF NOT EXISTS tours_history (
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 ) ENGINE=InnoDB;
 
-
--- Create drivers table
 CREATE TABLE IF NOT EXISTS drivers (
     driver_id INT AUTO_INCREMENT PRIMARY KEY,
     driver_last_name VARCHAR(25),
@@ -95,50 +106,11 @@ CREATE TABLE IF NOT EXISTS drivers (
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 ) ENGINE=InnoDB;
 
--- Create entities table
 CREATE TABLE IF NOT EXISTS entities (
     entity_id INT AUTO_INCREMENT PRIMARY KEY,
-    entity_name VARCHAR(10) -- 'client' or 'driver' or 'provider'
+    entity_name VARCHAR(10) UNIQUE -- 'CLIENT', 'DRIVER', 'COMPANY'
 );
 
--- Create emails table
-CREATE TABLE IF NOT EXISTS emails (
-    email_id INT AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(10),
-    entity_id INTEGER,
-    email VARCHAR(100)
-    -- FOREIGN KEY (entity_id) REFERENCES clients(client_id) ON DELETE CASCADE,
-    -- FOREIGN KEY (entity_id) REFERENCES drivers(driver_id) ON DELETE CASCADE
-);
-
--- Create phone numbers table
-CREATE TABLE IF NOT EXISTS phones (
-    phone_id INT AUTO_INCREMENT PRIMARY KEY,
-    entity_type VARCHAR(10),
-    entity_id INTEGER,
-    phone VARCHAR(100)
-    -- FOREIGN KEY (entity_id) REFERENCES clients(client_id) ON DELETE CASCADE,
-    -- FOREIGN KEY (entity_id) REFERENCES drivers(driver_id) ON DELETE CASCADE
-);
-
--- Create providers table
--- DMT could be a provider for Geostar, and Geostar could be a provider for DMT
--- giving the possibility to outsource deliveries to each other
--- and share clients/drivers
-CREATE TABLE IF NOT EXISTS providers (
-    provider_id INT AUTO_INCREMENT PRIMARY KEY,
-    provider_name VARCHAR(50),
-    provider_contact_name VARCHAR(40),
-    provider_headquarter INTEGER,
-    provider_warehouse INTEGER,
-    provider_active BOOLEAN,
-    company_id INTEGER,
-    FOREIGN KEY (provider_headquarter) REFERENCES addresses(address_id),
-    FOREIGN KEY (provider_warehouse) REFERENCES addresses(address_id),
-    FOREIGN KEY (company_id) REFERENCES companies(company_id)
-) ENGINE=InnoDB;
-
--- Create vehicles table
 CREATE TABLE IF NOT EXISTS vehicles (
     vehicle_id INT AUTO_INCREMENT PRIMARY KEY,
     vehicle_brand VARCHAR(20),
@@ -149,7 +121,6 @@ CREATE TABLE IF NOT EXISTS vehicles (
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 ) ENGINE=InnoDB;
 
--- Create deliveries table
 CREATE TABLE IF NOT EXISTS deliveries (
     delivery_id INT AUTO_INCREMENT PRIMARY KEY,
     delivery_driver INTEGER,
@@ -160,11 +131,10 @@ CREATE TABLE IF NOT EXISTS deliveries (
     company_id INTEGER,
     FOREIGN KEY (delivery_driver) REFERENCES drivers(driver_id),
     FOREIGN KEY (delivery_vehicle) REFERENCES vehicles(vehicle_id),
-    FOREIGN KEY (delivery_provider) REFERENCES providers(provider_id),
+    FOREIGN KEY (delivery_provider) REFERENCES companies(company_id),
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 ) ENGINE=InnoDB;
 
--- Create Pickups Table
 CREATE TABLE IF NOT EXISTS pickups (
     pickup_id SERIAL PRIMARY KEY,
     delivery_id INTEGER REFERENCES deliveries(delivery_id),
@@ -172,7 +142,6 @@ CREATE TABLE IF NOT EXISTS pickups (
     pickup_date DATETIME
 );
 
--- Create Dropoffs Table
 CREATE TABLE IF NOT EXISTS dropoffs (
     dropoff_id SERIAL PRIMARY KEY,
     delivery_id INTEGER REFERENCES deliveries(delivery_id),
@@ -180,8 +149,7 @@ CREATE TABLE IF NOT EXISTS dropoffs (
     dropoff_date DATETIME
 );
 
--- View for pickups
-CREATE VIEW IF NOT EXISTS pickups_info AS
+CREATE VIEW IF NOT EXISTS view_pickups_info AS
 SELECT
     d.delivery_id,
     JSON_ARRAYAGG(
@@ -201,8 +169,7 @@ LEFT JOIN clients c ON p.client_id = c.client_id
 LEFT JOIN addresses a ON c.client_address = a.address_id
 GROUP BY d.delivery_id;
 
--- View for dropoffs
-CREATE VIEW IF NOT EXISTS dropoffs_info AS
+CREATE VIEW IF NOT EXISTS view_dropoffs_info AS
 SELECT
     d.delivery_id,
     JSON_ARRAYAGG(
@@ -222,25 +189,23 @@ LEFT JOIN clients c ON do.client_id = c.client_id
 LEFT JOIN addresses a ON c.client_address = a.address_id
 GROUP BY d.delivery_id;
 
-
--- Combined view
-CREATE VIEW IF NOT EXISTS deliveries_info AS
+CREATE VIEW IF NOT EXISTS view_deliveries_info AS
 SELECT
     d.delivery_id,
     CONCAT(dr.driver_last_name, ', ', dr.driver_first_name) AS delivery_driver,
     CONCAT(v.vehicle_brand, ' ', v.vehicle_model) AS delivery_vehicle,
-    pr.provider_name AS delivery_provider,
+    c.company_name AS delivery_provider,
     pi.pickups,
-    di.dropoffs
+    di.dropoffs,
+    d.company_id
 FROM deliveries d
 LEFT JOIN drivers dr ON d.delivery_driver = dr.driver_id
 LEFT JOIN vehicles v ON d.delivery_vehicle = v.vehicle_id
-LEFT JOIN providers pr ON d.delivery_provider = pr.provider_id
-LEFT JOIN pickups_info pi ON d.delivery_id = pi.delivery_id
-LEFT JOIN dropoffs_info di ON d.delivery_id = di.delivery_id;
+LEFT JOIN companies c ON d.delivery_provider = c.company_id
+LEFT JOIN view_pickups_info pi ON d.delivery_id = pi.delivery_id
+LEFT JOIN view_dropoffs_info di ON d.delivery_id = di.delivery_id;
 
--- Create a view combining clients and addresses
-CREATE VIEW IF NOT EXISTS clients_info AS
+CREATE VIEW IF NOT EXISTS view_clients_info AS
 SELECT
     c.client_id,
     c.client_name,
@@ -258,8 +223,7 @@ LEFT JOIN addresses a ON c.client_address = a.address_id
 LEFT JOIN phones p ON c.client_id = p.entity_id AND p.entity_type = 'CLIENT'
 LEFT JOIN emails e ON c.client_id = e.entity_id AND e.entity_type = 'CLIENT';
 
--- Create a view combining drivers with emails and phones
-CREATE VIEW IF NOT EXISTS drivers_info AS
+CREATE VIEW IF NOT EXISTS view_drivers_info AS
 SELECT
     d.driver_id,
     d.driver_last_name,
@@ -271,15 +235,10 @@ FROM drivers d
 LEFT JOIN emails e ON d.driver_id = e.entity_id AND e.entity_type = 'DRIVER'
 LEFT JOIN phones p ON d.driver_id = p.entity_id AND p.entity_type = 'DRIVER';
 
--- Create a view combining providers with emails and phones
-CREATE VIEW IF NOT EXISTS provider_info AS
+CREATE VIEW IF NOT EXISTS view_companies_info AS
 SELECT
-    pr.provider_id,
-    pr.provider_name,
-    pr.provider_contact_name,
-    pr.provider_active,
-    e.email,
-    p.phone,
+    c.company_id,
+    c.company_name,
     a_headquarter.address_id AS headquarter_address_id,
     a_headquarter.address_street_number AS headquarter_street_number,
     a_headquarter.address_street AS headquarter_street,
@@ -291,10 +250,15 @@ SELECT
     a_warehouse.address_street AS warehouse_street,
     a_warehouse.address_city AS warehouse_city,
     a_warehouse.address_postal_code AS warehouse_postal_code,
-    a_warehouse.address_country AS warehouse_country
-FROM providers pr
-LEFT JOIN emails e ON pr.provider_id = e.entity_id AND e.entity_type = 'PROVIDER'
-LEFT JOIN phones p ON pr.provider_id = p.entity_id AND p.entity_type = 'PROVIDER'
-LEFT JOIN addresses a_headquarter ON pr.provider_headquarter = a_headquarter.address_id
-LEFT JOIN addresses a_warehouse ON pr.provider_warehouse = a_warehouse.address_id;
+    a_warehouse.address_country AS warehouse_country,
+    c.company_siret,
+    e.email,
+    p.phone,
+    c.company_active
+FROM companies c
+LEFT JOIN addresses a_headquarter ON c.company_headquarter = a_headquarter.address_id
+LEFT JOIN addresses a_warehouse ON c.company_warehouse = a_warehouse.address_id
+LEFT JOIN emails e ON c.company_id = e.entity_id AND e.entity_type = 'COMPANY'
+LEFT JOIN phones p ON c.company_id = p.entity_id AND p.entity_type = 'COMPANY';
+
 
