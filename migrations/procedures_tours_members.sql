@@ -77,6 +77,75 @@ BEGIN
 END $$
 DELIMITER ;
 
+-- GET TOUR MEMBERS INFO
+DELIMITER $$
+CREATE PROCEDURE sp_get_tour_members_info(
+    IN p_status VARCHAR(10),
+    IN p_company_id INT,
+    IN p_offset INT,
+    IN p_limit INT
+)
+BEGIN
+    IF p_status = 'active' THEN
+    SELECT
+        tour_member_id,
+        company_id,
+        tour_id,
+        tour_name,
+        client_id,
+        client_name,
+        address_street_number,
+        address_street,
+        address_city,
+        address_postal_code,
+        address_country,
+        tour_member_active
+    FROM view_tour_members_info
+    WHERE tour_member_active = TRUE
+    AND company_id = p_company_id
+    LIMIT p_limit 
+    OFFSET p_offset;
+    ELSEIF p_status = 'inactive' THEN
+    SELECT
+        tour_member_id,
+        company_id,
+        tour_id,
+        tour_name,
+        client_id,
+        client_name,
+        address_street_number,
+        address_street,
+        address_city,
+        address_postal_code,
+        address_country,
+        tour_member_active
+    FROM view_tour_members_info
+    WHERE tour_member_active = FALSE
+    AND company_id = p_company_id
+    LIMIT p_limit 
+    OFFSET p_offset;
+    ELSE
+    SELECT
+        tour_member_id,
+        company_id,
+        tour_id,
+        tour_name,
+        client_id,
+        client_name,
+        address_street_number,
+        address_street,
+        address_city,
+        address_postal_code,
+        address_country,
+        tour_member_active
+    FROM view_tour_members_info
+    WHERE company_id = p_company_id
+    LIMIT p_limit 
+    OFFSET p_offset;
+    END IF;
+END $$
+DELIMITER ;
+
 -- GET A TOUR MEMBER
 DELIMITER $$
 CREATE PROCEDURE sp_get_tour_member_by_id(IN p_tour_member_id INT)

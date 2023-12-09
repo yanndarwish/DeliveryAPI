@@ -206,7 +206,7 @@ SELECT
     CONCAT(v.vehicle_brand, ' ', v.vehicle_model) AS delivery_vehicle,
     c.company_name AS delivery_provider,
     d.delivery_hotel_price,
-    d.delivery_outsourced_to,
+    co.company_name AS delivery_outsourced_to,
     pi.pickups,
     di.dropoffs,
     d.company_id
@@ -214,6 +214,7 @@ FROM deliveries d
 LEFT JOIN drivers dr ON d.delivery_driver = dr.driver_id
 LEFT JOIN vehicles v ON d.delivery_vehicle = v.vehicle_id
 LEFT JOIN companies c ON d.delivery_provider = c.company_id
+LEFT JOIN companies co ON d.delivery_outsourced_to = co.company_id
 LEFT JOIN view_pickups_info pi ON d.delivery_id = pi.delivery_id
 LEFT JOIN view_dropoffs_info di ON d.delivery_id = di.delivery_id;
 
@@ -268,6 +269,7 @@ SELECT
     c.company_siret,
     e.email,
     p.phone,
+    c.contacts,
     c.company_active
 FROM companies c
 LEFT JOIN addresses a_headquarter ON c.company_headquarter = a_headquarter.address_id

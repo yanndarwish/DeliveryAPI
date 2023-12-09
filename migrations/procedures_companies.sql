@@ -88,15 +88,31 @@ DELIMITER ;
 
 -- GET ALL COMPANIES
 DELIMITER $$
-CREATE PROCEDURE sp_get_companies()
+CREATE PROCEDURE sp_get_companies(IN p_offset INT, IN p_limit INT)
 BEGIN
     SELECT
         company_id,
         company_name,
         company_siret,
+        headquarter_address_id,
+        headquarter_street_number,
+        headquarter_street,
+        headquarter_city,
+        headquarter_postal_code,
+        headquarter_country,
+        warehouse_address_id,
+        warehouse_street_number,
+        warehouse_street,
+        warehouse_city,
+        warehouse_postal_code,
+        warehouse_country,
+        email,
+        phone,
         contacts,
         company_active
-    FROM companies;
+    FROM view_companies_info
+    LIMIT p_limit 
+    OFFSET p_offset;
 END$$
 DELIMITER ;
 

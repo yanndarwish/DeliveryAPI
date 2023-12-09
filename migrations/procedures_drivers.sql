@@ -36,7 +36,7 @@ DELIMITER ;
 
 -- GET DRIVERS
 DELIMITER $$
-CREATE PROCEDURE sp_get_drivers()
+CREATE PROCEDURE sp_get_drivers(IN p_offset INT, IN p_limit INT)
 BEGIN
     SELECT 
         di.driver_id,
@@ -45,7 +45,9 @@ BEGIN
         di.driver_active,
         di.email,
         di.phone
-    FROM drivers_info di;
+    FROM drivers_info di
+    LIMIT p_limit 
+    OFFSET p_offset;
 END $$
 DELIMITER ;
 

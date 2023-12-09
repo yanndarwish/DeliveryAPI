@@ -98,7 +98,7 @@ DELIMITER ;
 
 -- GET DELIVERIES
 DELIMITER $$
-CREATE PROCEDURE sp_get_deliveries()
+CREATE PROCEDURE sp_get_deliveries(IN p_offset INT, IN p_limit INT)
 BEGIN
     SELECT
         delivery_id,
@@ -110,7 +110,9 @@ BEGIN
         pickups,
         dropoffs,
         company_id
-    FROM view_deliveries_info;
+    FROM view_deliveries_info
+    LIMIT p_limit 
+    OFFSET p_offset;
 END $$
 DELIMITER ;
 

@@ -45,7 +45,7 @@ DELIMITER ;
 
 -- GET CLIENTS
 DELIMITER $$
-CREATE PROCEDURE sp_get_clients()
+CREATE PROCEDURE sp_get_clients(IN p_offset INT, IN p_limit INT)
 BEGIN
     SELECT 
         ci.client_id,
@@ -59,7 +59,9 @@ BEGIN
         ci.client_active,
         ci.phone,
         ci.email
-    FROM clients_info ci;
+    FROM clients_info ci
+    LIMIT p_limit 
+    OFFSET p_offset;
 END $$
 DELIMITER ;
 
