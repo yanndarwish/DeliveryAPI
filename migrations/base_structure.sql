@@ -18,7 +18,9 @@ CREATE TABLE IF NOT EXISTS addresses (
     address_city VARCHAR(30),
     address_postal_code INT,
     address_country VARCHAR(30),
-    address_comment TEXT
+    entity_type VARCHAR(10),
+    entity_id INTEGER,
+    address_comment VARCHAR(100)
 ) ENGINE=InnoDB;
 
 -- Create emails table
@@ -53,10 +55,17 @@ CREATE TABLE IF NOT EXISTS companies (
 CREATE TABLE IF NOT EXISTS clients (
     client_id INT AUTO_INCREMENT PRIMARY KEY,
     client_name VARCHAR(30),
-    client_address INTEGER,
     client_active BOOLEAN,
     company_id INTEGER,
-    FOREIGN KEY (client_address) REFERENCES addresses(address_id),
+    FOREIGN KEY (company_id) REFERENCES companies(company_id)
+) ENGINE=InnoDB;
+
+-- Create relays table
+CREATE TABLE IF NOT EXISTS relays (
+    relay_id INT AUTO_INCREMENT PRIMARY KEY,
+    relay_name VARCHAR(30),
+    relay_active BOOLEAN,
+    company_id INTEGER,
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 ) ENGINE=InnoDB;
 
@@ -139,23 +148,49 @@ CREATE TABLE IF NOT EXISTS pickups (
     pickup_id SERIAL PRIMARY KEY,
     company_id INT,
     delivery_id INT,
-    client_id INT,
+    entity_id INT,
+    entity_type VARCHAR(10),
     pickup_date DATETIME,
     FOREIGN KEY (company_id) REFERENCES companies(company_id),
-    FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id),
-    FOREIGN KEY (client_id) REFERENCES clients(client_id)
+    FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id)
 );
 
 CREATE TABLE IF NOT EXISTS dropoffs (
     dropoff_id SERIAL PRIMARY KEY,
     company_id INT,
     delivery_id INT,
-    client_id INT,
+    entity_id INT,
+    entity_type VARCHAR(10),
     dropoff_date DATETIME,
     FOREIGN KEY (company_id) REFERENCES companies(company_id),
-    FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id),
-    FOREIGN KEY (client_id) REFERENCES clients(client_id)
+    FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id)
 );
+
+-- CREATE VIEW IF NOT EXISTS view_pickups_info AS
+-- SELECT
+--     d.delivery_id,
+--     d.company_id,
+--     JSON_ARRAYAGG(
+--         JSON_OBJECT(
+--             'date', p.pickup_date,
+--             'client_info', JSON_OBJECT(
+--                 'client_id', p.client_id,
+--                 'client_name', c.client_name,
+--                 'address_street_number', a.address_street_number,
+--                 'address_street', a.address_street,
+--                 'address_city', a.address_city,
+--                 'address_postal_code', a.address_postal_code,
+--                 'address_country', a.address_country,
+--                 'address_comment', a.address_comment,
+--                 'client_active', c.client_active
+--             )
+--         )
+--     ) AS pickups
+-- FROM deliveries d
+-- LEFT JOIN pickups p ON d.delivery_id = p.delivery_id
+-- LEFT JOIN clients c ON p.client_id = c.client_id
+-- LEFT JOIN addresses a ON c.client_id = a.entity_id AND a.entity_type = 'CLIENT'
+-- GROUP BY d.delivery_id;
 
 CREATE VIEW IF NOT EXISTS view_pickups_info AS
 SELECT
@@ -164,19 +199,57 @@ SELECT
     JSON_ARRAYAGG(
         JSON_OBJECT(
             'date', p.pickup_date,
-            'client_info', JSON_OBJECT(
-                'client_id', p.client_id,
-                'client_name', c.client_name,
-                'client_address', CONCAT(a.address_street_number, ' ', a.address_street, ', ', a.address_city, ' ', a.address_postal_code, ' ', a.address_country),
-                'client_active', c.client_active
+            'entity_info', JSON_OBJECT(
+                'entity_id', p.entity_id,
+                'entity_name', entity_name,
+                'address_street_number', a.address_street_number,
+                'address_street', a.address_street,
+                'address_city', a.address_city,
+                'address_postal_code', a.address_postal_code,
+                'address_country', a.address_country,
+                'address_comment', a.address_comment,
+                'entity_active', entity_active,
+                'entity_type', p.entity_type
             )
         )
     ) AS pickups
 FROM deliveries d
 LEFT JOIN pickups p ON d.delivery_id = p.delivery_id
-LEFT JOIN clients c ON p.client_id = c.client_id
-LEFT JOIN addresses a ON c.client_address = a.address_id
+LEFT JOIN (
+    SELECT client_id AS entity_id, client_name AS entity_name, client_active AS entity_active, 'CLIENT' AS entity_type, company_id
+    FROM clients
+    UNION ALL
+    SELECT relay_id AS entity_id, relay_name AS entity_name, relay_active AS entity_active, 'RELAY' AS entity_type, company_id
+    FROM relays
+) e ON p.entity_id = e.entity_id AND p.entity_type = e.entity_type
+LEFT JOIN addresses a ON e.entity_id = a.entity_id AND e.entity_type = a.entity_type
 GROUP BY d.delivery_id;
+
+-- CREATE VIEW IF NOT EXISTS view_dropoffs_info AS
+-- SELECT
+--     d.delivery_id,
+--     d.company_id,
+--     JSON_ARRAYAGG(
+--         JSON_OBJECT(
+--             'date', do.dropoff_date,
+--             'client_info', JSON_OBJECT(
+--                 'client_id', do.client_id,
+--                 'client_name', c.client_name,
+--                 'address_street_number', a.address_street_number,
+--                 'address_street', a.address_street,
+--                 'address_city', a.address_city,
+--                 'address_postal_code', a.address_postal_code,
+--                 'address_country', a.address_country,
+--                 'address_comment', a.address_comment,
+--                 'client_active', c.client_active
+--             )
+--         )
+--     ) AS dropoffs
+-- FROM deliveries d
+-- LEFT JOIN dropoffs do ON d.delivery_id = do.delivery_id
+-- LEFT JOIN clients c ON do.client_id = c.client_id
+-- LEFT JOIN addresses a ON c.client_id = a.entity_id AND a.entity_type = 'CLIENT'
+-- GROUP BY d.delivery_id;
 
 CREATE VIEW IF NOT EXISTS view_dropoffs_info AS
 SELECT
@@ -185,18 +258,30 @@ SELECT
     JSON_ARRAYAGG(
         JSON_OBJECT(
             'date', do.dropoff_date,
-            'client_info', JSON_OBJECT(
-                'client_id', do.client_id,
-                'client_name', c.client_name,
-                'client_address', CONCAT(a.address_street_number, ' ', a.address_street, ', ', a.address_city, ' ', a.address_postal_code, ' ', a.address_country),
-                'client_active', c.client_active
+            'entity_info', JSON_OBJECT(
+                'entity_id', do.entity_id,
+                'entity_name', e.entity_name,
+                'address_street_number', a.address_street_number,
+                'address_street', a.address_street,
+                'address_city', a.address_city,
+                'address_postal_code', a.address_postal_code,
+                'address_country', a.address_country,
+                'address_comment', a.address_comment,
+                'entity_active', e.entity_active,
+                'entity_type', do.entity_type
             )
         )
     ) AS dropoffs
 FROM deliveries d
 LEFT JOIN dropoffs do ON d.delivery_id = do.delivery_id
-LEFT JOIN clients c ON do.client_id = c.client_id
-LEFT JOIN addresses a ON c.client_address = a.address_id
+LEFT JOIN (
+    SELECT client_id AS entity_id, client_name AS entity_name, client_active AS entity_active, 'CLIENT' AS entity_type, company_id
+    FROM clients
+    UNION ALL
+    SELECT relay_id AS entity_id, relay_name AS entity_name, relay_active AS entity_active, 'RELAY' AS entity_type, company_id
+    FROM relays
+) e ON do.entity_id = e.entity_id AND do.entity_type = e.entity_type
+LEFT JOIN addresses a ON e.entity_id = a.entity_id AND e.entity_type = a.entity_type
 GROUP BY d.delivery_id;
 
 CREATE VIEW IF NOT EXISTS view_deliveries_info AS
@@ -209,14 +294,22 @@ SELECT
     co.company_name AS delivery_outsourced_to,
     pi.pickups,
     di.dropoffs,
-    d.company_id
+    d.company_id,
+    p.first_pickup_date
 FROM deliveries d
 LEFT JOIN drivers dr ON d.delivery_driver = dr.driver_id
 LEFT JOIN vehicles v ON d.delivery_vehicle = v.vehicle_id
 LEFT JOIN companies c ON d.delivery_provider = c.company_id
 LEFT JOIN companies co ON d.delivery_outsourced_to = co.company_id
 LEFT JOIN view_pickups_info pi ON d.delivery_id = pi.delivery_id
-LEFT JOIN view_dropoffs_info di ON d.delivery_id = di.delivery_id;
+LEFT JOIN view_dropoffs_info di ON d.delivery_id = di.delivery_id
+LEFT JOIN (
+    SELECT
+        delivery_id,
+        MIN(pickup_date) AS first_pickup_date
+    FROM pickups
+    GROUP BY delivery_id
+) p ON d.delivery_id = p.delivery_id;
 
 CREATE VIEW IF NOT EXISTS view_clients_info AS
 SELECT
@@ -233,9 +326,24 @@ SELECT
     e.email,
     c.company_id
 FROM clients c
-LEFT JOIN addresses a ON c.client_address = a.address_id
+LEFT JOIN addresses a ON c.client_id = a.entity_id AND a.entity_type = 'CLIENT'
 LEFT JOIN phones p ON c.client_id = p.entity_id AND p.entity_type = 'CLIENT'
 LEFT JOIN emails e ON c.client_id = e.entity_id AND e.entity_type = 'CLIENT';
+
+CREATE VIEW IF NOT EXISTS view_relays_info AS
+SELECT
+    r.relay_id,
+    r.relay_name,
+    a.address_street_number,
+    a.address_street,
+    a.address_city,
+    a.address_postal_code,
+    a.address_country,
+    a.address_comment,
+    r.relay_active,
+    r.company_id
+FROM relays r
+LEFT JOIN addresses a ON r.relay_id = a.entity_id AND a.entity_type = 'RELAY';
 
 CREATE VIEW IF NOT EXISTS view_drivers_info AS
 SELECT
@@ -295,4 +403,4 @@ FROM tours_members tm
 LEFT JOIN companies co ON tm.company_id = co.company_id
 LEFT JOIN tours t ON tm.tour_id = t.tour_id
 LEFT JOIN clients c ON tm.client_id = c.client_id
-LEFT JOIN addresses a ON c.client_address = a.address_id;
+LEFT JOIN addresses a ON c.client_id = a.entity_id AND a.entity_type = 'CLIENT';

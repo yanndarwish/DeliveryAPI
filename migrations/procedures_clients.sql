@@ -18,26 +18,21 @@ BEGIN
     DECLARE new_address_id INT;
     DECLARE new_client_id INT;
 
-    CALL sp_create_address(p_street_number, p_street, p_city, p_postal_code, p_country);
-
-    SET new_address_id = LAST_INSERT_ID();
-
     -- Insert into clients table
     INSERT INTO clients (
         client_name,
-        client_address,
         client_active,
         company_id
     )
     VALUES (
         p_client_name,
-        new_address_id,
         p_active,
         p_company_id
     );
 
     SET new_client_id = LAST_INSERT_ID();
 
+    CALL sp_create_address(p_street_number, p_street, p_city, p_postal_code, p_country, 'some comment', 'CLIENT', new_client_id);
     CALL sp_create_phone('CLIENT', new_client_id, p_phone);
     CALL sp_create_email('CLIENT', new_client_id, p_email);
 END $$
@@ -59,7 +54,7 @@ BEGIN
         ci.client_active,
         ci.phone,
         ci.email
-    FROM clients_info ci
+    FROM view_clients_info ci
     LIMIT p_limit 
     OFFSET p_offset;
 END $$

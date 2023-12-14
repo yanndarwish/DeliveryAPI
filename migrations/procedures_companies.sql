@@ -14,40 +14,18 @@ CREATE PROCEDURE sp_create_company(
     IN p_headquarter_city VARCHAR(30),
     IN p_headquarter_postal_code INT,
     IN p_headquarter_country VARCHAR(30),
+    IN p_headquarter_comment VARCHAR(100),
     IN p_warehouse_street_number INT,
     IN p_warehouse_street VARCHAR(100),
     IN p_warehouse_city VARCHAR(30),
     IN p_warehouse_postal_code INT,
-    IN p_warehouse_country VARCHAR(30)
+    IN p_warehouse_country VARCHAR(30),
+    IN p_warehouse_comment VARCHAR(100)
 )
 BEGIN
     DECLARE new_company_id INT;
     DECLARE new_headquarter_id INT;
     DECLARE new_warehouse_id INT;
-
-    -- Insert into addresses table for headquarter
-    CALL sp_create_address(
-        p_headquarter_street_number,
-        p_headquarter_street,
-        p_headquarter_city,
-        p_headquarter_postal_code,
-        p_headquarter_country
-    );
-
-    -- Get the last inserted headquarter_id
-    SET new_headquarter_id = LAST_INSERT_ID();
-
-    -- Insert into addresses table for warehouse
-    CALL sp_create_address(
-        p_warehouse_street_number,
-        p_warehouse_street,
-        p_warehouse_city,
-        p_warehouse_postal_code,
-        p_warehouse_country
-    );
-
-    -- Get the last inserted warehouse_id
-    SET new_warehouse_id = LAST_INSERT_ID();
 
     -- Insert into companies table
     INSERT INTO companies (
@@ -69,6 +47,28 @@ BEGIN
 
     -- Get the last inserted company_id
     SET new_company_id = LAST_INSERT_ID();
+
+    CALL sp_create_address(
+        p_warehouse_street_number,
+        p_warehouse_street,
+        p_warehouse_city,
+        p_warehouse_postal_code,
+        p_warehouse_country,
+        p_warehouse_comment, 
+        'COMPANY',
+        new_company_id
+    );
+
+    CALL sp_create_address(
+        p_headquarter_street_number,
+        p_headquarter_street,
+        p_headquarter_city,
+        p_headquarter_postal_code,
+        p_headquarter_country,
+        p_headquarter_comment,
+        'COMPANY',
+        new_company_id
+    );
 
     -- INSERT INTO emails table
     CALL sp_create_email(

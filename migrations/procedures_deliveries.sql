@@ -8,8 +8,8 @@ CREATE PROCEDURE sp_create_delivery(
     IN p_vehicle_id INT,
     IN p_provider_id INT,
     IN p_hotel_price INT,
-    IN p_pickup_clients JSON,
-    IN p_dropoff_clients JSON,
+    IN p_pickups JSON,
+    IN p_dropoffs JSON,
     IN p_outsourced_to INT
 )
 BEGIN
@@ -19,6 +19,8 @@ BEGIN
     DECLARE dropoff_client_id INT;
     DECLARE dropoff_date DATETIME;
     DECLARE outsourced_delivery_id INT;
+    DECLARE pickup_type VARCHAR(10);
+    DECLARE dropoff_type VARCHAR(10);
 
     INSERT INTO deliveries (
         company_id,
@@ -63,32 +65,34 @@ BEGIN
     END IF;
 
     SET @i = 0;
-    SET @n = JSON_LENGTH(JSON_UNQUOTE(p_pickup_clients)); 
+    SET @n = JSON_LENGTH(JSON_UNQUOTE(p_pickups)); 
 
     WHILE @i < @n DO
-        SET pickup_client_id = JSON_EXTRACT(p_pickup_clients, CONCAT('$[', @i, '].client_id'));
-        SET pickup_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_pickup_clients, CONCAT('$[', @i, '].pickup_date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
+        SET pickup_type = JSON_UNQUOTE(JSON_EXTRACT(p_pickups, CONCAT('$[', @i, '].pickup_type')));
+        SET pickup_client_id = JSON_EXTRACT(p_pickups, CONCAT('$[', @i, '].client_id'));
+        SET pickup_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_pickups, CONCAT('$[', @i, '].pickup_date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
 
-        CALL sp_create_pickup(last_delivery_id, pickup_client_id, pickup_date);
+        CALL sp_create_pickup(p_company_id, last_delivery_id, pickup_client_id, pickup_type, pickup_date);
 
         IF outsourced_delivery_id IS NOT NULL THEN
-            CALL sp_create_pickup(outsourced_delivery_id, pickup_client_id, pickup_date);
+            CALL sp_create_pickup(p_outsourced_to, outsourced_delivery_id, pickup_client_id, pickup_type, pickup_date);
         END IF;
 
         SET @i = @i + 1;
     END WHILE;
 
     SET @i = 0;
-    SET @n = JSON_LENGTH(p_dropoff_clients);
+    SET @n = JSON_LENGTH(p_dropoffs);
 
     WHILE @i < @n DO
-        SET dropoff_client_id = JSON_EXTRACT(p_dropoff_clients, CONCAT('$[', @i, '].client_id'));
-        SET dropoff_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_dropoff_clients, CONCAT('$[', @i, '].dropoff_date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
+        SET dropoff_type = JSON_UNQUOTE(JSON_EXTRACT(p_dropoffs, CONCAT('$[', @i, '].dropoff_type')));
+        SET dropoff_client_id = JSON_EXTRACT(p_dropoffs, CONCAT('$[', @i, '].client_id'));
+        SET dropoff_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_dropoffs, CONCAT('$[', @i, '].dropoff_date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
 
-        CALL sp_create_dropoff(last_delivery_id, dropoff_client_id, dropoff_date);
+        CALL sp_create_dropoff(p_company_id, last_delivery_id, dropoff_client_id, dropoff_type, dropoff_date);
 
         IF outsourced_delivery_id IS NOT NULL THEN
-            CALL sp_create_dropoff(outsourced_delivery_id, dropoff_client_id, dropoff_date);
+            CALL sp_create_dropoff(p_outsourced_to, outsourced_delivery_id, dropoff_client_id, dropoff_type, dropoff_date);
         END IF;
 
         SET @i = @i + 1;
@@ -98,19 +102,24 @@ DELIMITER ;
 
 -- GET DELIVERIES
 DELIMITER $$
-CREATE PROCEDURE sp_get_deliveries(IN p_offset INT, IN p_limit INT)
+CREATE PROCEDURE sp_get_deliveries(IN p_offset INT, IN p_limit INT, IN p_driver VARCHAR(50), IN p_provider VARCHAR(30), IN p_vehicle VARCHAR(30), IN p_first_pickup_date DATETIME)
 BEGIN
     SELECT
         delivery_id,
         delivery_driver,
         delivery_vehicle,
         delivery_provider,
+        first_pickup_date,
         delivery_hotel_price,
         delivery_outsourced_to,
         pickups,
         dropoffs,
         company_id
     FROM view_deliveries_info
+    WHERE (delivery_driver = p_driver OR p_driver IS NULL)
+        AND (delivery_provider = p_provider OR p_provider IS NULL)
+        AND (delivery_vehicle = p_vehicle OR p_vehicle IS NULL)
+        AND (first_pickup_date = p_first_pickup_date OR p_first_pickup_date IS NULL)
     LIMIT p_limit 
     OFFSET p_offset;
 END $$
