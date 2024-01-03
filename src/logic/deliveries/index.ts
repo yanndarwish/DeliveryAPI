@@ -1,3 +1,4 @@
-import { getManyDeliveries } from "./getManyDeliveries/getManyDeliveries"
+import { getManyDeliveries } from "./getManyDeliveries"
+import { createDelivery } from "./createDelivery";
 
-export { getManyDeliveries };
+export { getManyDeliveries, createDelivery };

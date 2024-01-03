@@ -1,10 +1,13 @@
 import { Router } from "express"
 
-import { getManyDeliveriesQuerySchema } from "./validation"
+import {
+	getManyDeliveriesQuerySchema,
+	createDeliveryBodySchema,
+} from "./validation"
 
 import { Validator } from "@/middlewares/validation"
 
-import { getManyDeliveries } from "@/logic/deliveries"
+import { getManyDeliveries, createDelivery } from "@/logic/deliveries"
 
 const deliveriesController = Router()
 
@@ -12,6 +15,12 @@ deliveriesController.get(
 	"/",
 	Validator(getManyDeliveriesQuerySchema, "query"),
 	getManyDeliveries
+)
+
+deliveriesController.post(
+	"/",
+	Validator(createDeliveryBodySchema, "body"),
+	createDelivery
 )
 
 export { deliveriesController }

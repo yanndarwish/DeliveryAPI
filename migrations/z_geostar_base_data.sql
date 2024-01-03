@@ -48,20 +48,20 @@ CALL sp_create_vehicle('Honda', 'Accord', 'LMN456', TRUE);
 
 -- Insert sample deliveries
 CALL sp_create_delivery(
-    1, 1, 1, 4 , 101,
-    '[{"pickup_type": "CLIENT", "client_id": 1, "pickup_date": "2023-05-12 15:30:00"}, {"pickup_type": "CLIENT", "client_id": 2, "pickup_date": "2023-11-25 14:00:00"}]',
-    '[{"dropoff_type": "RELAY", "client_id": 3, "dropoff_date": "2023-11-26 11:00:00"}, {"dropoff_type": "CLIENT", "client_id": 3, "dropoff_date": "2023-11-26 13:00:00"}]',
+    1, 1, 1, 4 , null,
+    '[{"entity_type": "CLIENT", "entity_id": 1, "date": "2023-05-12 15:30:00"}, {"entity_type": "CLIENT", "entity_id": 2, "date": "2023-11-25 14:00:00"}]',
+    '[{"entity_type": "RELAY", "entity_id": 3, "date": "2023-11-26 11:00:00"}, {"entity_type": "CLIENT", "entity_id": 3, "date": "2023-11-26 13:00:00"}]',
     NULL
 );
 CALL sp_create_delivery(
     2, 2, 2, 3, 202,
-    '[{"pickup_type": "RELAY", "client_id": 2, "pickup_date": "2023-11-25 10:00:00"}]',
-    '[{"dropoff_type": "RELAY", "client_id": 1, "dropoff_date": "2023-11-26 11:00:00"}]',
+    '[{"entity_type": "RELAY", "entity_id": 2, "date": "2023-11-25 10:00:00"}]',
+    '[{"entity_type": "RELAY", "entity_id": 1, "date": "2023-11-26 11:00:00"}]',
     1
 );
 CALL sp_create_delivery(
     3, 3, 3, 3, 303,
-    '[{"pickup_type": "CLIENT", "client_id": 1, "pickup_date": "2023-11-30 19:00:00"}, {"pickup_type": "CLIENT", "client_id": 2, "pickup_date": "2023-11-25 10:00:00"}, {"pickup_type": "RELAY", "client_id": 3, "pickup_date": "2023-11-25 10:00:00"}]',
-    '[{"dropoff_type": "RELAY", "client_id": 1, "dropoff_date": "2023-11-26 11:00:00"}]',
+    '[{"entity_type": "CLIENT", "entity_id": 1, "date": "2023-11-30 19:00:00"}, {"entity_type": "CLIENT", "entity_id": 2, "date": "2023-11-25 10:00:00"}, {"entity_type": "RELAY", "entity_id": 3, "date": "2023-11-25 10:00:00"}]',
+    '[{"entity_type": "RELAY", "entity_id": 1, "date": "2023-11-26 11:00:00"}]',
     NULL
 );

@@ -1,0 +1,1 @@
+export const createDeliveryQuery = "CALL sp_create_delivery(?, ?, ?, ?, ?, ?, ?, ?)"
