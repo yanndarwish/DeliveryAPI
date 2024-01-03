@@ -8,6 +8,7 @@
 		"dev": "nodemon --watch src -e js,ts,json --exec \"ts-node src/index.ts\" | npx pino-pretty -i time,hostname,module,__in,name,pid,level,msg",
 		"build": "tsup src/index.ts --format cjs --clean",
 		"start": "node dist/index.js",
+		"test:setup": "NODE_ENV=test npm run database:reload",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"database:reload": "sh ./migration.sh"
 	},

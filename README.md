@@ -24,6 +24,7 @@ npm run database:reload
 - Ecrire les schemas Zod dans le fichier ```validation.ts``` dans le dossier correspondant
 - Ajouter la route dans le controller correspondant dans le dossier ```api```
 - Créer la route dans le dossier ```logic```
+- Ecrire les tests
 
 ## Tests
 
