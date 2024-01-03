@@ -1,7 +1,5 @@
 ## SETUP
 
----
-
 Init Mariadb container
 
 ```bash
@@ -16,3 +14,23 @@ Setup and populate databases (only with base data)
 # in project root
 npm run database:reload
 ```
+
+
+##  Pour créer une nouvelle route
+
+- Ecrire la route dans le fichier ```openapi.yml```
+- Générer les types avec ```npm run types-generate```
+- Ecrire les typed requests, typed responses, typed body, typed query dans le fichier ```interfaces.ts```
+- Ecrire les schemas Zod dans le fichier ```validation.ts``` dans le dossier correspondant
+- Ajouter la route dans le controller correspondant dans le dossier ```api```
+- Créer la route dans le dossier ```logic```
+
+## Tests
+
+Pour tester une route il y a plusieurs cas :
+
+### Pour une route qui renvoi une liste
+
+- tester que le retour correspond bien au type ListResponseObject
+- tester que la pagination est bien fonctionnelle et cohérente avec le nombre d'items retournés
+- tester que les données retournées sont bien du type GetMany{entité}

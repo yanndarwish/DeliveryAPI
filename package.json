@@ -4,10 +4,39 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+		"types-generate": "npx openapi-typescript openapi.yml -o src/types/schema.d.ts",
+		"dev": "nodemon --watch src -e js,ts,json --exec \"ts-node src/index.ts\" | npx pino-pretty -i time,hostname,module,__in,name,pid,level,msg",
+		"build": "tsup src/index.ts --format cjs --clean",
+		"start": "node dist/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"database:reload": "sh ./migration.sh"
 	},
 	"keywords": [],
 	"author": "",
-	"license": "ISC"
+	"license": "ISC",
+	"devDependencies": {
+		"@types/cors": "^2.8.17",
+		"@types/express-pino-logger": "^4.0.5",
+		"@types/mysql": "^2.15.25",
+		"@types/node": "^20.10.4",
+		"nodemon": "^3.0.2",
+		"openapi-typescript": "^6.7.2",
+		"pino-pretty": "^10.2.3",
+		"ts-node": "^10.9.2",
+		"tsconfig-paths": "^4.2.0",
+		"tsup": "^8.0.1",
+		"typescript": "^5.3.3"
+	},
+	"dependencies": {
+		"@types/express": "^4.17.15",
+		"@types/express-serve-static-core": "^4.17.41",
+		"cors": "^2.8.5",
+		"express": "^4.18.2",
+		"express-async-errors": "^3.1.1",
+		"express-pino-logger": "^7.0.0",
+		"mysql": "^2.18.1",
+		"pino": "^8.16.2",
+		"pino-http": "^8.5.1",
+		"zod": "^3.22.4"
+	}
 }

@@ -1,0 +1,234 @@
+openapi: 3.0.0
+info:
+  title: Delivery app API
+  description: Endpoints for the delivery app
+  version: 0.1.9
+
+servers:
+  - url: http://localhost:3000
+    description: Local environment
+
+paths:
+############# DELIVERIES #################
+  /deliveries:
+    get:
+      summary: Returns a list of deliveries.
+      parameters:
+        - $ref: "#/components/parameters/OffsetParam"
+        - $ref: "#/components/parameters/LimitParam"
+        - in: query
+          name: driver
+          description: Filter by driver name
+          example: Brown, Bob
+          schema:
+            type: string
+        - in: query
+          name: provider
+          example: Amazon
+          description: Filter by provider name
+          schema:
+            type: string
+        - in: query
+          name: vehicle
+          example: Honda Accord
+          description: Filter by vehicle name
+          schema:
+            type: string
+        - in: query
+          name: day
+          example: 1
+          description: Filter by day
+          schema:
+            type: string
+        - in: query
+          name: month
+          example: 7
+          description: Filter by month
+          schema:
+            type: string
+        - in: query
+          name: year
+          example: 2024
+          description: Filter by year
+          schema:
+            type: string
+      responses:
+        "200": # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/DeliveriesArray"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                required:
+                  - data
+                  - pagination
+        "400":
+          description: Bad request - invalid parameters
+        "500":
+          description: Internal server error
+
+components:
+############# PARAMETERS #################
+  parameters:
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      required: true
+      schema:
+        type: string
+        minimum: 0
+        default: 0
+    LimitParam:
+      name: limit
+      in: query
+      description: Number of items to return
+      required: true
+      schema:
+        type: string
+        minimum: 1
+        maximum: 100
+        default: 25
+  schemas:
+  ############# PAGINATION #########################
+    Pagination:
+      type: object
+      properties:
+        currentPage:
+          type: integer
+          example: 1
+        totalPages:
+          type: integer
+          example: 7
+        hasNextPage:
+          type: boolean
+          example: true
+        hasPreviousPage:
+          type: boolean
+          example: false
+        totalItems:
+          type: integer
+          example: 89
+
+  ############# DELIVERIES SCHEMAS #################
+
+    Delivery:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        driver:
+          type: string
+          example: Arthur Dent
+        vehicle:
+          type: string
+          example: Ford Prefect
+        provider:
+          type: string
+          example: Amazon
+        hotelPrice:
+          type: integer
+          example: 100
+        outsourcedTo:
+          type: string
+          example: Google
+        pickups:
+          type: array
+          items:
+            $ref: "#/components/schemas/Pickup"
+          example:
+            - date: "2021-07-01"
+              entity_info:
+                entity_id: 1
+                entity_name: Amazon
+                address_street_number: 123
+                address_street: Main St
+                address_city: Paris
+                address_postal_code: 75008
+                address_country: France
+                address_comment: Derrière le hangar
+                entity_active: true
+                entity_type: Client
+        dropoffs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Pickup"
+          example:
+            - date: "2021-07-01"
+              entity_info:
+                entity_id: 1
+                entity_name: Amazon
+                address_street_number: 123
+                address_street: Main St
+                address_city: Paris
+                address_postal_code: 75008
+                address_country: France
+                address_comment: Derrière le hangar
+                entity_active: true
+                entity_type: Client
+        companyId:
+          type: integer
+          example: 1
+      required:
+        - id
+        - driver
+        - vehicle
+        - provider
+        - hotelPrice
+        - outsourcedTo
+        - pickups
+        - dropoffs
+        - companyId
+
+    DeliveriesArray:
+      type: array
+      items:
+        $ref: "#/components/schemas/Delivery"
+
+    Pickup:
+      type: object
+      properties:
+        date:
+          type: string
+          example: 2021-07-01
+        entity_info:
+          type: object
+          properties:
+            entity_id:
+              type: integer
+              example: 1
+            entity_name:
+              type: string
+              example: Amazon
+            address_street_number:
+              type: integer
+              example: 123
+            address_street:
+              type: string
+              example: Main St
+            address_city:
+              type: string
+              example: Paris
+            address_postal_code:
+              type: string
+              example: 75008
+            address_country:
+              type: string
+              example: France
+            address_comment:
+              type: string
+              example: Derrière le hangar
+            entity_active:
+              type: boolean
+              example: true
+            entity_type:
+              type: string
+              example: Client
+  
+
