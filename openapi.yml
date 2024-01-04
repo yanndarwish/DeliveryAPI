@@ -86,12 +86,12 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: "#/components/schemas/MessageResponse"
         "400":
           description: Bad request - validation error
         "500":
           description: Internal server error
-  
+
   /deliveries/{id}:
     get:
       summary: Returns a delivery by id.
@@ -109,6 +109,28 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Delivery"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Delivery not found
+        "500":
+          description: Internal server error
+    delete:
+      summary: Deletes a delivery by id.
+      parameters:
+        - in: path
+          name: id
+          description: The id of the delivery to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "200": # status code
+          description: Delivery deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
         "400":
           description: Bad request - validation error
         "404":
@@ -139,6 +161,15 @@ components:
         maximum: 100
         default: 25
   schemas:
+    ################ BASE RESPONSE ###################
+    # Message response
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+
     ############# PAGINATION #########################
     Pagination:
       type: object

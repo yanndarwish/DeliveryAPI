@@ -6,12 +6,14 @@ import {
 	getManyDeliveries,
 	createDelivery,
 	getOneDeliveryById,
+	deleteOneDeliveryById,
 } from "@/logic/deliveries"
 
 import {
 	getManyDeliveriesQuerySchema,
 	createDeliveryBodySchema,
 	getOneDeliveryParamsSchema,
+	deleteOneDeliveryParamsSchema,
 } from "./validation"
 
 const deliveriesController = Router()
@@ -32,6 +34,12 @@ deliveriesController.get(
 	"/:id",
 	Validator(getOneDeliveryParamsSchema, "params"),
 	getOneDeliveryById
+)
+
+deliveriesController.delete(
+	"/:id",
+	Validator(deleteOneDeliveryParamsSchema, "params"),
+	deleteOneDeliveryById
 )
 
 export { deliveriesController }

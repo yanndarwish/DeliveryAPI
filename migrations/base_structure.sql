@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS pickups (
     entity_type VARCHAR(10),
     pickup_date DATETIME,
     FOREIGN KEY (company_id) REFERENCES companies(company_id),
-    FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id)
+    FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS dropoffs (
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS dropoffs (
     entity_type VARCHAR(10),
     dropoff_date DATETIME,
     FOREIGN KEY (company_id) REFERENCES companies(company_id),
-    FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id)
+    FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id) ON DELETE CASCADE
 );
 
 -- CREATE VIEW IF NOT EXISTS view_pickups_info AS

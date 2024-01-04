@@ -76,7 +76,7 @@ export interface paths {
         /** @description Delivery created */
         201: {
           content: {
-            "application/json": Record<string, never>;
+            "application/json": components["schemas"]["MessageResponse"];
           };
         };
         /** @description Bad request - validation error */
@@ -120,6 +120,35 @@ export interface paths {
         };
       };
     };
+    /** Deletes a delivery by id. */
+    delete: {
+      parameters: {
+        path: {
+          /** @description The id of the delivery to delete */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description Delivery deleted */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Delivery not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
@@ -127,6 +156,10 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
+    MessageResponse: {
+      /** @example Success */
+      message?: string;
+    };
     Pagination: {
       /** @example 1 */
       currentPage?: number;

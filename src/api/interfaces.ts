@@ -4,10 +4,12 @@ import { Express } from "express"
 
 import { paths, components } from "@/types/schema"
 
-// ERRORS
+// ============================ ERRORS ============================
+
 export type DBError = MysqlError | null;
 
-// HTTP
+// ============================= HTTP =============================
+
 export interface TypedRequest<T extends Query, U, V extends Params> extends Express.Request {
 	query: T
 	body: U
@@ -19,7 +21,8 @@ export interface TypedResponse<T> extends Express.Response {
     send: (body: T) => TypedResponse<T>
 }
 
-// COMMON
+// ============================ COMMON ============================
+
 export interface Pagination {
 	currentPage: number
 	totalPages: number
@@ -58,6 +61,13 @@ export type GetOneDeliveryResponseObject = paths["/deliveries/{id}"]["get"]["res
 
 export type GetOneDeliveryRequest = TypedRequest<never, never, GetOneDeliveryParams>
 export type GetOneDeliveryResponse = TypedResponse<GetOneDeliveryResponseObject>
+
+// DELETE ONE DELIVERY BY ID
+export type DeleteOneDeliveryParams = paths["/deliveries/{id}"]["delete"]["parameters"]["path"]
+type DeleteOneDeliveryResponseObject = paths["/deliveries/{id}"]["delete"]["responses"][200]["content"]["application/json"]
+
+export type DeleteOneDeliveryRequest = TypedRequest<never, never, DeleteOneDeliveryParams>
+export type DeleteOneDeliveryResponse = TypedResponse<DeleteOneDeliveryResponseObject>
 
 // ========================== COMPONENTS ==========================
 

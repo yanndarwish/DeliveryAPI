@@ -2,8 +2,8 @@ import { z } from "zod"
 
 // COMMON
 const pickupSchema = z.object({
-    date: z.string(),
-    entityId: z.number(),
+	date: z.string(),
+	entityId: z.number(),
 	entityType: z.enum(["CLIENT", "RELAY"]),
 })
 
@@ -32,7 +32,7 @@ export const createDeliveryBodySchema = z.object({
 	hotelPrice: z.number().nullable().optional(),
 	pickups: pickupSchema.array(),
 	dropoffs: pickupSchema.array(),
-    outsourcedTo: z.string().nullable().optional(),
+	outsourcedTo: z.string().nullable().optional(),
 })
 
 export type CreateDeliveryBody = z.infer<typeof createDeliveryBodySchema>
@@ -44,3 +44,14 @@ export const getOneDeliveryParamsSchema = z.object({
 })
 
 export type GetOneDeliveryParams = z.infer<typeof getOneDeliveryParamsSchema>
+
+// DELETE ONE DELIVERY BY ID
+export const deleteOneDeliveryParamsSchema = z.object({
+	// id must be a string because it comes from the url but should be a positive integer
+	id: z.string().refine((value) => Number(value) > 0),
+})
+
+export type DeleteOneDeliveryParams = z.infer<
+	typeof deleteOneDeliveryParamsSchema
+>
+
