@@ -17,7 +17,7 @@ export const deleteOneDeliveryById = async (
 
 	if (result.affectedRows === 0) {
 		throw new NotFoundError(
-			`Aucune livraison trouvée avec l'identifiant: ${id}`
+			`Aucune livraison n'a été trouvée avec l'identifiant: ${id}`
 		)
 	}
 

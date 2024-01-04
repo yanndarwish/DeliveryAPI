@@ -6,6 +6,7 @@ import {
 	getManyDeliveries,
 	createDelivery,
 	getOneDeliveryById,
+	updateDelivery,
 	deleteOneDeliveryById,
 } from "@/logic/deliveries"
 
@@ -13,6 +14,8 @@ import {
 	getManyDeliveriesQuerySchema,
 	createDeliveryBodySchema,
 	getOneDeliveryParamsSchema,
+	updateOneDeliveryParamsSchema,
+	updateOneDeliveryBodySchema,
 	deleteOneDeliveryParamsSchema,
 } from "./validation"
 
@@ -34,6 +37,13 @@ deliveriesController.get(
 	"/:id",
 	Validator(getOneDeliveryParamsSchema, "params"),
 	getOneDeliveryById
+)
+
+deliveriesController.put(
+	"/:id",
+	Validator(updateOneDeliveryParamsSchema, "params"),
+	Validator(updateOneDeliveryBodySchema, "body"),
+	updateDelivery
 )
 
 deliveriesController.delete(

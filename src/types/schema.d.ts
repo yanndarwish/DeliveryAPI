@@ -120,6 +120,41 @@ export interface paths {
         };
       };
     };
+    /** Updates a delivery by id. */
+    put: {
+      parameters: {
+        path: {
+          /** @description The id of the delivery to update */
+          id: string;
+        };
+      };
+      /** @description Delivery object to be updated */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["DeliveryCreate"];
+        };
+      };
+      responses: {
+        /** @description Delivery updated */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Delivery not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
     /** Deletes a delivery by id. */
     delete: {
       parameters: {

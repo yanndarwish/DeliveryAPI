@@ -30,8 +30,8 @@ export const createDeliveryBodySchema = z.object({
 	vehicleId: z.number(),
 	providerId: z.number(),
 	hotelPrice: z.number().nullable().optional(),
-	pickups: pickupSchema.array(),
-	dropoffs: pickupSchema.array(),
+	pickups: pickupSchema.array().min(1),
+	dropoffs: pickupSchema.array().min(1),
 	outsourcedTo: z.string().nullable().optional(),
 })
 
@@ -45,6 +45,28 @@ export const getOneDeliveryParamsSchema = z.object({
 
 export type GetOneDeliveryParams = z.infer<typeof getOneDeliveryParamsSchema>
 
+// UPDATE ONE DELIVERY BY ID
+export const updateOneDeliveryParamsSchema = z.object({
+	// id must be a string because it comes from the url but should be a positive integer
+	id: z.string().refine((value) => Number(value) > 0),
+})
+
+export const updateOneDeliveryBodySchema = z.object({
+	companyId: z.number(),
+	driverId: z.number(),
+	vehicleId: z.number(),
+	providerId: z.number(),
+	hotelPrice: z.number().nullable().optional(),
+	pickups: pickupSchema.array().min(1),
+	dropoffs: pickupSchema.array().min(1),
+	outsourcedTo: z.string().nullable().optional(),
+})
+
+export type UpdateOneDeliveryParams = z.infer<
+	typeof updateOneDeliveryParamsSchema
+>
+export type UpdateOneDeliveryBody = z.infer<typeof updateOneDeliveryBodySchema>
+
 // DELETE ONE DELIVERY BY ID
 export const deleteOneDeliveryParamsSchema = z.object({
 	// id must be a string because it comes from the url but should be a positive integer
@@ -54,4 +76,3 @@ export const deleteOneDeliveryParamsSchema = z.object({
 export type DeleteOneDeliveryParams = z.infer<
 	typeof deleteOneDeliveryParamsSchema
 >
-

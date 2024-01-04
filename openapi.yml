@@ -115,6 +115,36 @@ paths:
           description: Delivery not found
         "500":
           description: Internal server error
+    put:
+      summary: Updates a delivery by id.
+      parameters:
+        - in: path
+          name: id
+          description: The id of the delivery to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Delivery object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeliveryCreate"
+      responses:
+        "200": # status code
+          description: Delivery updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Delivery not found
+        "500":
+          description: Internal server error
+
     delete:
       summary: Deletes a delivery by id.
       parameters:

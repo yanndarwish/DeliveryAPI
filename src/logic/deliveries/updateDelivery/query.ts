@@ -1,0 +1,1 @@
+export const updateDeliveryQuery = "CALL sp_update_delivery(?, ?, ?, ?, ?, ?, ?, ?, ?)"

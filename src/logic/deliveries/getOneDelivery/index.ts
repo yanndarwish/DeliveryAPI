@@ -14,9 +14,11 @@ export const getOneDeliveryById = async (
 	const result = await queryAsync(getOneDeliveryByIdQuery, [id])
 	const response = result[0]?.[0]
 
-    if (!response) {
-        throw new NotFoundError(`Aucune livraison trouvée avec l'identifiant: ${id}`)
-    }
+	if (!response) {
+		throw new NotFoundError(
+			`Aucune livraison n'a été trouvée avec l'identifiant: ${id}`
+		)
+	}
 
 	res.send(getOneDeliveryResponseMapper(response))
 }

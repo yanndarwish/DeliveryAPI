@@ -62,6 +62,14 @@ export type GetOneDeliveryResponseObject = paths["/deliveries/{id}"]["get"]["res
 export type GetOneDeliveryRequest = TypedRequest<never, never, GetOneDeliveryParams>
 export type GetOneDeliveryResponse = TypedResponse<GetOneDeliveryResponseObject>
 
+// UPDATE ONE DELIVERY BY ID
+export type UpdateOneDeliveryParams = paths["/deliveries/{id}"]["put"]["parameters"]["path"]
+export type UpdateOneDeliveryBody = paths["/deliveries/{id}"]["put"]["requestBody"]["content"]["application/json"]
+type UpdateOneDeliveryResponseObject = paths["/deliveries/{id}"]["put"]["responses"][200]["content"]["application/json"]
+
+export type UpdateOneDeliveryRequest = TypedRequest<never, UpdateOneDeliveryBody, UpdateOneDeliveryParams>
+export type UpdateOneDeliveryResponse = TypedResponse<UpdateOneDeliveryResponseObject>
+
 // DELETE ONE DELIVERY BY ID
 export type DeleteOneDeliveryParams = paths["/deliveries/{id}"]["delete"]["parameters"]["path"]
 type DeleteOneDeliveryResponseObject = paths["/deliveries/{id}"]["delete"]["responses"][200]["content"]["application/json"]
@@ -72,3 +80,4 @@ export type DeleteOneDeliveryResponse = TypedResponse<DeleteOneDeliveryResponseO
 // ========================== COMPONENTS ==========================
 
 export type Pickup = components["schemas"]["Pickup"]
+export type PickupCreate = components["schemas"]["PickupCreate"]
