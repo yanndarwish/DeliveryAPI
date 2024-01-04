@@ -68,7 +68,7 @@ paths:
                   - data
                   - pagination
         "400":
-          description: Bad request - invalid parameters
+          description: Bad request - validation error
         "500":
           description: Internal server error
     post:
@@ -87,9 +87,32 @@ paths:
             application/json:
               schema:
                 type: object
-
         "400":
-          description: Bad request - invalid parameters
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
+  
+  /deliveries/{id}:
+    get:
+      summary: Returns a delivery by id.
+      parameters:
+        - in: path
+          name: id
+          description: The id of the delivery to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200": # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Delivery"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Delivery not found
         "500":
           description: Internal server error
 
@@ -137,7 +160,7 @@ components:
           example: 89
 
     ############# DELIVERIES SCHEMAS #################
-
+    # Base delivery schema
     Delivery:
       type: object
       properties:
@@ -216,6 +239,7 @@ components:
         - dropoffs
         - companyId
 
+    # Delivery creation body schema
     DeliveryCreate:
       type: object
       properties:
@@ -269,11 +293,14 @@ components:
         - pickups
         - dropoffs
 
+    # Array of deliveries
     DeliveriesArray:
       type: array
       items:
         $ref: "#/components/schemas/Delivery"
 
+    ############# PICKUPS SCHEMAS #################
+    # Pickup schema
     Pickup:
       type: object
       properties:
@@ -318,6 +345,7 @@ components:
         - date
         - infos
 
+    # Pickup creation body schema
     PickupCreate:
       type: object
       properties:
@@ -328,9 +356,10 @@ components:
           type: integer
           example: 1
         entityType:
-          $ref: "#/components/schemas/DeliveryEntities"
+          $ref: "#/components/schemas/PickupEntities"
 
-    DeliveryEntities:
+    # Pickup entities
+    PickupEntities:
       type: string
       description: The type of the entity (in UPPERCASE)
       enum:

@@ -54,7 +54,7 @@ export interface paths {
             };
           };
         };
-        /** @description Bad request - invalid parameters */
+        /** @description Bad request - validation error */
         400: {
           content: never;
         };
@@ -79,8 +79,39 @@ export interface paths {
             "application/json": Record<string, never>;
           };
         };
-        /** @description Bad request - invalid parameters */
+        /** @description Bad request - validation error */
         400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
+  "/deliveries/{id}": {
+    /** Returns a delivery by id. */
+    get: {
+      parameters: {
+        path: {
+          /** @description The id of the delivery to retrieve */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of user names */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Delivery"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Delivery not found */
+        404: {
           content: never;
         };
         /** @description Internal server error */
@@ -276,13 +307,13 @@ export interface components {
       date?: string;
       /** @example 1 */
       entityId?: number;
-      entityType?: components["schemas"]["DeliveryEntities"];
+      entityType?: components["schemas"]["PickupEntities"];
     };
     /**
      * @description The type of the entity (in UPPERCASE)
      * @enum {string}
      */
-    DeliveryEntities: "CLIENT" | "RELAY";
+    PickupEntities: "CLIENT" | "RELAY";
   };
   responses: never;
   parameters: {

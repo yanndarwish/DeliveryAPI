@@ -36,3 +36,11 @@ export const createDeliveryBodySchema = z.object({
 })
 
 export type CreateDeliveryBody = z.infer<typeof createDeliveryBodySchema>
+
+// GET ONE DELIVERY BY ID
+export const getOneDeliveryParamsSchema = z.object({
+	// id must be a string because it comes from the url but should be a positive integer
+	id: z.string().refine((value) => Number(value) > 0),
+})
+
+export type GetOneDeliveryParams = z.infer<typeof getOneDeliveryParamsSchema>

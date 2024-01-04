@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { ValidationError } from "@/lib/errors"
+import { NotFoundError } from "@/lib/errors/notFoundError"
 
 /**
  * Middleware de gestion globale des erreurs
@@ -23,6 +24,11 @@ export const ExceptionsHandler = (
 	if (err instanceof ValidationError) {
 		console.log(err)
 		return res.status(400).json({ error: JSON.parse(err.message) })
+	}
+
+	if(err instanceof NotFoundError) {
+		console.log(err.message)
+		return res.status(404).json({ error: err.message })
 	}
 	/**
 	 * Voir "The default error handler" dans la doc officielle indiquée plus haut
