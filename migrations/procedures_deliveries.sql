@@ -1,4 +1,4 @@
-USE geostar;
+USE {DB_NAME};
 
 -- CREATE A DELIVERY
 DELIMITER $$
@@ -68,9 +68,9 @@ BEGIN
     SET @n = JSON_LENGTH(JSON_UNQUOTE(p_pickups)); 
 
     WHILE @i < @n DO
-        SET pickup_type = JSON_UNQUOTE(JSON_EXTRACT(p_pickups, CONCAT('$[', @i, '].pickup_type')));
-        SET pickup_client_id = JSON_EXTRACT(p_pickups, CONCAT('$[', @i, '].client_id'));
-        SET pickup_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_pickups, CONCAT('$[', @i, '].pickup_date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
+        SET pickup_type = JSON_UNQUOTE(JSON_EXTRACT(p_pickups, CONCAT('$[', @i, '].entity_type')));
+        SET pickup_client_id = JSON_EXTRACT(p_pickups, CONCAT('$[', @i, '].entity_id'));
+        SET pickup_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_pickups, CONCAT('$[', @i, '].date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
 
         CALL sp_create_pickup(p_company_id, last_delivery_id, pickup_client_id, pickup_type, pickup_date);
 
@@ -85,9 +85,9 @@ BEGIN
     SET @n = JSON_LENGTH(p_dropoffs);
 
     WHILE @i < @n DO
-        SET dropoff_type = JSON_UNQUOTE(JSON_EXTRACT(p_dropoffs, CONCAT('$[', @i, '].dropoff_type')));
-        SET dropoff_client_id = JSON_EXTRACT(p_dropoffs, CONCAT('$[', @i, '].client_id'));
-        SET dropoff_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_dropoffs, CONCAT('$[', @i, '].dropoff_date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
+        SET dropoff_type = JSON_UNQUOTE(JSON_EXTRACT(p_dropoffs, CONCAT('$[', @i, '].entity_type')));
+        SET dropoff_client_id = JSON_EXTRACT(p_dropoffs, CONCAT('$[', @i, '].entity_id'));
+        SET dropoff_date = STR_TO_DATE(CAST(JSON_UNQUOTE(JSON_EXTRACT(p_dropoffs, CONCAT('$[', @i, '].date'))) AS CHAR), '%Y-%m-%d %H:%i:%s');
 
         CALL sp_create_dropoff(p_company_id, last_delivery_id, dropoff_client_id, dropoff_type, dropoff_date);
 

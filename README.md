@@ -22,8 +22,11 @@ npm run database:reload
 - Générer les types avec ```npm run types-generate```
 - Ecrire les typed requests, typed responses, typed body, typed query dans le fichier ```interfaces.ts```
 - Ecrire les schemas Zod dans le fichier ```validation.ts``` dans le dossier correspondant
+- Ecrire le type retourné de la base de données dans le fichier ```/src/lib/database/interfaces.ts```
 - Ajouter la route dans le controller correspondant dans le dossier ```api```
 - Créer la route dans le dossier ```logic```
+- Mettre à jour le fichier ```postman```
+- Ecrire les tests
 
 ## Tests
 

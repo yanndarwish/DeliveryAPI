@@ -9,7 +9,7 @@ servers:
     description: Local environment
 
 paths:
-############# DELIVERIES #################
+  ############# DELIVERIES #################
   /deliveries:
     get:
       summary: Returns a list of deliveries.
@@ -68,12 +68,56 @@ paths:
                   - data
                   - pagination
         "400":
-          description: Bad request - invalid parameters
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
+    post:
+      summary: Creates a new delivery.
+      requestBody:
+        description: Delivery object to be added to the list
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeliveryCreate"
+      responses:
+        "201":
+          description: Delivery created
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
+  
+  /deliveries/{id}:
+    get:
+      summary: Returns a delivery by id.
+      parameters:
+        - in: path
+          name: id
+          description: The id of the delivery to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200": # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Delivery"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Delivery not found
         "500":
           description: Internal server error
 
 components:
-############# PARAMETERS #################
+  ############# PARAMETERS #################
   parameters:
     OffsetParam:
       name: offset
@@ -95,7 +139,7 @@ components:
         maximum: 100
         default: 25
   schemas:
-  ############# PAGINATION #########################
+    ############# PAGINATION #########################
     Pagination:
       type: object
       properties:
@@ -115,65 +159,74 @@ components:
           type: integer
           example: 89
 
-  ############# DELIVERIES SCHEMAS #################
-
+    ############# DELIVERIES SCHEMAS #################
+    # Base delivery schema
     Delivery:
       type: object
       properties:
         id:
           type: integer
-          example: 4
+          description: The id of the delivery
+          example: 1
         driver:
           type: string
-          example: Arthur Dent
+          description: The name of the driver (Lastname, Firstname)
+          example: Smith, John
         vehicle:
           type: string
-          example: Ford Prefect
+          description: The name of the vehicle (Brand Model)
+          example: Ford Transit
         provider:
           type: string
+          description: The name of the company that provided the delivery
           example: Amazon
         hotelPrice:
           type: integer
+          description: The price of the hotel, in euros
           example: 100
         outsourcedTo:
           type: string
+          description: The name of the company that outsourced the delivery
           example: Google
         pickups:
           type: array
+          description: Array of pickups
           items:
             $ref: "#/components/schemas/Pickup"
           example:
             - date: "2021-07-01"
-              entity_info:
-                entity_id: 1
-                entity_name: Amazon
-                address_street_number: 123
-                address_street: Main St
-                address_city: Paris
-                address_postal_code: 75008
-                address_country: France
-                address_comment: Derrière le hangar
-                entity_active: true
-                entity_type: Client
+              infos:
+                id: 1
+                name: Amazon
+                streetNumber: 123
+                street: Main St
+                city: Paris
+                postalCode: 75008
+                country: France
+                comment: Derrière le hangar
+                active: true
+                type: CLIENT
         dropoffs:
           type: array
+          description: Array of dropoffs
           items:
             $ref: "#/components/schemas/Pickup"
           example:
             - date: "2021-07-01"
-              entity_info:
-                entity_id: 1
-                entity_name: Amazon
-                address_street_number: 123
-                address_street: Main St
-                address_city: Paris
-                address_postal_code: 75008
-                address_country: France
-                address_comment: Derrière le hangar
-                entity_active: true
-                entity_type: Client
+              infos:
+                id: 1
+                name: Amazon
+                streetNumber: 123
+                street: Main St
+                city: Paris
+                postalCode: 75008
+                country: France
+                comment: Derrière le hangar
+                active: true
+                type: CLIENT
         companyId:
           type: integer
+          description: The id of the company that does the delivery
           example: 1
       required:
         - id
@@ -186,49 +239,129 @@ components:
         - dropoffs
         - companyId
 
+    # Delivery creation body schema
+    DeliveryCreate:
+      type: object
+      properties:
+        companyId:
+          type: integer
+          description: The id of the company that does the delivery
+          example: 1
+        driverId:
+          type: integer
+          description: The id of the driver that does the delivery
+          example: 1
+        vehicleId:
+          type: integer
+          description: The id of the vehicle that does the delivery
+          example: 1
+        providerId:
+          type: integer
+          description: The id of the company that provided the delivery
+          example: 1
+        hotelPrice:
+          type: integer
+          description: The price of the hotel, in euros
+          example: 100
+        pickups:
+          type: array
+          description: Array of pickups
+          items:
+            $ref: "#/components/schemas/PickupCreate"
+          example:
+            - date: "2021-07-01"
+              entityId: 1
+              entityType: CLIENT
+        dropoffs:
+          type: array
+          description: Array of dropoffs
+          items:
+            $ref: "#/components/schemas/PickupCreate"
+          example:
+            - date: "2021-07-01"
+              entityId: 1
+              entityType: CLIENT
+        outsourcedTo:
+          type: integer
+          description: The id of the company that outsourced the delivery
+          example: 2
+      required:
+        - companyId
+        - driverId
+        - vehicleId
+        - providerId
+        - pickups
+        - dropoffs
+
+    # Array of deliveries
     DeliveriesArray:
       type: array
       items:
         $ref: "#/components/schemas/Delivery"
 
+    ############# PICKUPS SCHEMAS #################
+    # Pickup schema
     Pickup:
       type: object
       properties:
         date:
           type: string
-          example: 2021-07-01
-        entity_info:
+          example: "2021-07-01"
+        infos:
           type: object
           properties:
-            entity_id:
+            id:
               type: integer
               example: 1
-            entity_name:
+            name:
               type: string
               example: Amazon
-            address_street_number:
+            streetNumber:
               type: integer
               example: 123
-            address_street:
+            street:
               type: string
               example: Main St
-            address_city:
+            city:
               type: string
               example: Paris
-            address_postal_code:
+            postalCode:
               type: string
               example: 75008
-            address_country:
+            country:
               type: string
               example: France
-            address_comment:
+            comment:
               type: string
               example: Derrière le hangar
-            entity_active:
+            active:
               type: boolean
               example: true
-            entity_type:
+            type:
               type: string
-              example: Client
-  
+              description: The type of the entity (in UPPERCASE)
+              example: CLIENT
+      required:
+        - date
+        - infos
 
+    # Pickup creation body schema
+    PickupCreate:
+      type: object
+      properties:
+        date:
+          type: string
+          example: "2021-07-01"
+        entityId:
+          type: integer
+          example: 1
+        entityType:
+          $ref: "#/components/schemas/PickupEntities"
+
+    # Pickup entities
+    PickupEntities:
+      type: string
+      description: The type of the entity (in UPPERCASE)
+      enum:
+        - CLIENT
+        - RELAY

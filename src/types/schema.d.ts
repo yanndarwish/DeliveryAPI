@@ -54,8 +54,64 @@ export interface paths {
             };
           };
         };
-        /** @description Bad request - invalid parameters */
+        /** @description Bad request - validation error */
         400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+    /** Creates a new delivery. */
+    post: {
+      /** @description Delivery object to be added to the list */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["DeliveryCreate"];
+        };
+      };
+      responses: {
+        /** @description Delivery created */
+        201: {
+          content: {
+            "application/json": Record<string, never>;
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
+  "/deliveries/{id}": {
+    /** Returns a delivery by id. */
+    get: {
+      parameters: {
+        path: {
+          /** @description The id of the delivery to retrieve */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of user names */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Delivery"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Delivery not found */
+        404: {
           content: never;
         };
         /** @description Internal server error */
@@ -84,88 +140,180 @@ export interface components {
       totalItems?: number;
     };
     Delivery: {
-      /** @example 4 */
+      /**
+       * @description The id of the delivery
+       * @example 1
+       */
       id: number;
-      /** @example Arthur Dent */
+      /**
+       * @description The name of the driver (Lastname, Firstname)
+       * @example Smith, John
+       */
       driver: string;
-      /** @example Ford Prefect */
+      /**
+       * @description The name of the vehicle (Brand Model)
+       * @example Ford Transit
+       */
       vehicle: string;
-      /** @example Amazon */
+      /**
+       * @description The name of the company that provided the delivery
+       * @example Amazon
+       */
       provider: string;
-      /** @example 100 */
+      /**
+       * @description The price of the hotel, in euros
+       * @example 100
+       */
       hotelPrice: number;
-      /** @example Google */
+      /**
+       * @description The name of the company that outsourced the delivery
+       * @example Google
+       */
       outsourcedTo: string;
       /**
+       * @description Array of pickups
        * @example [
        *   {
        *     "date": "2021-07-01",
-       *     "entity_info": {
-       *       "entity_id": 1,
-       *       "entity_name": "Amazon",
-       *       "address_street_number": 123,
-       *       "address_street": "Main St",
-       *       "address_city": "Paris",
-       *       "address_postal_code": 75008,
-       *       "address_country": "France",
-       *       "address_comment": "Derrière le hangar",
-       *       "entity_active": true,
-       *       "entity_type": "Client"
+       *     "infos": {
+       *       "id": 1,
+       *       "name": "Amazon",
+       *       "streetNumber": 123,
+       *       "street": "Main St",
+       *       "city": "Paris",
+       *       "postalCode": 75008,
+       *       "country": "France",
+       *       "comment": "Derrière le hangar",
+       *       "active": true,
+       *       "type": "CLIENT"
        *     }
        *   }
        * ]
        */
       pickups: components["schemas"]["Pickup"][];
       /**
+       * @description Array of dropoffs
        * @example [
        *   {
        *     "date": "2021-07-01",
-       *     "entity_info": {
-       *       "entity_id": 1,
-       *       "entity_name": "Amazon",
-       *       "address_street_number": 123,
-       *       "address_street": "Main St",
-       *       "address_city": "Paris",
-       *       "address_postal_code": 75008,
-       *       "address_country": "France",
-       *       "address_comment": "Derrière le hangar",
-       *       "entity_active": true,
-       *       "entity_type": "Client"
+       *     "infos": {
+       *       "id": 1,
+       *       "name": "Amazon",
+       *       "streetNumber": 123,
+       *       "street": "Main St",
+       *       "city": "Paris",
+       *       "postalCode": 75008,
+       *       "country": "France",
+       *       "comment": "Derrière le hangar",
+       *       "active": true,
+       *       "type": "CLIENT"
        *     }
        *   }
        * ]
        */
       dropoffs: components["schemas"]["Pickup"][];
-      /** @example 1 */
+      /**
+       * @description The id of the company that does the delivery
+       * @example 1
+       */
       companyId: number;
+    };
+    DeliveryCreate: {
+      /**
+       * @description The id of the company that does the delivery
+       * @example 1
+       */
+      companyId: number;
+      /**
+       * @description The id of the driver that does the delivery
+       * @example 1
+       */
+      driverId: number;
+      /**
+       * @description The id of the vehicle that does the delivery
+       * @example 1
+       */
+      vehicleId: number;
+      /**
+       * @description The id of the company that provided the delivery
+       * @example 1
+       */
+      providerId: number;
+      /**
+       * @description The price of the hotel, in euros
+       * @example 100
+       */
+      hotelPrice?: number;
+      /**
+       * @description Array of pickups
+       * @example [
+       *   {
+       *     "date": "2021-07-01",
+       *     "entityId": 1,
+       *     "entityType": "CLIENT"
+       *   }
+       * ]
+       */
+      pickups: components["schemas"]["PickupCreate"][];
+      /**
+       * @description Array of dropoffs
+       * @example [
+       *   {
+       *     "date": "2021-07-01",
+       *     "entityId": 1,
+       *     "entityType": "CLIENT"
+       *   }
+       * ]
+       */
+      dropoffs: components["schemas"]["PickupCreate"][];
+      /**
+       * @description The id of the company that outsourced the delivery
+       * @example 2
+       */
+      outsourcedTo?: number;
     };
     DeliveriesArray: components["schemas"]["Delivery"][];
     Pickup: {
-      /** @example "2021-07-01T00:00:00.000Z" */
-      date?: string;
-      entity_info?: {
+      /** @example 2021-07-01 */
+      date: string;
+      infos: {
         /** @example 1 */
-        entity_id?: number;
+        id?: number;
         /** @example Amazon */
-        entity_name?: string;
+        name?: string;
         /** @example 123 */
-        address_street_number?: number;
+        streetNumber?: number;
         /** @example Main St */
-        address_street?: string;
+        street?: string;
         /** @example Paris */
-        address_city?: string;
+        city?: string;
         /** @example 75008 */
-        address_postal_code?: string;
+        postalCode?: string;
         /** @example France */
-        address_country?: string;
+        country?: string;
         /** @example Derrière le hangar */
-        address_comment?: string;
+        comment?: string;
         /** @example true */
-        entity_active?: boolean;
-        /** @example Client */
-        entity_type?: string;
+        active?: boolean;
+        /**
+         * @description The type of the entity (in UPPERCASE)
+         * @example CLIENT
+         */
+        type?: string;
       };
     };
+    PickupCreate: {
+      /** @example 2021-07-01 */
+      date?: string;
+      /** @example 1 */
+      entityId?: number;
+      entityType?: components["schemas"]["PickupEntities"];
+    };
+    /**
+     * @description The type of the entity (in UPPERCASE)
+     * @enum {string}
+     */
+    PickupEntities: "CLIENT" | "RELAY";
   };
   responses: never;
   parameters: {

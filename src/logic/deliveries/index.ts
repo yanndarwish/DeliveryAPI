@@ -1,3 +1,5 @@
-import { getManyDeliveries } from "./getManyDeliveries/getManyDeliveries"
+import { getManyDeliveries } from "./getManyDeliveries"
+import { createDelivery } from "./createDelivery"
+import { getOneDeliveryById } from "./getOneDelivery"
 
-export { getManyDeliveries };
+export { getManyDeliveries, createDelivery, getOneDeliveryById }

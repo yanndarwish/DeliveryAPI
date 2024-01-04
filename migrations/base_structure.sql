@@ -1,7 +1,7 @@
 -- Create geostar database
-CREATE DATABASE IF NOT EXISTS geostar;
+CREATE DATABASE IF NOT EXISTS {DB_NAME};
 
-USE geostar;
+USE {DB_NAME};
 
 -- TODO : Index the deliveries_view based on the joins (dev pdf)
 -- TODO : prevent client/driver/provider insert if email already exists (address for clients) (trigger)

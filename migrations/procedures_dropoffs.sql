@@ -1,4 +1,4 @@
-USE geostar;
+USE {DB_NAME};
 
 -- CREATE A DROPOFF (should be called on Delivery creation)
 DELIMITER $$
