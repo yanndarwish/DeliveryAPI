@@ -1,10 +1,16 @@
-import { DeliveriesArray, GetManyDeliveriesQuery } from "@/api/interfaces"
+import { DeliveriesArray } from "@/api/interfaces"
 import { DeliveriesArrayDB } from "@/lib/database/interfaces"
+import {
+	GetManyDeliveriesQueryRaw,
+} from "./interfaces"
 
-export const getManyDeliveriesQueryMapper = (query: GetManyDeliveriesQuery) => {
+export const getManyDeliveriesQueryMapper = (
+	query: GetManyDeliveriesQueryRaw
+) => {
 	return [
 		Number(query.offset),
 		Number(query.limit),
+		Number(query.companyId),
 		query.driver ?? null,
 		query.provider ?? null,
 		query.vehicle ?? null,
@@ -15,9 +21,10 @@ export const getManyDeliveriesQueryMapper = (query: GetManyDeliveriesQuery) => {
 }
 
 export const getManyDeliveriesCountQueryMapper = (
-	query: GetManyDeliveriesQuery
+	query: GetManyDeliveriesQueryRaw
 ) => {
 	return [
+		Number(query.companyId),
 		query.driver ?? null,
 		query.provider ?? null,
 		query.vehicle ?? null,

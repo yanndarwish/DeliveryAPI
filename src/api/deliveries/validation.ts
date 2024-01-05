@@ -1,6 +1,10 @@
 import { z } from "zod"
 
 // COMMON
+export const headerSchema = z.object({
+	"company-id": z.string().min(1),
+})
+
 const pickupSchema = z.object({
 	date: z.string(),
 	entityId: z.number(),
@@ -25,7 +29,6 @@ export type GetManyDeliveriesQuery = z.infer<
 
 // CREATE DELIVERY
 export const createDeliveryBodySchema = z.object({
-	companyId: z.number(),
 	driverId: z.number(),
 	vehicleId: z.number(),
 	providerId: z.number(),
@@ -52,7 +55,6 @@ export const updateOneDeliveryParamsSchema = z.object({
 })
 
 export const updateOneDeliveryBodySchema = z.object({
-	companyId: z.number(),
 	driverId: z.number(),
 	vehicleId: z.number(),
 	providerId: z.number(),

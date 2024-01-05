@@ -102,7 +102,7 @@ DELIMITER ;
 
 -- GET DELIVERIES
 DELIMITER $$
-CREATE PROCEDURE sp_get_deliveries(IN p_offset INT, IN p_limit INT, IN p_driver VARCHAR(50), IN p_provider VARCHAR(30), IN p_vehicle VARCHAR(30), IN p_day INT, IN p_month INT, IN p_year INT)
+CREATE PROCEDURE sp_get_deliveries(IN p_offset INT, IN p_limit INT, IN p_company_id INT, IN p_driver VARCHAR(50), IN p_provider VARCHAR(30), IN p_vehicle VARCHAR(30), IN p_day INT, IN p_month INT, IN p_year INT)
 BEGIN
     SELECT
         delivery_id,
@@ -122,6 +122,7 @@ BEGIN
         AND (p_day IS NULL OR DAY(first_pickup_date) = p_day)
         AND (p_month IS NULL OR MONTH(first_pickup_date) = p_month)
         AND (p_year IS NULL OR YEAR(first_pickup_date) = p_year)
+        AND (company_id = p_company_id)
     LIMIT p_limit 
     OFFSET p_offset;
 END $$
@@ -129,7 +130,7 @@ DELIMITER ;
 
 -- GET DELIVERIES COUNT
 DELIMITER $$
-CREATE PROCEDURE sp_get_deliveries_count(IN p_driver VARCHAR(50), IN p_provider VARCHAR(30), IN p_vehicle VARCHAR(30), IN p_day INT, IN p_month INT, IN p_year INT)
+CREATE PROCEDURE sp_get_deliveries_count(IN p_company_id INT, IN p_driver VARCHAR(50), IN p_provider VARCHAR(30), IN p_vehicle VARCHAR(30), IN p_day INT, IN p_month INT, IN p_year INT)
 BEGIN
     SELECT COUNT(*) AS total
     FROM view_deliveries_info
@@ -138,7 +139,8 @@ BEGIN
         AND (delivery_vehicle = p_vehicle OR p_vehicle IS NULL)
         AND (p_day IS NULL OR DAY(first_pickup_date) = p_day)
         AND (p_month IS NULL OR MONTH(first_pickup_date) = p_month)
-        AND (p_year IS NULL OR YEAR(first_pickup_date) = p_year);
+        AND (p_year IS NULL OR YEAR(first_pickup_date) = p_year)
+        AND (company_id = p_company_id);
 END $$
 DELIMITER ;
 

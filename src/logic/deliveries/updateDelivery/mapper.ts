@@ -19,7 +19,7 @@ export const updateDeliveryBodyMapper = (body: UpdateOneDeliveryBody) => {
 
     return [
         body.id,
-        body.companyId,
+        Number(body.companyId),
         body.driverId,
         body.vehicleId,
         body.providerId,

@@ -239,6 +239,31 @@ export interface paths {
         };
       };
     };
+    /** Creates a new client. */
+    post: {
+      /** @description Client object to be added to the list */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["ClientCreate"];
+        };
+      };
+      responses: {
+        /** @description Client created */
+        201: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
@@ -352,11 +377,6 @@ export interface components {
       companyId: number;
     };
     DeliveryCreate: {
-      /**
-       * @description The id of the company that does the delivery
-       * @example 1
-       */
-      companyId: number;
       /**
        * @description The id of the driver that does the delivery
        * @example 1
@@ -500,6 +520,63 @@ export interface components {
       email: string;
     };
     ClientsArray: components["schemas"]["Client"][];
+    ClientCreate: {
+      /**
+       * @description The name of the client
+       * @example Amazon
+       */
+      name: string;
+      /**
+       * @description The street number of the client
+       * @example 123
+       */
+      streetNumber: string;
+      /**
+       * @description The street of the client
+       * @example Main St
+       */
+      street: string;
+      /**
+       * @description The city of the client
+       * @example Paris
+       */
+      city: string;
+      /**
+       * @description The postal code of the client
+       * @example 75008
+       */
+      postalCode: string;
+      /**
+       * @description The country of the client
+       * @example France
+       */
+      country: string;
+      /**
+       * @description The comment of the client
+       * @example Derrière le hangar
+       */
+      comment?: string;
+      /**
+       * @description The active status of the client
+       * @example true
+       */
+      active: boolean;
+      /**
+       * @description The phone number of the client
+       * @example 33612345678
+       */
+      phone: string;
+      /**
+       * @description The email of the client
+       * @example example@mail.com
+       */
+      email: string;
+      /**
+       * @description The id of the company that owns the client
+       * @example 1
+       */
+      companyId: number;
+    };
   };
   responses: never;
   parameters: {

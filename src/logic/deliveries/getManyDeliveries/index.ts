@@ -15,11 +15,15 @@ import { DeliveriesArrayDB } from "@/lib/database/interfaces"
 
 export const getManyDeliveries = async (
 	req: GetManyDeliveriesRequest,
-	res: GetManyDeliveriesResponse,
+	res: GetManyDeliveriesResponse
 ) => {
+	const companyId = req.headers["company-id"]
+
+	const queryParams = { ...req.query, companyId }
+
 	const totalResult = await queryAsync(
 		getManyDeliveriesCountQuery,
-		getManyDeliveriesCountQueryMapper(req.query)
+		getManyDeliveriesCountQueryMapper(queryParams)
 	)
 
 	const total = totalResult[0][0].total as number
@@ -31,7 +35,7 @@ export const getManyDeliveries = async (
 
 	const dataResult = await queryAsync(
 		getManyDeliveriesQuery,
-		getManyDeliveriesQueryMapper(req.query)
+		getManyDeliveriesQueryMapper(queryParams)
 	)
 
 	const data = dataResult[0] as DeliveriesArrayDB

@@ -9,7 +9,11 @@ export const createDelivery = async (
 	req: CreateDeliveryRequest,
 	res: CreateDeliveryResponse
 ) => {
-	await queryAsync(createDeliveryQuery, createDeliveryBodyMapper(req.body))
+	const companyId = req.headers["company-id"]
+
+	const body = { ...req.body, companyId }
+
+	await queryAsync(createDeliveryQuery, createDeliveryBodyMapper(body))
 
 	res.status(201).send({ message: "Livraison créée avec succès"})
 }

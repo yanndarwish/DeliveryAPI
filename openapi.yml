@@ -237,7 +237,28 @@ paths:
           description: Bad request - validation error
         "500":
           description: Internal server error
-      
+    post:
+      summary: Creates a new client.
+      tags:
+        - "Clients"
+      requestBody:
+        description: Client object to be added to the list
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientCreate"
+      responses:
+        "201":
+          description: Client created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
 
 components:
   ############# PARAMETERS #################
@@ -392,10 +413,6 @@ components:
     DeliveryCreate:
       type: object
       properties:
-        companyId:
-          type: integer
-          description: The id of the company that does the delivery
-          example: 1
         driverId:
           type: integer
           description: The id of the driver that does the delivery
@@ -435,7 +452,6 @@ components:
           description: The id of the company that outsourced the delivery
           example: 2
       required:
-        - companyId
         - driverId
         - vehicleId
         - providerId
@@ -573,3 +589,60 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Client"
+    
+    # Client creation body schema
+    ClientCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the client
+          example: Amazon
+        streetNumber:
+          type: string
+          description: The street number of the client
+          example: 123
+        street:
+          type: string
+          description: The street of the client
+          example: Main St
+        city:
+          type: string
+          description: The city of the client
+          example: Paris
+        postalCode:
+          type: string
+          description: The postal code of the client
+          example: 75008
+        country:
+          type: string
+          description: The country of the client
+          example: France
+        comment:
+          type: string
+          description: The comment of the client
+          example: Derrière le hangar
+        active:
+          type: boolean
+          description: The active status of the client
+          example: true
+        phone:
+          type: string
+          description: The phone number of the client
+          example: +33612345678
+        email:
+          type: string
+          description: The email of the client
+          example: example@mail.com
+      required:
+        - name
+        - streetNumber
+        - street
+        - city
+        - postalCode
+        - country
+        - active
+        - phone
+        - email
+    
+

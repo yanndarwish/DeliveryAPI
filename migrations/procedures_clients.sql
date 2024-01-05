@@ -9,8 +9,9 @@ CREATE PROCEDURE sp_create_client(
     IN p_city VARCHAR(30),
     IN p_postal_code INT,
     IN p_country VARCHAR(30),
+    IN p_comment VARCHAR(100),
     IN p_active BOOLEAN,
-    IN p_phone VARCHAR(100),
+    IN p_phone VARCHAR(20),
     IN p_email VARCHAR(100),
     IN p_company_id INT
 )
@@ -32,7 +33,7 @@ BEGIN
 
     SET new_client_id = LAST_INSERT_ID();
 
-    CALL sp_create_address(p_street_number, p_street, p_city, p_postal_code, p_country, 'some comment', 'CLIENT', new_client_id);
+    CALL sp_create_address(p_street_number, p_street, p_city, p_postal_code, p_country, p_comment, 'CLIENT', new_client_id);
     CALL sp_create_phone('CLIENT', new_client_id, p_phone);
     CALL sp_create_email('CLIENT', new_client_id, p_email);
 END $$

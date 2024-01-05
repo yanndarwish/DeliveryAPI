@@ -1,6 +1,6 @@
-import { CreateDeliveryBody } from "@/api/interfaces"
+import { CreateDeliveryBodyRaw } from "./interfaces"
 
-export const createDeliveryBodyMapper = (body: CreateDeliveryBody) => {
+export const createDeliveryBodyMapper = (body: CreateDeliveryBodyRaw) => {
 	const pickups = body.pickups.map((pickup) => {
 		return {
 			date: pickup.date,
@@ -18,7 +18,7 @@ export const createDeliveryBodyMapper = (body: CreateDeliveryBody) => {
 	})
 
 	return [
-		body.companyId,
+		Number(body.companyId),
 		body.driverId,
 		body.vehicleId,
 		body.providerId,
