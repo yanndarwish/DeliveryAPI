@@ -1,10 +1,6 @@
 import { z } from "zod"
 
 // COMMON
-export const headerSchema = z.object({
-	"company-id": z.string().min(1),
-})
-
 const pickupSchema = z.object({
 	date: z.string(),
 	entityId: z.number(),

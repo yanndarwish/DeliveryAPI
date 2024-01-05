@@ -1,3 +1,3 @@
-export const getManyClientsQuery = "CALL sp_get_clients(?, ?, ?, ?, ?, ?, ?)";
+export const getManyClientsQuery = "CALL sp_get_clients(?, ?, ?, ?, ?, ?, ?, ?)";
 
-export const getManyClientsCountQuery = "CALL sp_get_clients_count(?, ?, ?, ?, ?)";
+export const getManyClientsCountQuery = "CALL sp_get_clients_count(?, ?, ?, ?, ?, ?)";

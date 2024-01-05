@@ -11,7 +11,6 @@ import {
 } from "@/logic/deliveries"
 
 import {
-	headerSchema,
 	getManyDeliveriesQuerySchema,
 	createDeliveryBodySchema,
 	getOneDeliveryParamsSchema,
@@ -19,6 +18,8 @@ import {
 	updateOneDeliveryBodySchema,
 	deleteOneDeliveryParamsSchema,
 } from "./validation"
+
+import { headerSchema } from "../validation"
 
 const deliveriesController = Router()
 

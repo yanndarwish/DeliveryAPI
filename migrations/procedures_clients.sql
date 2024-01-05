@@ -72,7 +72,7 @@ BEGIN
         AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
         AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
         AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
-        AND (ci.company_id = p_company_id OR p_company_id IS NULL)
+        AND ci.company_id = p_company_id
         LIMIT p_limit
         OFFSET p_offset;
     -- IF status is inactive
@@ -95,7 +95,7 @@ BEGIN
         AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
         AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
         AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
-        AND (ci.company_id = p_company_id OR p_company_id IS NULL)
+        AND ci.company_id = p_company_id
         LIMIT p_limit
         OFFSET p_offset;
     -- IF status is all
@@ -117,7 +117,7 @@ BEGIN
         AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
         AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
         AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
-        AND (ci.company_id = p_company_id OR p_company_id IS NULL)
+        AND ci.company_id = p_company_id
         LIMIT p_limit
         OFFSET p_offset;
     END IF;
@@ -144,7 +144,7 @@ BEGIN
         AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
         AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
         AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
-        AND (ci.company_id = p_company_id OR p_company_id IS NULL);
+        AND ci.company_id = p_company_id;
     -- IF status is inactive
     ELSEIF p_status = 'INACTIVE' THEN
         SELECT COUNT(*) AS total
@@ -154,7 +154,7 @@ BEGIN
         AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
         AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
         AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
-        AND (ci.company_id = p_company_id OR p_company_id IS NULL);
+        AND ci.company_id = p_company_id;
     -- IF status is all
     ELSE
         SELECT COUNT(*) AS total
@@ -163,7 +163,7 @@ BEGIN
         AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
         AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
         AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
-        AND (ci.company_id = p_company_id OR p_company_id IS NULL);
+        AND ci.company_id = p_company_id;
     END IF;
 END $$
 DELIMITER ;

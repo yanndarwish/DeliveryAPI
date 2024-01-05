@@ -17,9 +17,11 @@ export const getManyClients = async (
     req: GetManyClientsRequest,
     res: GetManyClientsResponse
 ) => {
+    const companyId = req.headers["company-id"] as string;
+
     const totalResult = await queryAsync(
         getManyClientsCountQuery,
-        getManyClientsCountQueryMapper(req.query)
+        getManyClientsCountQueryMapper(req.query, companyId)
     );
 
     const total = totalResult[0][0].total as number;
@@ -31,7 +33,7 @@ export const getManyClients = async (
 
     const dataResult = await queryAsync(
         getManyClientsQuery,
-        getManyClientsQueryMapper(req.query)
+        getManyClientsQueryMapper(req.query, companyId)
     );
 
     const data = dataResult[0] as ClientsArrayDB;
