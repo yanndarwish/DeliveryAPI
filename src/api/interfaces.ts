@@ -20,8 +20,9 @@ export interface TypedResponse<T> extends Express.Response {
     status: (code: number) => TypedResponse<T>
     send: (body: T) => TypedResponse<T>
 }
-
+// ================================================================
 // ============================ COMMON ============================
+// ================================================================
 
 export interface Pagination {
 	currentPage: number
@@ -38,7 +39,11 @@ export interface ListResponseObject {
     pagination: Pagination
 }
 
+// ================================================================
 // ============================ METIER ============================
+// ================================================================
+
+// ========================== DELIVERIES ==========================
 
 // GET MANY DELIVERIES
 export type GetManyDeliveriesQuery = paths["/deliveries"]["get"]["parameters"]["query"]
@@ -77,7 +82,19 @@ type DeleteOneDeliveryResponseObject = paths["/deliveries/{id}"]["delete"]["resp
 export type DeleteOneDeliveryRequest = TypedRequest<never, never, DeleteOneDeliveryParams>
 export type DeleteOneDeliveryResponse = TypedResponse<DeleteOneDeliveryResponseObject>
 
+// =========================== CLIENTS ============================
+
+// GET MANY CLIENTS
+export type GetManyClientsQuery = paths["/clients"]["get"]["parameters"]["query"]
+export type ClientsArray = paths["/clients"]["get"]["responses"][200]["content"]["application/json"]["data"]
+type GetManyClientsResponseObject = paths["/clients"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetManyClientsRequest = TypedRequest<GetManyClientsQuery, never, never>
+export type GetManyClientsResponse = TypedResponse<GetManyClientsResponseObject>
+
+// ================================================================
 // ========================== COMPONENTS ==========================
+// ================================================================
 
 export type Pickup = components["schemas"]["Pickup"]
 export type PickupCreate = components["schemas"]["PickupCreate"]

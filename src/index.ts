@@ -1,15 +1,21 @@
-import cors from "cors"
-import express from "express"
 import "express-async-errors"
+import express from "express"
+import cors from "cors"
+
 import { config } from "@/config"
-import { ExceptionsHandler } from "@/middlewares/exceptions.handler"
-import { UnknownRoutesHandler } from "@/middlewares/unknownRoutes.handler"
-import { deliveriesController } from "@/api/deliveries/controller"
+
 import { database } from "@/lib/database"
+
+import { UnknownRoutesHandler } from "@/middlewares/unknownRoutes.handler"
+import { ExceptionsHandler } from "@/middlewares/exceptions.handler"
 import { logRequest } from "@/middlewares/requestLog"
+
+import { deliveriesController } from "@/api/deliveries/controller"
+import { clientsController } from "@/api/clients/controller"
 
 const app = express()
 app.use(logRequest)
+
 database.connect((err: any) => {
 	if (err) {
 		console.error(err)
@@ -23,6 +29,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use("/deliveries", deliveriesController)
+app.use("/clients", clientsController)
 
 /**
  * Homepage (uniquement necessaire pour cette demo)

@@ -29,7 +29,7 @@ CREATE PROCEDURE sp_get_tour_members(
     OUT tour_members JSON
 )
 BEGIN
-    IF p_status = 'active' THEN
+    IF p_status = 'ACTIVE' THEN
     SET tour_members = (
         SELECT JSON_ARRAYAGG(
             JSON_OBJECT(
@@ -44,7 +44,7 @@ BEGIN
         WHERE tour_member_active = TRUE
         AND company_id = p_company_id
     );
-    ELSEIF p_status = 'inactive' THEN
+    ELSEIF p_status = 'INACTIVE' THEN
     SET tour_members = (
         SELECT JSON_ARRAYAGG(
             JSON_OBJECT(
@@ -86,7 +86,7 @@ CREATE PROCEDURE sp_get_tour_members_info(
     IN p_limit INT
 )
 BEGIN
-    IF p_status = 'active' THEN
+    IF p_status = 'ACTIVE' THEN
     SELECT
         tour_member_id,
         company_id,
@@ -105,7 +105,7 @@ BEGIN
     AND company_id = p_company_id
     LIMIT p_limit 
     OFFSET p_offset;
-    ELSEIF p_status = 'inactive' THEN
+    ELSEIF p_status = 'INACTIVE' THEN
     SELECT
         tour_member_id,
         company_id,

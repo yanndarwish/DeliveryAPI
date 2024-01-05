@@ -40,23 +40,130 @@ DELIMITER ;
 
 -- GET CLIENTS
 DELIMITER $$
-CREATE PROCEDURE sp_get_clients(IN p_offset INT, IN p_limit INT)
+CREATE PROCEDURE sp_get_clients(
+    IN p_offset INT,
+    IN p_limit INT,
+    IN p_status VARCHAR(10),
+    IN p_name VARCHAR(30),
+    IN p_city VARCHAR(30),
+    IN p_postal_code INT,
+    IN p_country VARCHAR(30),
+    IN p_company_id INT
+)
 BEGIN
-    SELECT 
-        ci.client_id,
-        ci.client_name,
-        ci.address_street_number,
-        ci.address_street,
-        ci.address_city,
-        ci.address_postal_code,
-        ci.address_country,
-        ci.address_comment,
-        ci.client_active,
-        ci.phone,
-        ci.email
-    FROM view_clients_info ci
-    LIMIT p_limit 
-    OFFSET p_offset;
+    -- IF status is active
+    IF p_status = 'ACTIVE' THEN
+        SELECT 
+            ci.client_id,
+            ci.client_name,
+            ci.address_street_number,
+            ci.address_street,
+            ci.address_city,
+            ci.address_postal_code,
+            ci.address_country,
+            ci.address_comment,
+            ci.client_active,
+            ci.phone,
+            ci.email
+        FROM view_clients_info ci
+        WHERE ci.client_active = TRUE
+        AND (ci.client_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND (ci.company_id = p_company_id OR p_company_id IS NULL)
+        LIMIT p_limit
+        OFFSET p_offset;
+    -- IF status is inactive
+    ELSEIF p_status = 'INACTIVE' THEN
+        SELECT 
+            ci.client_id,
+            ci.client_name,
+            ci.address_street_number,
+            ci.address_street,
+            ci.address_city,
+            ci.address_postal_code,
+            ci.address_country,
+            ci.address_comment,
+            ci.client_active,
+            ci.phone,
+            ci.email
+        FROM view_clients_info ci
+        WHERE ci.client_active = FALSE
+        AND (ci.client_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND (ci.company_id = p_company_id OR p_company_id IS NULL)
+        LIMIT p_limit
+        OFFSET p_offset;
+    -- IF status is all
+    ELSE
+        SELECT 
+            ci.client_id,
+            ci.client_name,
+            ci.address_street_number,
+            ci.address_street,
+            ci.address_city,
+            ci.address_postal_code,
+            ci.address_country,
+            ci.address_comment,
+            ci.client_active,
+            ci.phone,
+            ci.email
+        FROM view_clients_info ci
+        WHERE (ci.client_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND (ci.company_id = p_company_id OR p_company_id IS NULL)
+        LIMIT p_limit
+        OFFSET p_offset;
+    END IF;
+END $$
+DELIMITER ;
+
+-- GET CLIENTS COUNT
+DELIMITER $$
+CREATE PROCEDURE sp_get_clients_count(
+    IN p_status VARCHAR(10),
+    IN p_name VARCHAR(30),
+    IN p_city VARCHAR(30),
+    IN p_postal_code INT,
+    IN p_country VARCHAR(30),
+    IN p_company_id INT
+)
+BEGIN
+    -- IF status is active
+    IF p_status = 'ACTIVE' THEN
+        SELECT COUNT(*) AS total
+        FROM view_clients_info ci
+        WHERE ci.client_active = TRUE
+        AND (ci.client_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND (ci.company_id = p_company_id OR p_company_id IS NULL);
+    -- IF status is inactive
+    ELSEIF p_status = 'INACTIVE' THEN
+        SELECT COUNT(*) AS total
+        FROM view_clients_info ci
+        WHERE ci.client_active = FALSE
+        AND (ci.client_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND (ci.company_id = p_company_id OR p_company_id IS NULL);
+    -- IF status is all
+    ELSE
+        SELECT COUNT(*) AS total
+        FROM view_clients_info ci
+        WHERE (ci.client_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ci.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ci.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ci.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND (ci.company_id = p_company_id OR p_company_id IS NULL);
+    END IF;
 END $$
 DELIMITER ;
 
@@ -76,7 +183,7 @@ BEGIN
         ci.client_active,
         ci.phone,
         ci.email
-    FROM clients_info ci
+    FROM view_clients_info ci
     WHERE ci.client_id = p_client_id;
 END $$
 DELIMITER ;

@@ -57,14 +57,14 @@ CREATE PROCEDURE sp_get_tours(
     IN p_company_id INT
 )
 BEGIN
-    IF p_status = 'active' THEN
+    IF p_status = 'ACTIVE' THEN
         SELECT
             tour_id,
             tour_name,
             tour_active,
             company_id
         FROM tours WHERE tour_active = TRUE AND company_id = p_company_id;
-    ELSEIF p_status = 'inactive' THEN
+    ELSEIF p_status = 'INACTIVE' THEN
         SELECT
             tour_id,
             tour_name,

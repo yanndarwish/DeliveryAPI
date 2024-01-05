@@ -185,6 +185,61 @@ export interface paths {
       };
     };
   };
+  "/clients": {
+    /** Returns a list of clients. */
+    get: {
+      parameters: {
+        query: {
+          offset: components["parameters"]["OffsetParam"];
+          limit: components["parameters"]["LimitParam"];
+          /**
+           * @description Filter by client active status
+           * @example ACTIVE
+           */
+          status?: components["schemas"]["ActiveStatus"];
+          /**
+           * @description Filter by client name
+           * @example Amazon
+           */
+          name?: string;
+          /**
+           * @description Filter by city name
+           * @example Paris
+           */
+          city?: string;
+          /**
+           * @description Filter by postal code
+           * @example 75008
+           */
+          postalCode?: string;
+          /**
+           * @description Filter by country
+           * @example France
+           */
+          country?: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of user names */
+        200: {
+          content: {
+            "application/json": {
+              data: components["schemas"]["ClientsArray"];
+              pagination: components["schemas"]["Pagination"];
+            };
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -207,6 +262,16 @@ export interface components {
       /** @example 89 */
       totalItems?: number;
     };
+    /**
+     * @description The type of the entity (in UPPERCASE)
+     * @enum {string}
+     */
+    PickupEntities: "CLIENT" | "RELAY";
+    /**
+     * @description The active status of the entity (in UPPERCASE)
+     * @enum {string}
+     */
+    ActiveStatus: "ACTIVE" | "INACTIVE";
     Delivery: {
       /**
        * @description The id of the delivery
@@ -377,11 +442,64 @@ export interface components {
       entityId?: number;
       entityType?: components["schemas"]["PickupEntities"];
     };
-    /**
-     * @description The type of the entity (in UPPERCASE)
-     * @enum {string}
-     */
-    PickupEntities: "CLIENT" | "RELAY";
+    Client: {
+      /**
+       * @description The id of the client
+       * @example 1
+       */
+      id: number;
+      /**
+       * @description The name of the client
+       * @example Amazon
+       */
+      name: string;
+      /**
+       * @description The street number of the client
+       * @example 123
+       */
+      streetNumber: string;
+      /**
+       * @description The street of the client
+       * @example Main St
+       */
+      street: string;
+      /**
+       * @description The city of the client
+       * @example Paris
+       */
+      city: string;
+      /**
+       * @description The postal code of the client
+       * @example 75008
+       */
+      postalCode: string;
+      /**
+       * @description The country of the client
+       * @example France
+       */
+      country: string;
+      /**
+       * @description The comment of the client
+       * @example Derrière le hangar
+       */
+      comment?: string;
+      /**
+       * @description The active status of the client
+       * @example true
+       */
+      active: boolean;
+      /**
+       * @description The phone number of the client
+       * @example 33612345678
+       */
+      phone: string;
+      /**
+       * @description The email of the client
+       * @example example@mail.com
+       */
+      email: string;
+    };
+    ClientsArray: components["schemas"]["Client"][];
   };
   responses: never;
   parameters: {
