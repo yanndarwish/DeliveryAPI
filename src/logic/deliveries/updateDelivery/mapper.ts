@@ -1,6 +1,6 @@
 import { UpdateOneDeliveryBody } from "./interface"
 
-export const updateDeliveryBodyMapper = (body: UpdateOneDeliveryBody) => {
+export const updateDeliveryBodyMapper = (body: UpdateOneDeliveryBody, companyId: string) => {
     const pickups = body.pickups.map((pickup) => {
         return {
             date: pickup.date,
@@ -19,7 +19,7 @@ export const updateDeliveryBodyMapper = (body: UpdateOneDeliveryBody) => {
 
     return [
         body.id,
-        Number(body.companyId),
+        Number(companyId),
         body.driverId,
         body.vehicleId,
         body.providerId,

@@ -45,6 +45,7 @@ deliveriesController.get(
 
 deliveriesController.put(
 	"/:id",
+	Validator(headerSchema, "headers"),
 	Validator(updateOneDeliveryParamsSchema, "params"),
 	Validator(updateOneDeliveryBodySchema, "body"),
 	updateDelivery

@@ -17,13 +17,11 @@ export const getManyDeliveries = async (
 	req: GetManyDeliveriesRequest,
 	res: GetManyDeliveriesResponse
 ) => {
-	const companyId = req.headers["company-id"]
-
-	const queryParams = { ...req.query, companyId }
+	const companyId = req.headers["company-id"] as string;
 
 	const totalResult = await queryAsync(
 		getManyDeliveriesCountQuery,
-		getManyDeliveriesCountQueryMapper(queryParams)
+		getManyDeliveriesCountQueryMapper(req.query, companyId)
 	)
 
 	const total = totalResult[0][0].total as number
@@ -35,7 +33,7 @@ export const getManyDeliveries = async (
 
 	const dataResult = await queryAsync(
 		getManyDeliveriesQuery,
-		getManyDeliveriesQueryMapper(queryParams)
+		getManyDeliveriesQueryMapper(req.query, companyId)
 	)
 
 	const data = dataResult[0] as DeliveriesArrayDB

@@ -13,7 +13,7 @@ export const updateDelivery = async (
 	req: UpdateOneDeliveryRequest,
 	res: UpdateOneDeliveryResponse
 ) => {
-	const companyId = req.headers["company-id"]
+	const companyId = req.headers["company-id"] as string
 	const { id } = req.params
 
 	// check that delivery exists
@@ -25,9 +25,12 @@ export const updateDelivery = async (
 		)
 	}
 
-	const body = { ...req.body, id: Number(id), companyId }
+	const body = { ...req.body, id: Number(id) }
 
-	await queryAsync(updateDeliveryQuery, updateDeliveryBodyMapper(body))
+	await queryAsync(
+		updateDeliveryQuery,
+		updateDeliveryBodyMapper(body, companyId)
+	)
 
 	res
 		.status(200)
