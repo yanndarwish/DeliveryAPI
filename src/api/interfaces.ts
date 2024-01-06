@@ -187,6 +187,19 @@ export type DeleteOneClientRequest = TypedRequest<
 export type DeleteOneClientResponse =
 	TypedResponse<DeleteOneClientResponseObject>
 
+// =========================== RELAYS =============================
+
+// GET MANY RELAYS
+export type GetManyRelaysQuery =
+	paths["/relays"]["get"]["parameters"]["query"]
+export type RelaysArray =
+	paths["/relays"]["get"]["responses"][200]["content"]["application/json"]["data"]
+type GetManyRelaysResponseObject =
+	paths["/relays"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetManyRelaysRequest = TypedRequest<GetManyRelaysQuery, never, never>
+export type GetManyRelaysResponse = TypedResponse<GetManyRelaysResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

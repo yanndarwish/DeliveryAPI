@@ -36,21 +36,124 @@ DELIMITER ;
 
 -- GET RELAYS
 DELIMITER $$
-CREATE PROCEDURE sp_get_relays(IN p_offset INT, IN p_limit INT)
+CREATE PROCEDURE sp_get_relays(
+    IN p_offset INT,
+    IN p_limit INT,
+    IN p_status VARCHAR(10),
+    IN p_name VARCHAR(30),
+    IN p_city VARCHAR(30),
+    IN p_postal_code INT,
+    IN p_country VARCHAR(30),
+    IN p_company_id INT
+)
 BEGIN
-    SELECT 
-        ci.relay_id,
-        ci.relay_name,
-        ci.address_street_number,
-        ci.address_street,
-        ci.address_city,
-        ci.address_postal_code,
-        ci.address_country,
-        ci.address_comment,
-        ci.relay_active
-    FROM view_relays_info ci
-    LIMIT p_limit 
-    OFFSET p_offset;
+    -- If status is active
+    IF p_status = 'ACTIVE' THEN
+        SELECT 
+            ri.relay_id,
+            ri.relay_name,
+            ri.address_street_number,
+            ri.address_street,
+            ri.address_city,
+            ri.address_postal_code,
+            ri.address_country,
+            ri.address_comment,
+            ri.relay_active
+        FROM view_relays_info ri
+        WHERE ri.relay_active = TRUE
+        AND (ri.relay_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ri.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ri.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ri.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND ri.company_id = p_company_id
+        LIMIT p_limit
+        OFFSET p_offset;
+    -- If status is inactive
+    ELSEIF p_status = 'INACTIVE' THEN
+        SELECT 
+            ri.relay_id,
+            ri.relay_name,
+            ri.address_street_number,
+            ri.address_street,
+            ri.address_city,
+            ri.address_postal_code,
+            ri.address_country,
+            ri.address_comment,
+            ri.relay_active
+        FROM view_relays_info ri
+        WHERE ri.relay_active = FALSE
+        AND (ri.relay_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ri.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ri.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ri.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND ri.company_id = p_company_id
+        LIMIT p_limit
+        OFFSET p_offset;
+    -- If status is all
+    ELSE
+        SELECT 
+            ri.relay_id,
+            ri.relay_name,
+            ri.address_street_number,
+            ri.address_street,
+            ri.address_city,
+            ri.address_postal_code,
+            ri.address_country,
+            ri.address_comment,
+            ri.relay_active
+        FROM view_relays_info ri
+        WHERE (ri.relay_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ri.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ri.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ri.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND ri.company_id = p_company_id
+        LIMIT p_limit
+        OFFSET p_offset;
+    END IF;
+END $$
+DELIMITER ;
+
+-- GET RELAYS COUNT
+DELIMITER $$
+CREATE PROCEDURE sp_get_relays_count(
+    IN p_status VARCHAR(10),
+    IN p_name VARCHAR(30),
+    IN p_city VARCHAR(30),
+    IN p_postal_code INT,
+    IN p_country VARCHAR(30),
+    IN p_company_id INT
+)
+BEGIN
+    -- If status is active
+    IF p_status = 'ACTIVE' THEN
+        SELECT COUNT(*) AS total
+        FROM view_relays_info ri
+        WHERE ri.relay_active = TRUE
+        AND (ri.relay_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ri.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ri.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ri.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND ri.company_id = p_company_id;
+    -- If status is inactive
+    ELSEIF p_status = 'INACTIVE' THEN
+        SELECT COUNT(*) AS total
+        FROM view_relays_info ri
+        WHERE ri.relay_active = FALSE
+        AND (ri.relay_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ri.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ri.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ri.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND ri.company_id = p_company_id;
+    -- If status is all
+    ELSE
+        SELECT COUNT(*) AS total
+        FROM view_relays_info ri
+        WHERE (ri.relay_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND (ri.address_city LIKE CONCAT('%', p_city, '%') OR p_city IS NULL)
+        AND (ri.address_postal_code LIKE CONCAT('%', p_postal_code, '%') OR p_postal_code IS NULL)
+        AND (ri.address_country LIKE CONCAT('%', p_country, '%') OR p_country IS NULL)
+        AND ri.company_id = p_company_id;
+    END IF;
 END $$
 DELIMITER ;
 

@@ -41,7 +41,31 @@
 
 - Tests
 
+### DELETE Delete Client
+
+- Tests
+
 ## RELAYS
+
+### GET Get Many Relays
+
+- Tests
+
+### POST Create Relay
+
+- Tests
+
+### GET Get Relay
+
+- Tests
+
+### PUT Update Relay
+
+- Tests
+
+### DELETE Delete Relay
+
+- Tests
 
 ## COMPANIES
 

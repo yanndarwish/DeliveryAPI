@@ -12,6 +12,7 @@ import { logRequest } from "@/middlewares/requestLog"
 
 import { deliveriesController } from "@/api/deliveries/controller"
 import { clientsController } from "@/api/clients/controller"
+import { relaysController } from "./api/relays/controller"
 
 const app = express()
 app.use(logRequest)
@@ -30,6 +31,7 @@ app.use(cors())
 
 app.use("/deliveries", deliveriesController)
 app.use("/clients", clientsController)
+app.use("/relays", relaysController)
 
 /**
  * Homepage (uniquement necessaire pour cette demo)

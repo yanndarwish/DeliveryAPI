@@ -360,6 +360,61 @@ export interface paths {
       };
     };
   };
+  "/relays": {
+    /** Returns a list of relays. */
+    get: {
+      parameters: {
+        query: {
+          offset: components["parameters"]["OffsetParam"];
+          limit: components["parameters"]["LimitParam"];
+          /**
+           * @description Filter by relay active status
+           * @example ACTIVE
+           */
+          status?: components["schemas"]["ActiveStatus"];
+          /**
+           * @description Filter by relay name
+           * @example Amazon
+           */
+          name?: string;
+          /**
+           * @description Filter by city name
+           * @example Paris
+           */
+          city?: string;
+          /**
+           * @description Filter by postal code
+           * @example 75008
+           */
+          postalCode?: string;
+          /**
+           * @description Filter by country
+           * @example France
+           */
+          country?: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of user names */
+        200: {
+          content: {
+            "application/json": {
+              data: components["schemas"]["RelaysArray"];
+              pagination: components["schemas"]["Pagination"];
+            };
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -526,28 +581,28 @@ export interface components {
       date: string;
       infos: {
         /** @example 1 */
-        id?: number;
+        id: number;
         /** @example Amazon */
-        name?: string;
+        name: string;
         /** @example 123 */
-        streetNumber?: number;
+        streetNumber: number;
         /** @example Main St */
-        street?: string;
+        street: string;
         /** @example Paris */
-        city?: string;
+        city: string;
         /** @example 75008 */
-        postalCode?: string;
+        postalCode: string;
         /** @example France */
-        country?: string;
+        country: string;
         /** @example Derrière le hangar */
-        comment?: string;
+        comment: string;
         /** @example true */
-        active?: boolean;
+        active: boolean;
         /**
          * @description The type of the entity (in UPPERCASE)
          * @example CLIENT
          */
-        type?: string;
+        type: string;
       };
     };
     PickupCreate: {
@@ -667,6 +722,54 @@ export interface components {
        */
       email?: string;
     };
+    Relay: {
+      /**
+       * @description The id of the relay
+       * @example 1
+       */
+      id: number;
+      /**
+       * @description The name of the relay
+       * @example Amazon
+       */
+      name: string;
+      /**
+       * @description The street number of the relay
+       * @example 123
+       */
+      streetNumber: string;
+      /**
+       * @description The street of the relay
+       * @example Main St
+       */
+      street: string;
+      /**
+       * @description The city of the relay
+       * @example Paris
+       */
+      city: string;
+      /**
+       * @description The postal code of the relay
+       * @example 75008
+       */
+      postalCode: string;
+      /**
+       * @description The country of the relay
+       * @example France
+       */
+      country: string;
+      /**
+       * @description The comment of the relay
+       * @example Derrière le hangar
+       */
+      comment: string;
+      /**
+       * @description The active status of the relay
+       * @example true
+       */
+      active: boolean;
+    };
+    RelaysArray: components["schemas"]["Relay"][];
   };
   responses: never;
   parameters: {

@@ -29,3 +29,18 @@ export type ClientDB = {
 }
 
 export type ClientsArrayDB = ClientDB[]
+
+// ========================== RELAYS ===========================
+export type RelayDB = {
+	relay_id: number
+	relay_name: string
+	address_street_number: string
+	address_street: string
+	address_city: string
+	address_postal_code: string
+	address_country: string
+	address_comment: string
+	relay_active: boolean
+}
+
+export type RelaysArrayDB = RelayDB[]
