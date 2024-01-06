@@ -30,6 +30,6 @@ export const deleteOneDeliveryById = async (
 	await queryAsync(deleteOneDeliveryQuery, [id, Number(companyId)])
 
 	res.send({
-		message: `La livraison avec l'identifiant ${id} a bien été supprimée`,
+		message: `La livraison avec l'identifiant ${id} a été supprimée avec succès`,
 	})
 }

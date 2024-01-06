@@ -56,3 +56,10 @@ export const updateOneClientBodySchema = z.object({
 
 export type UpdateOneClientParams = z.infer<typeof updateOneClientParamsSchema>
 export type UpdateOneClientBody = z.infer<typeof updateOneClientBodySchema>
+
+// DELETE ONE CLIENT BY ID
+export const deleteOneClientParamsSchema = z.object({
+	id: z.string().refine((value) => Number(value) > 0),
+})
+
+export type DeleteOneClientParams = z.infer<typeof deleteOneClientParamsSchema>

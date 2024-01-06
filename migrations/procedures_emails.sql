@@ -41,9 +41,9 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_delete_email(
     IN p_entity_type VARCHAR(30),
-    IN p_email_id INT
+    IN p_entity_id INT
 )
 BEGIN
-    DELETE FROM emails WHERE entity_type = p_entity_type AND email_id = p_email_id;
+    DELETE FROM emails WHERE entity_type = p_entity_type AND entity_id = p_entity_id;
 END $$
 DELIMITER ;

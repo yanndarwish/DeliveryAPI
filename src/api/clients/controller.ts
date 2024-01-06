@@ -2,7 +2,13 @@ import { Router } from "express"
 
 import { Validator } from "@/middlewares/validation"
 
-import { getManyClients, createClient, getOneClientById, updateClient } from "@/logic/clients"
+import {
+	getManyClients,
+	createClient,
+	getOneClientById,
+	updateClient,
+	deleteOneClientById,
+} from "@/logic/clients"
 
 import {
 	getManyClientsQuerySchema,
@@ -10,6 +16,7 @@ import {
 	getOneClientParamsSchema,
 	updateOneClientParamsSchema,
 	updateOneClientBodySchema,
+	deleteOneClientParamsSchema,
 } from "./validation"
 
 import { headerSchema } from "../validation"
@@ -31,10 +38,10 @@ clientsController.post(
 )
 
 clientsController.get(
-    "/:id",
-    Validator(headerSchema, "headers"),
-    Validator(getOneClientParamsSchema, "params"),
-    getOneClientById
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(getOneClientParamsSchema, "params"),
+	getOneClientById
 )
 
 clientsController.put(
@@ -43,6 +50,13 @@ clientsController.put(
 	Validator(updateOneClientParamsSchema, "params"),
 	Validator(updateOneClientBodySchema, "body"),
 	updateClient
+)
+
+clientsController.delete(
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(deleteOneClientParamsSchema, "params"),
+	deleteOneClientById
 )
 
 export { clientsController }

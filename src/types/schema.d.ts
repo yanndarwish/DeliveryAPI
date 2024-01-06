@@ -330,6 +330,35 @@ export interface paths {
         };
       };
     };
+    /** Deletes a client by id. */
+    delete: {
+      parameters: {
+        path: {
+          /** @description The id of the client to delete */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description Client deleted */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Client not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 

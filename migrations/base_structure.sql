@@ -84,7 +84,6 @@ CREATE TABLE IF NOT EXISTS tours_members (
     tour_member_active BOOLEAN DEFAULT TRUE,
     company_id INTEGER,
     FOREIGN KEY (tour_id) REFERENCES tours(tour_id),
-    FOREIGN KEY (client_id) REFERENCES clients(client_id),
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 ) ENGINE=InnoDB;
 
@@ -102,7 +101,6 @@ CREATE TABLE IF NOT EXISTS tours_history (
     company_id INTEGER,
     FOREIGN KEY (tour_history_operation) REFERENCES tours_operations(tour_operation_name),
     FOREIGN KEY (tour_id) REFERENCES tours(tour_id),
-    FOREIGN KEY (client_id) REFERENCES clients(client_id),
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 ) ENGINE=InnoDB;
 

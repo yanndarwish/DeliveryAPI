@@ -319,6 +319,31 @@ paths:
         "500":
           description: Internal server error
 
+    delete:
+      summary: Deletes a client by id.
+      tags:
+        - "Clients"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the client to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "200": # status code
+          description: Client deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Client not found
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:

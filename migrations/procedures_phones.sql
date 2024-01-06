@@ -41,9 +41,9 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_delete_phone(
     IN p_entity_type VARCHAR(30),
-    IN p_phone_id INT
+    IN p_entity_id INT
 )
 BEGIN
-    DELETE FROM phones WHERE entity_type = p_entity_type AND phone_id = p_phone_id;
+    DELETE FROM phones WHERE entity_type = p_entity_type AND entity_id = p_entity_id;
 END $$
 DELIMITER ;

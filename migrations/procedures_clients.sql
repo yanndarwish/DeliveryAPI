@@ -235,12 +235,12 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_delete_client(IN p_client_id INT)
 BEGIN
-    DECLARE existing_address_id INT;
-    SELECT client_address INTO existing_address_id FROM clients WHERE client_id = p_client_id;
+    SET @address_id = (SELECT address_id FROM addresses WHERE entity_id = p_client_id AND entity_type = 'CLIENT');
 
-    DELETE FROM clients WHERE client_id = p_client_id;
+    DELETE FROM clients 
+    WHERE client_id = p_client_id;
 
-    CALL sp_delete_address(existing_address_id);
+    CALL sp_delete_address(@address_id);
     CALL sp_delete_phone('CLIENT', p_client_id);
     CALL sp_delete_email('CLIENT', p_client_id);
 END $$

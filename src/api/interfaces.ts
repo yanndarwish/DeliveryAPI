@@ -173,6 +173,20 @@ export type UpdateOneClientRequest = TypedRequest<
 export type UpdateOneClientResponse =
 	TypedResponse<UpdateOneClientResponseObject>
 
+// DELETE ONE CLIENT BY ID
+export type DeleteOneClientParams =
+	paths["/clients/{id}"]["delete"]["parameters"]["path"]
+type DeleteOneClientResponseObject =
+	paths["/clients/{id}"]["delete"]["responses"][200]["content"]["application/json"]
+
+export type DeleteOneClientRequest = TypedRequest<
+	never,
+	never,
+	DeleteOneClientParams
+>
+export type DeleteOneClientResponse =
+	TypedResponse<DeleteOneClientResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

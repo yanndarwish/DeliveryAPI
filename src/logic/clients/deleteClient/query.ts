@@ -1,0 +1,1 @@
+export const deleteOneClientQuery = "CALL sp_delete_client(?)";
