@@ -2,18 +2,18 @@ import { z } from "zod"
 
 // COMMON
 const pickupSchema = z.object({
-	date: z.string(),
+	date: z.string().min(1),
 	entityId: z.number(),
 	entityType: z.enum(["CLIENT", "RELAY"]),
 })
 
 // GET MANY DELIVERIES
 export const getManyDeliveriesQuerySchema = z.object({
-	limit: z.string(),
-	offset: z.string(),
-	driver: z.string().nullable().optional(),
-	provider: z.string().nullable().optional(),
-	vehicle: z.string().nullable().optional(),
+	limit: z.string().min(1),
+	offset: z.string().min(1),
+	driver: z.string().min(3).nullable().optional(),
+	provider: z.string().min(3).nullable().optional(),
+	vehicle: z.string().min(3).nullable().optional(),
 	day: z.string().nullable().optional(),
 	month: z.string().nullable().optional(),
 	year: z.string().nullable().optional(),
@@ -31,7 +31,7 @@ export const createDeliveryBodySchema = z.object({
 	hotelPrice: z.number().nullable().optional(),
 	pickups: pickupSchema.array().min(1),
 	dropoffs: pickupSchema.array().min(1),
-	outsourcedTo: z.string().nullable().optional(),
+	outsourcedTo: z.number().nullable().optional(),
 })
 
 export type CreateDeliveryBody = z.infer<typeof createDeliveryBodySchema>
@@ -57,7 +57,7 @@ export const updateOneDeliveryBodySchema = z.object({
 	hotelPrice: z.number().nullable().optional(),
 	pickups: pickupSchema.array().min(1),
 	dropoffs: pickupSchema.array().min(1),
-	outsourcedTo: z.string().nullable().optional(),
+	outsourcedTo: z.number().nullable().optional(),
 })
 
 export type UpdateOneDeliveryParams = z.infer<

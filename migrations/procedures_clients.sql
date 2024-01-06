@@ -177,7 +177,7 @@ DELIMITER ;
 
 -- GET A CLIENT
 DELIMITER $$
-CREATE PROCEDURE sp_get_client(IN p_client_id INT)
+CREATE PROCEDURE sp_get_client(IN p_client_id INT, IN p_company_id INT)
 BEGIN
     SELECT 
         ci.client_id,
@@ -192,7 +192,8 @@ BEGIN
         ci.phone,
         ci.email
     FROM view_clients_info ci
-    WHERE ci.client_id = p_client_id;
+    WHERE ci.client_id = p_client_id
+    AND ci.company_id = p_company_id;
 END $$
 DELIMITER ;
 

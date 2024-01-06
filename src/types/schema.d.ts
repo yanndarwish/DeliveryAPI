@@ -265,6 +265,37 @@ export interface paths {
       };
     };
   };
+  "/clients/{id}": {
+    /** Returns a client by id. */
+    get: {
+      parameters: {
+        path: {
+          /** @description The id of the client to retrieve */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of user names */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Client"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Client not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;

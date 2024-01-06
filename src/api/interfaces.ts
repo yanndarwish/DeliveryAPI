@@ -148,6 +148,15 @@ type CreateClientResponseObject =
 export type CreateClientRequest = TypedRequest<never, CreateClientBody, never>
 export type CreateClientResponse = TypedResponse<CreateClientResponseObject>
 
+// GET ONE CLIENT BY ID
+export type GetOneClientParams =
+	paths["/clients/{id}"]["get"]["parameters"]["path"]
+export type GetOneClientResponseObject =
+	paths["/clients/{id}"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetOneClientRequest = TypedRequest<never, never, GetOneClientParams>
+export type GetOneClientResponse = TypedResponse<GetOneClientResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

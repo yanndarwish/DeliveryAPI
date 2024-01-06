@@ -1,4 +1,5 @@
 import { getManyClients } from "./getManyClients"
 import { createClient } from "./createClient"
+import { getOneClientById } from "./getOneClient"
 
-export { getManyClients, createClient }
+export { getManyClients, createClient, getOneClientById }
