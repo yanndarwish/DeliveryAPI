@@ -54,10 +54,10 @@ export const updateOneDeliveryBodySchema = z.object({
 	driverId: z.number(),
 	vehicleId: z.number(),
 	providerId: z.number(),
-	hotelPrice: z.number().nullable().optional(),
+	hotelPrice: z.number().nullable(),
 	pickups: pickupSchema.array().min(1),
 	dropoffs: pickupSchema.array().min(1),
-	outsourcedTo: z.number().nullable().optional(),
+	outsourcedTo: z.number().nullable(),
 })
 
 export type UpdateOneDeliveryParams = z.infer<

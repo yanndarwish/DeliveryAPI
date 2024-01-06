@@ -2,12 +2,14 @@ import { Router } from "express"
 
 import { Validator } from "@/middlewares/validation"
 
-import { getManyClients, createClient, getOneClientById } from "@/logic/clients"
+import { getManyClients, createClient, getOneClientById, updateClient } from "@/logic/clients"
 
 import {
 	getManyClientsQuerySchema,
 	createClientBodySchema,
 	getOneClientParamsSchema,
+	updateOneClientParamsSchema,
+	updateOneClientBodySchema,
 } from "./validation"
 
 import { headerSchema } from "../validation"
@@ -33,6 +35,14 @@ clientsController.get(
     Validator(headerSchema, "headers"),
     Validator(getOneClientParamsSchema, "params"),
     getOneClientById
+)
+
+clientsController.put(
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(updateOneClientParamsSchema, "params"),
+	Validator(updateOneClientBodySchema, "body"),
+	updateClient
 )
 
 export { clientsController }

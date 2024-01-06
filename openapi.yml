@@ -287,6 +287,38 @@ paths:
         "500":
           description: Internal server error
 
+    put:
+      summary: Updates a client by id.
+      tags:
+        - "Clients"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the client to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Client object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientCreate"
+      responses:
+        "200": # status code
+          description: Client updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Client not found
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:

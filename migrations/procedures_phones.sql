@@ -25,7 +25,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_update_phone(
     IN p_entity_type VARCHAR(30),
-    IN p_phone_id INT,
+    IN p_entity_id INT,
     IN p_phone VARCHAR(30)
 )
 BEGIN
@@ -33,7 +33,7 @@ BEGIN
     SET
         phone = p_phone
     WHERE
-        entity_type = p_entity_type AND phone_id = p_phone_id;
+        entity_type = p_entity_type AND entity_id = p_entity_id;
 END $$
 DELIMITER ;
 

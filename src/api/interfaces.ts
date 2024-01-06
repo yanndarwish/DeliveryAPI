@@ -157,6 +157,22 @@ export type GetOneClientResponseObject =
 export type GetOneClientRequest = TypedRequest<never, never, GetOneClientParams>
 export type GetOneClientResponse = TypedResponse<GetOneClientResponseObject>
 
+// UPDATE ONE CLIENT BY ID
+export type UpdateOneClientParams =
+	paths["/clients/{id}"]["put"]["parameters"]["path"]
+export type UpdateOneClientBody =
+	paths["/clients/{id}"]["put"]["requestBody"]["content"]["application/json"]
+type UpdateOneClientResponseObject =
+	paths["/clients/{id}"]["put"]["responses"][200]["content"]["application/json"]
+
+export type UpdateOneClientRequest = TypedRequest<
+	never,
+	UpdateOneClientBody,
+	UpdateOneClientParams
+>
+export type UpdateOneClientResponse =
+	TypedResponse<UpdateOneClientResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

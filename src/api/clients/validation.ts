@@ -35,3 +35,24 @@ export const getOneClientParamsSchema = z.object({
 })
 
 export type GetOneClientParams = z.infer<typeof getOneClientParamsSchema>
+
+// UPDATE ONE CLIENT BY ID
+export const updateOneClientParamsSchema = z.object({
+	id: z.string().refine((value) => Number(value) > 0),
+})
+
+export const updateOneClientBodySchema = z.object({
+	name: z.string().min(3),
+	streetNumber: z.string().min(1).nullable(),
+	street: z.string().min(1),
+	city: z.string().min(3),
+	postalCode: z.string().nullable(),
+	country: z.string().min(3),
+	comment: z.string().nullable(),
+	active: z.boolean(),
+	phone: z.string().min(10).nullable(),
+	email: z.string().email().nullable(),
+})
+
+export type UpdateOneClientParams = z.infer<typeof updateOneClientParamsSchema>
+export type UpdateOneClientBody = z.infer<typeof updateOneClientBodySchema>

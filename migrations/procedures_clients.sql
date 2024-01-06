@@ -207,15 +207,16 @@ CREATE PROCEDURE sp_update_client(
     IN p_city VARCHAR(30),
     IN p_postal_code INT,
     IN p_country VARCHAR(30),
+    IN p_comment VARCHAR(100),
     IN p_active BOOLEAN,
     IN p_phone VARCHAR(100),
     IN p_email VARCHAR(100)
 )
 BEGIN
     -- GET THE ADDRESS ID OF THE CLIENT
-    SET @address_id = (SELECT client_address FROM clients WHERE client_id = p_client_id);
+    SET @address_id = (SELECT address_id FROM addresses WHERE entity_id = p_client_id AND entity_type = 'CLIENT');
 
-    CALL sp_update_address(@address_id, p_street_number, p_street, p_city, p_postal_code, p_country);
+    CALL sp_update_address(@address_id, p_street_number, p_street, p_city, p_postal_code, p_country, p_comment);
 
     UPDATE clients
     SET
@@ -225,6 +226,7 @@ BEGIN
         client_id = p_client_id;
 
     CALL sp_update_phone('CLIENT', p_client_id, p_phone);
+
     CALL sp_update_email('CLIENT', p_client_id, p_email);
 END $$
 DELIMITER ;

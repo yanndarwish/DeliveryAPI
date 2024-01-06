@@ -26,9 +26,18 @@
 
 ### GET Get Many Clients
 
+- change street number return type from integer to string
 - Tests
 
 ### POST Create Client
+
+- Tests
+
+### GET Get Client
+
+- Tests
+
+### PUT Update Client
 
 - Tests
 

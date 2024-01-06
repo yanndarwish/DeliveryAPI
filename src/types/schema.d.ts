@@ -295,6 +295,41 @@ export interface paths {
         };
       };
     };
+    /** Updates a client by id. */
+    put: {
+      parameters: {
+        path: {
+          /** @description The id of the client to update */
+          id: string;
+        };
+      };
+      /** @description Client object to be updated */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["ClientCreate"];
+        };
+      };
+      responses: {
+        /** @description Client updated */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Client not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 

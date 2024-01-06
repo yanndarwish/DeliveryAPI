@@ -25,7 +25,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_update_email(
     IN p_entity_type VARCHAR(30),
-    IN p_email_id INT,
+    IN p_entity_id INT,
     IN p_email VARCHAR(30)
 )
 BEGIN
@@ -33,7 +33,7 @@ BEGIN
     SET
         email = p_email
     WHERE
-        entity_type = p_entity_type AND email_id = p_email_id;
+        entity_type = p_entity_type AND entity_id = p_entity_id;
 END $$
 DELIMITER ;
 
