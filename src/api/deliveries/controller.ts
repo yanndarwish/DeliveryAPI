@@ -39,6 +39,7 @@ deliveriesController.post(
 
 deliveriesController.get(
 	"/:id",
+	Validator(headerSchema, "headers"),
 	Validator(getOneDeliveryParamsSchema, "params"),
 	getOneDeliveryById
 )
@@ -53,6 +54,7 @@ deliveriesController.put(
 
 deliveriesController.delete(
 	"/:id",
+	Validator(headerSchema, "headers"),
 	Validator(deleteOneDeliveryParamsSchema, "params"),
 	deleteOneDeliveryById
 )

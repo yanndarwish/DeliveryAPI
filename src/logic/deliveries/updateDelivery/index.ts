@@ -17,7 +17,10 @@ export const updateDelivery = async (
 	const { id } = req.params
 
 	// check that delivery exists
-	const delivery = await queryAsync(getOneDeliveryByIdQuery, [id])
+	const delivery = await queryAsync(getOneDeliveryByIdQuery, [
+		id,
+		Number(companyId),
+	])
 
 	if (!delivery[0]?.[0]) {
 		throw new NotFoundError(

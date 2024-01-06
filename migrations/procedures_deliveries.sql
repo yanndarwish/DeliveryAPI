@@ -146,7 +146,7 @@ DELIMITER ;
 
 -- GET DELIVERY
 DELIMITER $$
-CREATE PROCEDURE sp_get_delivery_by_id(IN p_delivery_id INT)
+CREATE PROCEDURE sp_get_delivery_by_id(IN p_delivery_id INT, IN p_company_id INT)
 BEGIN
     SELECT
         delivery_id,
@@ -158,7 +158,9 @@ BEGIN
         pickups,
         dropoffs,
         company_id
-    FROM view_deliveries_info WHERE delivery_id = p_delivery_id;
+    FROM view_deliveries_info 
+    WHERE delivery_id = p_delivery_id
+    AND company_id = p_company_id;
 END $$
 DELIMITER ;
 

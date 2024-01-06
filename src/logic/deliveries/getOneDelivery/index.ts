@@ -9,9 +9,10 @@ export const getOneDeliveryById = async (
 	req: GetOneDeliveryRequest,
 	res: GetOneDeliveryResponse
 ) => {
+	const companyId = req.headers["company-id"] as string
 	const { id } = req.params
 
-	const result = await queryAsync(getOneDeliveryByIdQuery, [id])
+	const result = await queryAsync(getOneDeliveryByIdQuery, [id, Number(companyId)])
 	const response = result[0]?.[0]
 
 	if (!response) {
