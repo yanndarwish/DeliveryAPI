@@ -139,6 +139,15 @@ export type GetManyClientsRequest = TypedRequest<
 >
 export type GetManyClientsResponse = TypedResponse<GetManyClientsResponseObject>
 
+// CREATE CLIENT
+export type CreateClientBody =
+	paths["/clients"]["post"]["requestBody"]["content"]["application/json"]
+type CreateClientResponseObject =
+	paths["/clients"]["post"]["responses"][201]["content"]["application/json"]
+
+export type CreateClientRequest = TypedRequest<never, CreateClientBody, never>
+export type CreateClientResponse = TypedResponse<CreateClientResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

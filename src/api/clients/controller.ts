@@ -2,9 +2,9 @@ import { Router } from "express";
 
 import { Validator } from "@/middlewares/validation";
 
-import { getManyClients } from "@/logic/clients";
+import { getManyClients, createClient } from "@/logic/clients";
 
-import { getManyClientsQuerySchema } from "./validation";
+import { getManyClientsQuerySchema, createClientBodySchema } from "./validation";
 
 import { headerSchema } from "../validation"
 
@@ -15,6 +15,13 @@ clientsController.get(
     Validator(headerSchema, "headers"),
     Validator(getManyClientsQuerySchema, "query"),
     getManyClients
+);
+
+clientsController.post(
+    "/",
+    Validator(headerSchema, "headers"),
+    Validator(createClientBodySchema, "body"),
+    createClient
 );
 
 export { clientsController };

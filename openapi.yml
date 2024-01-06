@@ -636,13 +636,9 @@ components:
           example: example@mail.com
       required:
         - name
-        - streetNumber
         - street
         - city
-        - postalCode
         - country
         - active
-        - phone
-        - email
     
 

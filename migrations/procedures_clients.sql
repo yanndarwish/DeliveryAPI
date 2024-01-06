@@ -34,8 +34,15 @@ BEGIN
     SET new_client_id = LAST_INSERT_ID();
 
     CALL sp_create_address(p_street_number, p_street, p_city, p_postal_code, p_country, p_comment, 'CLIENT', new_client_id);
-    CALL sp_create_phone('CLIENT', new_client_id, p_phone);
-    CALL sp_create_email('CLIENT', new_client_id, p_email);
+    -- if phone is not null
+    IF p_phone IS NOT NULL THEN
+        CALL sp_create_phone('CLIENT', new_client_id, p_phone);
+    END IF;
+
+    -- if email is not null
+    IF p_email IS NOT NULL THEN
+        CALL sp_create_email('CLIENT', new_client_id, p_email);
+    END IF;
 END $$
 DELIMITER ;
 

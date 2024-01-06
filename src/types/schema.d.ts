@@ -530,7 +530,7 @@ export interface components {
        * @description The street number of the client
        * @example 123
        */
-      streetNumber: string;
+      streetNumber?: string;
       /**
        * @description The street of the client
        * @example Main St
@@ -545,7 +545,7 @@ export interface components {
        * @description The postal code of the client
        * @example 75008
        */
-      postalCode: string;
+      postalCode?: string;
       /**
        * @description The country of the client
        * @example France
@@ -565,17 +565,12 @@ export interface components {
        * @description The phone number of the client
        * @example 33612345678
        */
-      phone: string;
+      phone?: string;
       /**
        * @description The email of the client
        * @example example@mail.com
        */
-      email: string;
-      /**
-       * @description The id of the company that owns the client
-       * @example 1
-       */
-      companyId: number;
+      email?: string;
     };
   };
   responses: never;
