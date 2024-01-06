@@ -5,7 +5,7 @@ DELIMITER $$
 CREATE PROCEDURE sp_create_phone(
     IN p_entity_type VARCHAR(30),
     IN p_entity_id INT,
-    IN p_phone VARCHAR(30)
+    IN p_phone VARCHAR(20)
 )
 BEGIN
     INSERT INTO phones (
