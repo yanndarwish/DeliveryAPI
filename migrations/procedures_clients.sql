@@ -4,10 +4,10 @@ USE {DB_NAME};
 DELIMITER $$ 
 CREATE PROCEDURE sp_create_client(
     IN p_client_name VARCHAR(30),
-    IN p_street_number INT,
+    IN p_street_number VARCHAR(10),
     IN p_street VARCHAR(100),
     IN p_city VARCHAR(30),
-    IN p_postal_code INT,
+    IN p_postal_code VARCHAR(10),
     IN p_country VARCHAR(30),
     IN p_comment VARCHAR(100),
     IN p_active BOOLEAN,
@@ -54,7 +54,7 @@ CREATE PROCEDURE sp_get_clients(
     IN p_status VARCHAR(10),
     IN p_name VARCHAR(30),
     IN p_city VARCHAR(30),
-    IN p_postal_code INT,
+    IN p_postal_code VARCHAR(10),
     IN p_country VARCHAR(30),
     IN p_company_id INT
 )
@@ -137,7 +137,7 @@ CREATE PROCEDURE sp_get_clients_count(
     IN p_status VARCHAR(10),
     IN p_name VARCHAR(30),
     IN p_city VARCHAR(30),
-    IN p_postal_code INT,
+    IN p_postal_code VARCHAR(10),
     IN p_country VARCHAR(30),
     IN p_company_id INT
 )
@@ -202,10 +202,10 @@ DELIMITER $$
 CREATE PROCEDURE sp_update_client(
     IN p_client_id INT,
     IN p_client_name VARCHAR(30),
-    IN p_street_number INT,
+    IN p_street_number VARCHAR(10),
     IN p_street VARCHAR(100),
     IN p_city VARCHAR(30),
-    IN p_postal_code INT,
+    IN p_postal_code VARCHAR(10),
     IN p_country VARCHAR(30),
     IN p_comment VARCHAR(100),
     IN p_active BOOLEAN,

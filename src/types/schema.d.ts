@@ -131,7 +131,7 @@ export interface paths {
       /** @description Delivery object to be updated */
       requestBody: {
         content: {
-          "application/json": components["schemas"]["DeliveryCreate"];
+          "application/json": components["schemas"]["DeliveryUpdate"];
         };
       };
       responses: {
@@ -306,7 +306,7 @@ export interface paths {
       /** @description Client object to be updated */
       requestBody: {
         content: {
-          "application/json": components["schemas"]["ClientCreate"];
+          "application/json": components["schemas"]["ClientUpdate"];
         };
       };
       responses: {
@@ -631,6 +631,55 @@ export interface components {
        */
       outsourcedTo?: number;
     };
+    DeliveryUpdate: {
+      /**
+       * @description The id of the driver that does the delivery
+       * @example 1
+       */
+      driverId: number;
+      /**
+       * @description The id of the vehicle that does the delivery
+       * @example 1
+       */
+      vehicleId: number;
+      /**
+       * @description The id of the company that provided the delivery
+       * @example 1
+       */
+      providerId: number;
+      /**
+       * @description The price of the hotel, in euros
+       * @example 100
+       */
+      hotelPrice: number | null;
+      /**
+       * @description Array of pickups
+       * @example [
+       *   {
+       *     "date": "2021-07-01",
+       *     "entityId": 1,
+       *     "entityType": "CLIENT"
+       *   }
+       * ]
+       */
+      pickups: components["schemas"]["PickupCreate"][];
+      /**
+       * @description Array of dropoffs
+       * @example [
+       *   {
+       *     "date": "2021-07-01",
+       *     "entityId": 1,
+       *     "entityType": "CLIENT"
+       *   }
+       * ]
+       */
+      dropoffs: components["schemas"]["PickupCreate"][];
+      /**
+       * @description The id of the company that outsourced the delivery
+       * @example 2
+       */
+      outsourcedTo: number | null;
+    };
     DeliveriesArray: components["schemas"]["Delivery"][];
     Pickup: {
       /** @example 2021-07-01 */
@@ -777,6 +826,58 @@ export interface components {
        * @example example@mail.com
        */
       email?: string;
+    };
+    ClientUpdate: {
+      /**
+       * @description The name of the client
+       * @example Amazon
+       */
+      name: string;
+      /**
+       * @description The street number of the client
+       * @example 123
+       */
+      streetNumber: string | null;
+      /**
+       * @description The street of the client
+       * @example Main St
+       */
+      street: string;
+      /**
+       * @description The city of the client
+       * @example Paris
+       */
+      city: string;
+      /**
+       * @description The postal code of the client
+       * @example 75008
+       */
+      postalCode: string | null;
+      /**
+       * @description The country of the client
+       * @example France
+       */
+      country: string;
+      /**
+       * @description The comment of the client
+       * @example Derrière le hangar
+       */
+      comment: string | null;
+      /**
+       * @description The active status of the client
+       * @example true
+       */
+      active: boolean;
+      /**
+       * @description The phone number of the client
+       * @example 33612345678
+       */
+      phone: string | null;
+      /**
+       * @description The email of the client
+       * @example example@mail.com
+       */
+      email: string | null;
     };
     Relay: {
       /**

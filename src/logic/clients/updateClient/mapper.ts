@@ -1,6 +1,6 @@
-import { UpdateOneClientBody } from "./interfaces"
+import { UpdateOneClientBodyWithId } from "./interfaces"
 
-export const updateClientBodyMapper = (body: UpdateOneClientBody) => {
+export const updateClientBodyMapper = (body: UpdateOneClientBodyWithId) => {
 	return [
 		body.id,
 		body.name,

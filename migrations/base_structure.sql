@@ -13,10 +13,10 @@ SET @@session.sql_mode = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
 -- Create addresses table
 CREATE TABLE IF NOT EXISTS addresses (
     address_id INT AUTO_INCREMENT PRIMARY KEY,
-    address_street_number INT,
+    address_street_number VARCHAR(10),
     address_street VARCHAR(100),
     address_city VARCHAR(30),
-    address_postal_code INT,
+    address_postal_code VARCHAR(10),
     address_country VARCHAR(30),
     entity_type VARCHAR(10),
     entity_id INTEGER,

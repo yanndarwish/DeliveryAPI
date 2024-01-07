@@ -139,7 +139,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DeliveryCreate"
+              $ref: "#/components/schemas/DeliveryUpdate"
       responses:
         "200": # status code
           description: Delivery updated
@@ -304,7 +304,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ClientCreate"
+              $ref: "#/components/schemas/ClientUpdate"
       responses:
         "200": # status code
           description: Client updated
@@ -651,6 +651,60 @@ components:
         - pickups
         - dropoffs
 
+    # Delivery update body schema
+    DeliveryUpdate:
+      type: object
+      properties:
+        driverId:
+          type: integer
+          description: The id of the driver that does the delivery
+          example: 1
+        vehicleId:
+          type: integer
+          description: The id of the vehicle that does the delivery
+          example: 1
+        providerId:
+          type: integer
+          description: The id of the company that provided the delivery
+          example: 1
+        hotelPrice:
+          type: integer
+          nullable: true
+          description: The price of the hotel, in euros
+          example: 100
+        pickups:
+          type: array
+          description: Array of pickups
+          items:
+            $ref: "#/components/schemas/PickupCreate"
+          example:
+            - date: "2021-07-01"
+              entityId: 1
+              entityType: CLIENT
+        dropoffs:
+          type: array
+          description: Array of dropoffs
+          items:
+            $ref: "#/components/schemas/PickupCreate"
+          example:
+            - date: "2021-07-01"
+              entityId: 1
+              entityType: CLIENT
+        outsourcedTo:
+          type: integer
+          nullable: true
+          description: The id of the company that outsourced the delivery
+          example: 2
+      required:
+        - id
+        - driverId
+        - vehicleId
+        - providerId
+        - hotelPrice
+        - pickups
+        - dropoffs
+        - outsourcedTo
+
     # Array of deliveries
     DeliveriesArray:
       type: array
@@ -853,6 +907,66 @@ components:
         - city
         - country
         - active
+
+    ClientUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the client
+          example: Amazon
+        streetNumber:
+          type: string
+          nullable: true
+          description: The street number of the client
+          example: 123
+        street:
+          type: string
+          description: The street of the client
+          example: Main St
+        city:
+          type: string
+          description: The city of the client
+          example: Paris
+        postalCode:
+          type: string
+          nullable: true
+          description: The postal code of the client
+          example: 75008
+        country:
+          type: string
+          description: The country of the client
+          example: France
+        comment:
+          type: string
+          nullable: true
+          description: The comment of the client
+          example: Derrière le hangar
+        active:
+          type: boolean
+          description: The active status of the client
+          example: true
+        phone:
+          type: string
+          nullable: true
+          description: The phone number of the client
+          example: +33612345678
+        email:
+          type: string
+          nullable: true
+          description: The email of the client
+          example: example@mail.com
+      required:
+        - name
+        - streetNumber
+        - street
+        - city
+        - postalCode
+        - country
+        - comment
+        - active
+        - phone
+        - email
     
     ############# RELAYS SCHEMAS #################
     # Relay schema

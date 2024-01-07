@@ -3,10 +3,10 @@ USE {DB_NAME};
 -- CREATE AN ADDRESS
 DELIMITER $$ 
 CREATE PROCEDURE sp_create_address(
-    IN p_street_number INT,
+    IN p_street_number VARCHAR(10),
     IN p_street VARCHAR(100),
     IN p_city VARCHAR(30),
-    IN p_postal_code INT,
+    IN p_postal_code VARCHAR(10),
     IN p_country VARCHAR(30),
     IN p_comment VARCHAR(100),
     IN p_entity_type VARCHAR(10),
@@ -105,10 +105,10 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_update_address(
     IN p_address_id INT,
-    IN p_street_number INT,
+    IN p_street_number VARCHAR(10),
     IN p_street VARCHAR(100),
     IN p_city VARCHAR(30),
-    IN p_postal_code INT,
+    IN p_postal_code VARCHAR(10),
     IN p_country VARCHAR(30),
     IN p_comment VARCHAR(100)
 )

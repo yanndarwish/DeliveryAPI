@@ -15,20 +15,20 @@ INSERT INTO tours_operations (tour_operation_name) VALUES
 ('DELETE');
 
 -- Insert sample companies
-CALL sp_create_company('GEOSTAR', TRUE, '12345678901234', 'geostar@mail.com', '0101010101','[{},{}]', 1, 'Main Street', 'Cityville', 12345, 'Countryland', 'warehouse comment', 1, 'Main Street', 'Cityville', 12345, 'Countryland', 'headquarter comment');
-CALL sp_create_company('DMT', TRUE, '12345678901234', 'dmt@mail.com', '0101010101','[{},{}]', 2, 'Oak Avenue', 'Townburg', 56789, 'Countrytop','warehouse comment', 2, 'Oak Avenue', 'Townburg', 56789, 'Countrytop', 'headquarter comment');
-CALL sp_create_company('JLR', TRUE, '12345678901234', 'jlr@mail.com', '0101010101','[{},{}]', 3, 'Pine Road', 'Villagetown', 10111, 'Countryville','warehouse comment', 3, 'Pine Road', 'Villagetown', 10111, 'Countryville', 'headquarter comment');
-CALL sp_create_company('TEST', TRUE, '12345678901234', 'test@mail.com', '0101010101','[{},{}]', 2, 'Oak Avenue', 'Townburg', 56789, 'Countrytop','warehouse comment',2, 'Oak Avenue', 'Townburg', 56789, 'Countrytop', 'headquarter comment');
+CALL sp_create_company('GEOSTAR', TRUE, '12345678901234', 'geostar@mail.com', '0101010101','[{},{}]', '1', 'Main Street', 'Cityville', '12345', 'Countryland', 'warehouse comment', '1', 'Main Street', 'Cityville', '12345', 'Countryland', 'headquarter comment');
+CALL sp_create_company('DMT', TRUE, '12345678901234', 'dmt@mail.com', '0101010101','[{},{}]', '2', 'Oak Avenue', 'Townburg', '56789', 'Countrytop','warehouse comment', '2', 'Oak Avenue', 'Townburg', '56789', 'Countrytop', 'headquarter comment');
+CALL sp_create_company('JLR', TRUE, '12345678901234', 'jlr@mail.com', '0101010101','[{},{}]', '3', 'Pine Road', 'Villagetown', '10111', 'Countryville','warehouse comment', '3', 'Pine Road', 'Villagetown', '10111', 'Countryville', 'headquarter comment');
+CALL sp_create_company('TEST', TRUE, '12345678901234', 'test@mail.com', '0101010101','[{},{}]', '2', 'Oak Avenue', 'Townburg', '56789', 'Countrytop','warehouse comment','2', 'Oak Avenue', 'Townburg', '56789', 'Countrytop', 'headquarter comment');
 
 -- Insert sample clients
-CALL sp_create_client('Client One', 1, 'Main Street', 'Cityville', 12345, 'Countryland', 'example comment', TRUE, '0606060606', 'client1@example.com', 1);
-CALL sp_create_client('Client Two', 2, 'Oak Avenue', 'Townsville', 67890, 'Countryland', 'example comment', FALSE, '0606060606', 'client2@example.com', 1);
-CALL sp_create_client('Client Three', 3, 'Pine Street', 'Villageton', 54321, 'Countryland', 'example comment', TRUE, '0707070707', 'client3@example.com', 1);
+CALL sp_create_client('Client One', '1', 'Main Street', 'Cityville', '12345', 'Countryland', 'example comment', TRUE, '0606060606', 'client1@example.com', 1);
+CALL sp_create_client('Client Two', '2', 'Oak Avenue', 'Townsville', '67890', 'Countryland', 'example comment', FALSE, '0606060606', 'client2@example.com', 1);
+CALL sp_create_client('Client Three', '3', 'Pine Street', 'Villageton', '54321', 'Countryland', 'example comment', TRUE, '0707070707', 'client3@example.com', 1);
 
 -- Insert sample relay
-CALL sp_create_relay('Relay One', 1, 'Main Street', 'Cityville', 12345, 'Countryland', 'example comment', TRUE, 1);
-CALL sp_create_relay('Relay Two', 2, 'Oak Avenue', 'Townburg', 56789, 'Countrytop', 'example comment', FALSE, 1);
-CALL sp_create_relay('Relay Three', 3, 'Pine Road', 'Villagetown', 10111, 'Countryville', 'example comment', TRUE, 1);
+CALL sp_create_relay('Relay One', '1', 'Main Street', 'Cityville', '12345', 'Countryland', 'example comment', TRUE, 1);
+CALL sp_create_relay('Relay Two', '2', 'Oak Avenue', 'Townburg', '56789', 'Countrytop', 'example comment', FALSE, 1);
+CALL sp_create_relay('Relay Three', '3', 'Pine Road', 'Villagetown', '10111', 'Countryville', 'example comment', TRUE, 1);
 
 -- Insert sample tours
 CALL sp_create_tour('Tour One', TRUE, 1, '[1, 2, 3]');

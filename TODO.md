@@ -16,7 +16,6 @@
 
 ### PUT Update Delivery
 
-- UPDATE the body type : undefined shuold be nullable
 - Tests
 
 ### DELETE Delete Delivery
@@ -27,7 +26,6 @@
 
 ### GET Get Many Clients
 
-- change street number return type from integer to string
 - Tests
 
 ### POST Create Client
@@ -40,7 +38,6 @@
 
 ### PUT Update Client
 
-- UPDATE the body type : undefined shuold be nullable
 - Tests
 
 ### DELETE Delete Client

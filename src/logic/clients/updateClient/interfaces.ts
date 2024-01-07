@@ -1,5 +1,3 @@
-import { CreateClientBody } from "@/api/interfaces";
+import { UpdateOneClientBody } from "@/api/interfaces"
 
-export type UpdateOneClientBody = CreateClientBody & {
-    id: number,
-}
+export type UpdateOneClientBodyWithId = UpdateOneClientBody & { id: number }

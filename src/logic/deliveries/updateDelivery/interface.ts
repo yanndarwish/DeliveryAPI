@@ -1,6 +1,6 @@
-import { CreateDeliveryBody } from "@/api/interfaces"
+import { UpdateOneDeliveryBody } from "@/api/interfaces"
 
 
-export type UpdateOneDeliveryBody = CreateDeliveryBody & {
-    id: number,
+export type UpdateOneDeliveryBodyWithId = UpdateOneDeliveryBody & {
+	id: number
 }
