@@ -200,6 +200,15 @@ type GetManyRelaysResponseObject =
 export type GetManyRelaysRequest = TypedRequest<GetManyRelaysQuery, never, never>
 export type GetManyRelaysResponse = TypedResponse<GetManyRelaysResponseObject>
 
+// CREATE RELAY
+export type CreateRelayBody =
+	paths["/relays"]["post"]["requestBody"]["content"]["application/json"]
+type CreateRelayResponseObject =
+	paths["/relays"]["post"]["responses"][201]["content"]["application/json"]
+
+export type CreateRelayRequest = TypedRequest<never, CreateRelayBody, never>
+export type CreateRelayResponse = TypedResponse<CreateRelayResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

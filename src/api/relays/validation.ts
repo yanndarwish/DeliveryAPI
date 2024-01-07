@@ -12,3 +12,17 @@ export const getManyRelaysQuerySchema = z.object({
 })
 
 export type GetManyRelaysQuery = z.infer<typeof getManyRelaysQuerySchema>
+
+// CREATE RELAY
+export const createRelayBodySchema = z.object({
+	name: z.string().min(1),
+	streetNumber: z.string().min(1).nullable().optional(),
+	street: z.string().min(1),
+	city: z.string().min(1),
+	postalCode: z.string().min(2).nullable().optional(),
+	country: z.string().min(2),
+	comment: z.string().min(1).nullable().optional(),
+	active: z.boolean(),
+})
+
+export type CreateRelayBody = z.infer<typeof createRelayBodySchema>

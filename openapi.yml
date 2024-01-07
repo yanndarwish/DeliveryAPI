@@ -401,6 +401,29 @@ paths:
           description: Bad request - validation error
         "500":
           description: Internal server error
+      
+    post:
+      summary: Creates a new relay.
+      tags:
+        - "Relays"
+      requestBody:
+        description: Relay object to be added to the list
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RelayCreate"
+      responses:
+        "201":
+          description: Relay created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
 
 
 components:
@@ -852,3 +875,46 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Relay"
+    
+    # Relay creation body schema
+    RelayCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the relay
+          example: Amazon
+        streetNumber:
+          type: string
+          description: The street number of the relay
+          example: 123
+        street:
+          type: string
+          description: The street of the relay
+          example: Main St
+        city:
+          type: string
+          description: The city of the relay
+          example: Paris
+        postalCode:
+          type: string
+          description: The postal code of the relay
+          example: 75008
+        country:
+          type: string
+          description: The country of the relay
+          example: France
+        comment:
+          type: string
+          description: The comment of the relay
+          example: Derrière le hangar
+        active:
+          type: boolean
+          description: The active status of the relay
+          example: true
+      required:
+        - name
+        - street
+        - city
+        - country
+        - active

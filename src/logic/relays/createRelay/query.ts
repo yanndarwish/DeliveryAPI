@@ -1,0 +1,1 @@
+export const createRelayQuery = "CALL sp_create_relay(?, ?, ?, ?, ?, ?, ?, ?, ?);"

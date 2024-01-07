@@ -2,9 +2,9 @@ import { Router } from "express";
 
 import { Validator } from "@/middlewares/validation";
 
-import { getManyRelays } from "@/logic/relays";
+import { getManyRelays, createRelay } from "@/logic/relays";
 
-import { getManyRelaysQuerySchema } from "./validation";
+import { getManyRelaysQuerySchema, createRelayBodySchema } from "./validation";
 
 import { headerSchema } from "../validation";
 
@@ -15,6 +15,13 @@ relaysController.get(
     Validator(headerSchema, "headers"),
     Validator(getManyRelaysQuerySchema, "query"),
     getManyRelays
+);
+
+relaysController.post(
+    "/",
+    Validator(headerSchema, "headers"),
+    Validator(createRelayBodySchema, "body"),
+    createRelay
 );
 
 export { relaysController };

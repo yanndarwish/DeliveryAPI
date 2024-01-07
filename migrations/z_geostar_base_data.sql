@@ -26,9 +26,9 @@ CALL sp_create_client('Client Two', 2, 'Oak Avenue', 'Townsville', 67890, 'Count
 CALL sp_create_client('Client Three', 3, 'Pine Street', 'Villageton', 54321, 'Countryland', 'example comment', TRUE, '0707070707', 'client3@example.com', 1);
 
 -- Insert sample relay
-CALL sp_create_relay('Relay One', 1, 'Main Street', 'Cityville', 12345, 'Countryland', TRUE, 1);
-CALL sp_create_relay('Relay Two', 2, 'Oak Avenue', 'Townburg', 56789, 'Countrytop', FALSE, 1);
-CALL sp_create_relay('Relay Three', 3, 'Pine Road', 'Villagetown', 10111, 'Countryville', TRUE, 1);
+CALL sp_create_relay('Relay One', 1, 'Main Street', 'Cityville', 12345, 'Countryland', 'example comment', TRUE, 1);
+CALL sp_create_relay('Relay Two', 2, 'Oak Avenue', 'Townburg', 56789, 'Countrytop', 'example comment', FALSE, 1);
+CALL sp_create_relay('Relay Three', 3, 'Pine Road', 'Villagetown', 10111, 'Countryville', 'example comment', TRUE, 1);
 
 -- Insert sample tours
 CALL sp_create_tour('Tour One', TRUE, 1, '[1, 2, 3]');

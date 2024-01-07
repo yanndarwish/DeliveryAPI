@@ -414,6 +414,31 @@ export interface paths {
         };
       };
     };
+    /** Creates a new relay. */
+    post: {
+      /** @description Relay object to be added to the list */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["RelayCreate"];
+        };
+      };
+      responses: {
+        /** @description Relay created */
+        201: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
@@ -770,6 +795,48 @@ export interface components {
       active: boolean;
     };
     RelaysArray: components["schemas"]["Relay"][];
+    RelayCreate: {
+      /**
+       * @description The name of the relay
+       * @example Amazon
+       */
+      name: string;
+      /**
+       * @description The street number of the relay
+       * @example 123
+       */
+      streetNumber?: string;
+      /**
+       * @description The street of the relay
+       * @example Main St
+       */
+      street: string;
+      /**
+       * @description The city of the relay
+       * @example Paris
+       */
+      city: string;
+      /**
+       * @description The postal code of the relay
+       * @example 75008
+       */
+      postalCode?: string;
+      /**
+       * @description The country of the relay
+       * @example France
+       */
+      country: string;
+      /**
+       * @description The comment of the relay
+       * @example Derrière le hangar
+       */
+      comment?: string;
+      /**
+       * @description The active status of the relay
+       * @example true
+       */
+      active: boolean;
+    };
   };
   responses: never;
   parameters: {
