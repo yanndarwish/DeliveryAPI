@@ -470,6 +470,41 @@ export interface paths {
         };
       };
     };
+    /** Updates a relay by id. */
+    put: {
+      parameters: {
+        path: {
+          /** @description The id of the relay to update */
+          id: string;
+        };
+      };
+      /** @description Relay object to be updated */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["RelayUpdate"];
+        };
+      };
+      responses: {
+        /** @description Relay updated */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Relay not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
@@ -963,6 +998,48 @@ export interface components {
        * @example Derrière le hangar
        */
       comment?: string;
+      /**
+       * @description The active status of the relay
+       * @example true
+       */
+      active: boolean;
+    };
+    RelayUpdate: {
+      /**
+       * @description The name of the relay
+       * @example Amazon
+       */
+      name: string;
+      /**
+       * @description The street number of the relay
+       * @example 123
+       */
+      streetNumber: string | null;
+      /**
+       * @description The street of the relay
+       * @example Main St
+       */
+      street: string;
+      /**
+       * @description The city of the relay
+       * @example Paris
+       */
+      city: string;
+      /**
+       * @description The postal code of the relay
+       * @example 75008
+       */
+      postalCode: string | null;
+      /**
+       * @description The country of the relay
+       * @example France
+       */
+      country: string;
+      /**
+       * @description The comment of the relay
+       * @example Derrière le hangar
+       */
+      comment: string | null;
       /**
        * @description The active status of the relay
        * @example true

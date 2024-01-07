@@ -188,13 +188,14 @@ CREATE PROCEDURE sp_update_relay(
     IN p_city VARCHAR(30),
     IN p_postal_code VARCHAR(10),
     IN p_country VARCHAR(30),
+    IN p_comment VARCHAR(100),
     IN p_active BOOLEAN
 )
 BEGIN
     -- GET THE ADDRESS ID OF THE RELAY
-    SET @address_id = (SELECT relay_address FROM relays WHERE relay_id = p_relay_id);
+    SET @address_id = (SELECT address_id FROM addresses WHERE entity_id = p_relay_id AND entity_type = 'RELAY');
 
-    CALL sp_update_address(@address_id, p_street_number, p_street, p_city, p_postal_code, p_country);
+    CALL sp_update_address(@address_id, p_street_number, p_street, p_city, p_postal_code, p_country, p_comment);
 
     UPDATE relays
     SET

@@ -1,0 +1,1 @@
+export const updateRelayQuery = "CALL sp_update_relay(?, ?, ?, ?, ?, ?, ?, ?, ?)"

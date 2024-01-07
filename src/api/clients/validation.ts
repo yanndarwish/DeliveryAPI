@@ -46,7 +46,7 @@ export const updateOneClientBodySchema = z.object({
 	streetNumber: z.string().min(1).nullable(),
 	street: z.string().min(1),
 	city: z.string().min(3),
-	postalCode: z.string().nullable(),
+	postalCode: z.string().min(2).nullable(),
 	country: z.string().min(3),
 	comment: z.string().nullable(),
 	active: z.boolean(),

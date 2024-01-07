@@ -450,6 +450,38 @@ paths:
           description: Relay not found
         "500":
           description: Internal server error
+      
+    put:
+      summary: Updates a relay by id.
+      tags:
+        - "Relays"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the relay to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Relay object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RelayUpdate"
+      responses:
+        "200": # status code
+          description: Relay updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Relay not found
+        "500":
+          description: Internal server error
 
 components:
   ############# PARAMETERS #################
@@ -1070,4 +1102,52 @@ components:
         - street
         - city
         - country
+        - active
+
+    RelayUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the relay
+          example: Amazon
+        streetNumber:
+          type: string
+          nullable: true
+          description: The street number of the relay
+          example: 123
+        street:
+          type: string
+          description: The street of the relay
+          example: Main St
+        city:
+          type: string
+          description: The city of the relay
+          example: Paris
+        postalCode:
+          type: string
+          nullable: true
+          description: The postal code of the relay
+          example: 75008
+        country:
+          type: string
+          description: The country of the relay
+          example: France
+        comment:
+          type: string
+          nullable: true
+          description: The comment of the relay
+          example: Derrière le hangar
+        active:
+          type: boolean
+          description: The active status of the relay
+          example: true
+      required:
+        - name
+        - streetNumber
+        - street
+        - city
+        - postalCode
+        - country
+        - comment
         - active

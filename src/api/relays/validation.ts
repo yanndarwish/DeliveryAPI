@@ -33,3 +33,22 @@ export const getOneRelayParamsSchema = z.object({
 })
 
 export type GetOneRelayParams = z.infer<typeof getOneRelayParamsSchema>
+
+// UPDATE ONE RELAY BY ID
+export const updateOneRelayParamsSchema = z.object({
+	id: z.string().refine((value) => Number(value) > 0),
+})
+
+export const updateOneRelayBodySchema = z.object({
+	name: z.string().min(3),
+	streetNumber: z.string().min(1).nullable(),
+	street: z.string().min(1),
+	city: z.string().min(3),
+	postalCode: z.string().min(2).nullable(),
+	country: z.string().min(3),
+	comment: z.string().nullable(),
+	active: z.boolean(),
+})
+
+export type UpdateOneRelayParams = z.infer<typeof updateOneRelayParamsSchema>
+export type UpdateOneRelayBody = z.infer<typeof updateOneRelayBodySchema>

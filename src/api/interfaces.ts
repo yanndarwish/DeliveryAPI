@@ -190,14 +190,17 @@ export type DeleteOneClientResponse =
 // =========================== RELAYS =============================
 
 // GET MANY RELAYS
-export type GetManyRelaysQuery =
-	paths["/relays"]["get"]["parameters"]["query"]
+export type GetManyRelaysQuery = paths["/relays"]["get"]["parameters"]["query"]
 export type RelaysArray =
 	paths["/relays"]["get"]["responses"][200]["content"]["application/json"]["data"]
 type GetManyRelaysResponseObject =
 	paths["/relays"]["get"]["responses"][200]["content"]["application/json"]
 
-export type GetManyRelaysRequest = TypedRequest<GetManyRelaysQuery, never, never>
+export type GetManyRelaysRequest = TypedRequest<
+	GetManyRelaysQuery,
+	never,
+	never
+>
 export type GetManyRelaysResponse = TypedResponse<GetManyRelaysResponseObject>
 
 // CREATE RELAY
@@ -217,6 +220,21 @@ export type GetOneRelayResponseObject =
 
 export type GetOneRelayRequest = TypedRequest<never, never, GetOneRelayParams>
 export type GetOneRelayResponse = TypedResponse<GetOneRelayResponseObject>
+
+// UPDATE ONE RELAY BY ID
+export type UpdateOneRelayParams =
+	paths["/relays/{id}"]["put"]["parameters"]["path"]
+export type UpdateOneRelayBody =
+	paths["/relays/{id}"]["put"]["requestBody"]["content"]["application/json"]
+type UpdateOneRelayResponseObject =
+	paths["/relays/{id}"]["put"]["responses"][200]["content"]["application/json"]
+
+export type UpdateOneRelayRequest = TypedRequest<
+	never,
+	UpdateOneRelayBody,
+	UpdateOneRelayParams
+>
+export type UpdateOneRelayResponse = TypedResponse<UpdateOneRelayResponseObject>
 
 // ================================================================
 // ========================== COMPONENTS ==========================
