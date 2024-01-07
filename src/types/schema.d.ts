@@ -440,6 +440,37 @@ export interface paths {
       };
     };
   };
+  "/relays/{id}": {
+    /** Returns a relay by id. */
+    get: {
+      parameters: {
+        path: {
+          /** @description The id of the relay to retrieve */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of user names */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Relay"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Relay not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -497,12 +528,12 @@ export interface components {
        * @description The price of the hotel, in euros
        * @example 100
        */
-      hotelPrice: number;
+      hotelPrice: number | null;
       /**
        * @description The name of the company that outsourced the delivery
        * @example Google
        */
-      outsourcedTo: string;
+      outsourcedTo: string | null;
       /**
        * @description Array of pickups
        * @example [
@@ -610,17 +641,17 @@ export interface components {
         /** @example Amazon */
         name: string;
         /** @example 123 */
-        streetNumber: number;
+        streetNumber: string | null;
         /** @example Main St */
         street: string;
         /** @example Paris */
         city: string;
         /** @example 75008 */
-        postalCode: string;
+        postalCode: string | null;
         /** @example France */
         country: string;
         /** @example Derrière le hangar */
-        comment: string;
+        comment: string | null;
         /** @example true */
         active: boolean;
         /**
@@ -652,7 +683,7 @@ export interface components {
        * @description The street number of the client
        * @example 123
        */
-      streetNumber: string;
+      streetNumber: string | null;
       /**
        * @description The street of the client
        * @example Main St
@@ -667,7 +698,7 @@ export interface components {
        * @description The postal code of the client
        * @example 75008
        */
-      postalCode: string;
+      postalCode: string | null;
       /**
        * @description The country of the client
        * @example France
@@ -677,7 +708,7 @@ export interface components {
        * @description The comment of the client
        * @example Derrière le hangar
        */
-      comment?: string;
+      comment: string | null;
       /**
        * @description The active status of the client
        * @example true
@@ -687,12 +718,12 @@ export interface components {
        * @description The phone number of the client
        * @example 33612345678
        */
-      phone: string;
+      phone: string | null;
       /**
        * @description The email of the client
        * @example example@mail.com
        */
-      email: string;
+      email: string | null;
     };
     ClientsArray: components["schemas"]["Client"][];
     ClientCreate: {
@@ -762,7 +793,7 @@ export interface components {
        * @description The street number of the relay
        * @example 123
        */
-      streetNumber: string;
+      streetNumber: string | null;
       /**
        * @description The street of the relay
        * @example Main St
@@ -777,7 +808,7 @@ export interface components {
        * @description The postal code of the relay
        * @example 75008
        */
-      postalCode: string;
+      postalCode: string | null;
       /**
        * @description The country of the relay
        * @example France
@@ -787,7 +818,7 @@ export interface components {
        * @description The comment of the relay
        * @example Derrière le hangar
        */
-      comment: string;
+      comment: string | null;
       /**
        * @description The active status of the relay
        * @example true

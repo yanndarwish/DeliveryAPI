@@ -16,6 +16,7 @@
 
 ### PUT Update Delivery
 
+- UPDATE the body type : undefined shuold be nullable
 - Tests
 
 ### DELETE Delete Delivery
@@ -39,6 +40,7 @@
 
 ### PUT Update Client
 
+- UPDATE the body type : undefined shuold be nullable
 - Tests
 
 ### DELETE Delete Client

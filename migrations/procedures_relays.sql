@@ -160,7 +160,7 @@ DELIMITER ;
 
 -- GET A RELAY
 DELIMITER $$
-CREATE PROCEDURE sp_get_relay(IN p_relay_id INT)
+CREATE PROCEDURE sp_get_relay(IN p_relay_id INT, IN p_company_id INT)
 BEGIN
     SELECT 
         ci.relay_id,
@@ -172,8 +172,9 @@ BEGIN
         ci.address_country,
         ci.address_comment,
         ci.relay_active
-    FROM relays_info ci
-    WHERE ci.relay_id = p_relay_id;
+    FROM view_relays_info ci
+    WHERE ci.relay_id = p_relay_id
+    AND ci.company_id = p_company_id;
 END $$
 DELIMITER ;
 

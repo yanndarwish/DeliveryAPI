@@ -1,0 +1,1 @@
+export const getOneRelayByIdQuery = "CALL sp_get_relay(?, ?)"

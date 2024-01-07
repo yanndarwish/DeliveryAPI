@@ -209,6 +209,15 @@ type CreateRelayResponseObject =
 export type CreateRelayRequest = TypedRequest<never, CreateRelayBody, never>
 export type CreateRelayResponse = TypedResponse<CreateRelayResponseObject>
 
+// GET ONE RELAY BY ID
+export type GetOneRelayParams =
+	paths["/relays/{id}"]["get"]["parameters"]["path"]
+export type GetOneRelayResponseObject =
+	paths["/relays/{id}"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetOneRelayRequest = TypedRequest<never, never, GetOneRelayParams>
+export type GetOneRelayResponse = TypedResponse<GetOneRelayResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

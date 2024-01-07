@@ -424,7 +424,32 @@ paths:
           description: Bad request - validation error
         "500":
           description: Internal server error
-
+  
+  /relays/{id}:
+    get:
+      summary: Returns a relay by id.
+      tags:
+        - "Relays"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the relay to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200": # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Relay"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Relay not found
+        "500":
+          description: Internal server error
 
 components:
   ############# PARAMETERS #################
@@ -518,10 +543,12 @@ components:
           example: Amazon
         hotelPrice:
           type: integer
+          nullable: true
           description: The price of the hotel, in euros
           example: 100
         outsourcedTo:
           type: string
+          nullable: true
           description: The name of the company that outsourced the delivery
           example: Google
         pickups:
@@ -648,7 +675,8 @@ components:
               type: string
               example: Amazon
             streetNumber:
-              type: integer
+              type: string
+              nullable: true
               example: 123
             street:
               type: string
@@ -658,12 +686,14 @@ components:
               example: Paris
             postalCode:
               type: string
+              nullable: true
               example: 75008
             country:
               type: string
               example: France
             comment:
               type: string
+              nullable: true
               example: Derrière le hangar
             active:
               type: boolean
@@ -715,6 +745,7 @@ components:
           example: Amazon
         streetNumber:
           type: string
+          nullable: true
           description: The street number of the client
           example: 123
         street:
@@ -727,6 +758,7 @@ components:
           example: Paris
         postalCode:
           type: string
+          nullable: true
           description: The postal code of the client
           example: 75008
         country:
@@ -735,6 +767,7 @@ components:
           example: France
         comment:
           type: string
+          nullable: true
           description: The comment of the client
           example: Derrière le hangar
         active:
@@ -743,10 +776,12 @@ components:
           example: true
         phone:
           type: string
+          nullable: true
           description: The phone number of the client
           example: +33612345678
         email:
           type: string
+          nullable: true
           description: The email of the client
           example: example@mail.com
       required:
@@ -757,6 +792,7 @@ components:
         - city
         - postalCode
         - country
+        - comment
         - active
         - phone
         - email
@@ -833,6 +869,7 @@ components:
           example: Amazon
         streetNumber:
           type: string
+          nullable: true
           description: The street number of the relay
           example: 123
         street:
@@ -845,6 +882,7 @@ components:
           example: Paris
         postalCode:
           type: string
+          nullable: true
           description: The postal code of the relay
           example: 75008
         country:
@@ -853,6 +891,7 @@ components:
           example: France
         comment:
           type: string
+          nullable: true
           description: The comment of the relay
           example: Derrière le hangar
         active:

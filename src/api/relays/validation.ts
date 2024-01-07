@@ -26,3 +26,10 @@ export const createRelayBodySchema = z.object({
 })
 
 export type CreateRelayBody = z.infer<typeof createRelayBodySchema>
+
+// GET ONE RELAY BY ID
+export const getOneRelayParamsSchema = z.object({
+	id: z.string().refine((value) => Number(value) > 0),
+})
+
+export type GetOneRelayParams = z.infer<typeof getOneRelayParamsSchema>
