@@ -52,3 +52,10 @@ export const updateOneRelayBodySchema = z.object({
 
 export type UpdateOneRelayParams = z.infer<typeof updateOneRelayParamsSchema>
 export type UpdateOneRelayBody = z.infer<typeof updateOneRelayBodySchema>
+
+// DELETE ONE RELAY BY ID
+export const deleteOneRelayParamsSchema = z.object({
+	id: z.string().refine((value) => Number(value) > 0),
+})
+
+export type DeleteOneRelayParams = z.infer<typeof deleteOneRelayParamsSchema>

@@ -483,6 +483,31 @@ paths:
         "500":
           description: Internal server error
 
+    delete:
+      summary: Deletes a relay by id.
+      tags:
+        - "Relays"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the relay to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "200": # status code
+          description: Relay deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Relay not found
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:
@@ -514,6 +539,8 @@ components:
         message:
           type: string
           example: Success
+      required:
+        - message
 
     ############# PAGINATION #########################
     Pagination:

@@ -505,6 +505,35 @@ export interface paths {
         };
       };
     };
+    /** Deletes a relay by id. */
+    delete: {
+      parameters: {
+        path: {
+          /** @description The id of the relay to delete */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description Relay deleted */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Relay not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
@@ -514,7 +543,7 @@ export interface components {
   schemas: {
     MessageResponse: {
       /** @example Success */
-      message?: string;
+      message: string;
     };
     Pagination: {
       /** @example 1 */

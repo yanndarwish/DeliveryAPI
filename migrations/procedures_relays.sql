@@ -210,11 +210,10 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_delete_relay(IN p_relay_id INT)
 BEGIN
-    DECLARE existing_address_id INT;
-    SELECT relay_address INTO existing_address_id FROM relays WHERE relay_id = p_relay_id;
+    SET @address_id = (SELECT address_id FROM addresses WHERE entity_id = p_relay_id AND entity_type = 'RELAY');
 
     DELETE FROM relays WHERE relay_id = p_relay_id;
 
-    CALL sp_delete_address(existing_address_id);
+    CALL sp_delete_address(@address_id);
 END $$
 DELIMITER ;

@@ -1,0 +1,1 @@
+export const deleteOneRelayQuery = "CALL sp_delete_relay(?)";

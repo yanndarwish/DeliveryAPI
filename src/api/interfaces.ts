@@ -236,6 +236,19 @@ export type UpdateOneRelayRequest = TypedRequest<
 >
 export type UpdateOneRelayResponse = TypedResponse<UpdateOneRelayResponseObject>
 
+// DELETE ONE RELAY BY ID
+export type DeleteOneRelayParams =
+	paths["/relays/{id}"]["delete"]["parameters"]["path"]
+type DeleteOneRelayResponseObject =
+	paths["/relays/{id}"]["delete"]["responses"][200]["content"]["application/json"]
+
+export type DeleteOneRelayRequest = TypedRequest<
+	never,
+	never,
+	DeleteOneRelayParams
+>
+export type DeleteOneRelayResponse = TypedResponse<DeleteOneRelayResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

@@ -2,7 +2,13 @@ import { Router } from "express"
 
 import { Validator } from "@/middlewares/validation"
 
-import { getManyRelays, createRelay, getOneRelayById, updateRelay } from "@/logic/relays"
+import {
+	getManyRelays,
+	createRelay,
+	getOneRelayById,
+	updateRelay,
+	deleteOneRelayById,
+} from "@/logic/relays"
 
 import {
 	getManyRelaysQuerySchema,
@@ -10,6 +16,7 @@ import {
 	getOneRelayParamsSchema,
 	updateOneRelayParamsSchema,
 	updateOneRelayBodySchema,
+	deleteOneRelayParamsSchema,
 } from "./validation"
 
 import { headerSchema } from "../validation"
@@ -31,10 +38,10 @@ relaysController.post(
 )
 
 relaysController.get(
-    "/:id",
-    Validator(headerSchema, "headers"),
-    Validator(getOneRelayParamsSchema, "params"),
-    getOneRelayById
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(getOneRelayParamsSchema, "params"),
+	getOneRelayById
 )
 
 relaysController.put(
@@ -43,6 +50,13 @@ relaysController.put(
 	Validator(updateOneRelayParamsSchema, "params"),
 	Validator(updateOneRelayBodySchema, "body"),
 	updateRelay
+)
+
+relaysController.delete(
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(deleteOneRelayParamsSchema, "params"),
+	deleteOneRelayById
 )
 
 export { relaysController }
