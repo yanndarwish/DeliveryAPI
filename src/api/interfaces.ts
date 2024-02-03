@@ -249,6 +249,32 @@ export type DeleteOneRelayRequest = TypedRequest<
 >
 export type DeleteOneRelayResponse = TypedResponse<DeleteOneRelayResponseObject>
 
+// =========================== DRIVERS ============================
+
+// GET MANY DRIVERS
+export type GetManyDriversQuery =
+	paths["/drivers"]["get"]["parameters"]["query"]
+export type DriversArray =
+	paths["/drivers"]["get"]["responses"][200]["content"]["application/json"]["data"]
+type GetManyDriversResponseObject =
+	paths["/drivers"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetManyDriversRequest = TypedRequest<
+	GetManyDriversQuery,
+	never,
+	never
+>
+export type GetManyDriversResponse = TypedResponse<GetManyDriversResponseObject>
+
+// CREATE DRIVER
+export type CreateDriverBody =
+	paths["/drivers"]["post"]["requestBody"]["content"]["application/json"]
+type CreateDriverResponseObject =
+	paths["/drivers"]["post"]["responses"][201]["content"]["application/json"]
+
+export type CreateDriverRequest = TypedRequest<never, CreateDriverBody, never>
+export type CreateDriverResponse = TypedResponse<CreateDriverResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

@@ -70,6 +70,14 @@
 
 ## DRIVERS
 
+### GET Get Many Drivers
+
+- Tests
+
+### POST Create Driver
+
+- Tests
+
 ## VEHICLES
 
 ## TOURS

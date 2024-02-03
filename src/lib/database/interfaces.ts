@@ -44,3 +44,15 @@ export type RelayDB = {
 }
 
 export type RelaysArrayDB = RelayDB[]
+
+// ========================== DRIVERS ==========================
+export type DriverDB = {
+	driver_id: number
+	driver_first_name: string
+	driver_last_name: string
+	driver_active: boolean
+	email: string | null
+	phone: string | null
+}
+
+export type DriversArrayDB = DriverDB[]

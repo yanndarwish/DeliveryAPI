@@ -1,0 +1,25 @@
+import { z } from "zod"
+
+// GET MANY DRIVERS
+export const getManyDriversQuerySchema = z.object({
+    limit: z.string().min(1),
+    offset: z.string().min(1),
+    status: z.string().min(2).nullable().optional(),
+    firstName: z.string().min(1).nullable().optional(),
+    lastName: z.string().min(1).nullable().optional(),
+    email: z.string().email().nullable().optional(),
+    phone: z.string().min(1).nullable().optional(),
+})
+
+export type GetManyDriversQuery = z.infer<typeof getManyDriversQuerySchema>
+
+// CREATE DRIVER
+export const createDriverBodySchema = z.object({
+    firstName: z.string().min(1),
+    lastName: z.string().min(1),
+    active: z.boolean(),
+    email: z.string().email().nullable(),
+    phone: z.string().min(1).nullable(),
+})
+
+export type CreateDriverBody = z.infer<typeof createDriverBodySchema>

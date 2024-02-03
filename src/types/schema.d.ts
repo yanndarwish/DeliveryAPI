@@ -535,6 +535,86 @@ export interface paths {
       };
     };
   };
+  "/drivers": {
+    /** Returns a list of drivers. */
+    get: {
+      parameters: {
+        query: {
+          offset: components["parameters"]["OffsetParam"];
+          limit: components["parameters"]["LimitParam"];
+          /**
+           * @description Filter by driver active status
+           * @example ACTIVE
+           */
+          status?: components["schemas"]["ActiveStatus"];
+          /**
+           * @description Filter by driver first name
+           * @example Bob
+           */
+          firstName?: string;
+          /**
+           * @description Filter by driver last name
+           * @example Brown
+           */
+          lastName?: string;
+          /**
+           * @description Filter by driver email
+           * @example example@mail.com
+           */
+          email?: string;
+          /**
+           * @description Filter by driver phone
+           * @example 612345678
+           */
+          phone?: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of user names */
+        200: {
+          content: {
+            "application/json": {
+              data: components["schemas"]["DriversArray"];
+              pagination: components["schemas"]["Pagination"];
+            };
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+    /** Creates a new driver. */
+    post: {
+      /** @description Driver object to be added to the list */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["DriverCreate"];
+        };
+      };
+      responses: {
+        /** @description Driver created */
+        201: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -1074,6 +1154,66 @@ export interface components {
        * @example true
        */
       active: boolean;
+    };
+    Driver: {
+      /**
+       * @description The id of the driver
+       * @example 1
+       */
+      id: number;
+      /**
+       * @description The first name of the driver
+       * @example Bob
+       */
+      firstName: string;
+      /**
+       * @description The last name of the driver
+       * @example Brown
+       */
+      lastName: string;
+      /**
+       * @description The status of the driver
+       * @example true
+       */
+      active: boolean;
+      /**
+       * @description The email of the driver
+       * @example example@mail.com
+       */
+      email: string | null;
+      /**
+       * @description The phone number of the driver
+       * @example 33612345678
+       */
+      phone: string | null;
+    };
+    DriversArray: components["schemas"]["Driver"][];
+    DriverCreate: {
+      /**
+       * @description The first name of the driver
+       * @example Bob
+       */
+      firstName: string;
+      /**
+       * @description The last name of the driver
+       * @example Brown
+       */
+      lastName: string;
+      /**
+       * @description The status of the driver
+       * @example true
+       */
+      active: boolean;
+      /**
+       * @description The email of the driver
+       * @example example@mail.com
+       */
+      email: string | null;
+      /**
+       * @description The phone number of the driver
+       * @example 33612345678
+       */
+      phone: string | null;
     };
   };
   responses: never;

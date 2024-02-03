@@ -178,7 +178,7 @@ paths:
           description: Delivery not found
         "500":
           description: Internal server error
-  
+
   ############# CLIENTS #################
   /clients:
     get:
@@ -260,7 +260,7 @@ paths:
           description: Bad request - validation error
         "500":
           description: Internal server error
-    
+
   /clients/{id}:
     get:
       summary: Returns a client by id.
@@ -401,7 +401,7 @@ paths:
           description: Bad request - validation error
         "500":
           description: Internal server error
-      
+
     post:
       summary: Creates a new relay.
       tags:
@@ -424,7 +424,7 @@ paths:
           description: Bad request - validation error
         "500":
           description: Internal server error
-  
+
   /relays/{id}:
     get:
       summary: Returns a relay by id.
@@ -450,7 +450,7 @@ paths:
           description: Relay not found
         "500":
           description: Internal server error
-      
+
     put:
       summary: Updates a relay by id.
       tags:
@@ -508,6 +508,88 @@ paths:
         "500":
           description: Internal server error
 
+  ############# DRIVERS #################
+  /drivers:
+    get:
+      summary: Returns a list of drivers.
+      tags:
+        - "Drivers"
+      parameters:
+        - $ref: "#/components/parameters/OffsetParam"
+        - $ref: "#/components/parameters/LimitParam"
+        - in: query
+          name: status
+          description: Filter by driver active status
+          example: ACTIVE
+          schema:
+            $ref: "#/components/schemas/ActiveStatus"
+        - in: query
+          name: firstName
+          description: Filter by driver first name
+          example: Bob
+          schema:
+            type: string
+        - in: query
+          name: lastName
+          example: Brown
+          description: Filter by driver last name
+          schema:
+            type: string
+        - in: query
+          name: email
+          example: example@mail.com
+          description: Filter by driver email
+          schema:
+            type: string
+        - in: query
+          name: phone
+          example: 0612345678
+          description: Filter by driver phone
+          schema:
+            type: string
+      responses:
+        "200": # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/DriversArray"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                required:
+                  - data
+                  - pagination
+        "400":
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
+
+    post:
+      summary: Creates a new driver.
+      tags:
+        - "Drivers"
+      requestBody:
+        description: Driver object to be added to the list
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DriverCreate"
+      responses:
+        "201":
+          description: Driver created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:
@@ -561,7 +643,7 @@ components:
         totalItems:
           type: integer
           example: 89
-    
+
     ############# ENUMS #################
     # Pickup entities
     PickupEntities:
@@ -570,7 +652,7 @@ components:
       enum:
         - CLIENT
         - RELAY
-    
+
     # Active status
     ActiveStatus:
       type: string
@@ -842,7 +924,7 @@ components:
           example: 1
         entityType:
           $ref: "#/components/schemas/PickupEntities"
-  
+
     ############# CLIENTS SCHEMAS #################
     # Client schema
     Client:
@@ -909,13 +991,13 @@ components:
         - active
         - phone
         - email
-    
+
     # Clients array
     ClientsArray:
       type: array
       items:
         $ref: "#/components/schemas/Client"
-    
+
     # Client creation body schema
     ClientCreate:
       type: object
@@ -1026,7 +1108,7 @@ components:
         - active
         - phone
         - email
-    
+
     ############# RELAYS SCHEMAS #################
     # Relay schema
     Relay:
@@ -1087,7 +1169,7 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Relay"
-    
+
     # Relay creation body schema
     RelayCreate:
       type: object
@@ -1178,3 +1260,81 @@ components:
         - country
         - comment
         - active
+
+    ############# DRIVERS SCHEMAS #################
+    # Driver schema
+    Driver:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The id of the driver
+          example: 1
+        firstName:
+          type: string
+          description: The first name of the driver
+          example: Bob
+        lastName:
+          type: string
+          description: The last name of the driver
+          example: Brown
+        active:
+          type: boolean
+          description: The status of the driver
+          example: true
+        email:
+          type: string
+          nullable: true
+          description: The email of the driver
+          example: example@mail.com
+        phone:
+          type: string
+          nullable: true
+          description: The phone number of the driver
+          example: +33612345678
+      required:
+        - id
+        - firstName
+        - lastName
+        - active
+        - email
+        - phone
+
+    # Drivers array
+    DriversArray:
+      type: array
+      items:
+        $ref: "#/components/schemas/Driver"
+
+    # Driver creation body schema
+    DriverCreate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: The first name of the driver
+          example: Bob
+        lastName:
+          type: string
+          description: The last name of the driver
+          example: Brown
+        active:
+          type: boolean
+          description: The status of the driver
+          example: true
+        email:
+          type: string
+          nullable: true
+          description: The email of the driver
+          example: example@mail.com
+        phone:
+          type: string
+          nullable: true
+          description: The phone number of the driver
+          example: +33612345678
+      required:
+        - firstName
+        - lastName
+        - active
+        - email
+        - phone
