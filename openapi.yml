@@ -648,6 +648,31 @@ paths:
         "500":
           description: Internal server error
 
+    delete:
+      summary: Deletes a driver by id.
+      tags:
+        - "Drivers"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the driver to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Driver deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Driver not found
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:

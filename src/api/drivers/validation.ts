@@ -45,3 +45,11 @@ export const updateOneDriverBodySchema = z.object({
 })
 
 export type UpdateOneDriverParams = z.infer<typeof updateOneDriverParamsSchema>
+export type UpdateOneDriverBody = z.infer<typeof updateOneDriverBodySchema>
+
+// DELETE ONE DRIVER BY ID
+export const deleteOneDriverParamsSchema = z.object({
+    id: z.string().refine((value) => Number(value) > 0),
+})
+
+export type DeleteOneDriverParams = z.infer<typeof deleteOneDriverParamsSchema>

@@ -7,6 +7,7 @@ import {
 	createDriver,
 	getOneDriverById,
 	updateDriver,
+	deleteOneDriverById,
 } from "@/logic/drivers"
 
 import {
@@ -15,6 +16,7 @@ import {
 	getOneDriverParamsSchema,
 	updateOneDriverParamsSchema,
 	updateOneDriverBodySchema,
+	deleteOneDriverParamsSchema,
 } from "./validation"
 
 import { headerSchema } from "../validation"
@@ -48,6 +50,13 @@ driversController.put(
 	Validator(updateOneDriverParamsSchema, "params"),
 	Validator(updateOneDriverBodySchema, "body"),
 	updateDriver
+)
+
+driversController.delete(
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(deleteOneDriverParamsSchema, "params"),
+	deleteOneDriverById
 )
 
 export { driversController }

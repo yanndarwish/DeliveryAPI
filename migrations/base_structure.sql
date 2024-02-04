@@ -136,8 +136,6 @@ CREATE TABLE IF NOT EXISTS deliveries (
     delivery_hotel_price INT,
     delivery_outsourced_to INTEGER DEFAULT NULL,
     company_id INTEGER,
-    FOREIGN KEY (delivery_driver) REFERENCES drivers(driver_id),
-    FOREIGN KEY (delivery_vehicle) REFERENCES vehicles(vehicle_id),
     FOREIGN KEY (delivery_provider) REFERENCES companies(company_id),
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 ) ENGINE=InnoDB;

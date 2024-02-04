@@ -299,6 +299,18 @@ export type UpdateOneDriverRequest = TypedRequest<
 >
 export type UpdateOneDriverResponse = TypedResponse<UpdateOneDriverResponseObject>
 
+// DELETE ONE DRIVER BY ID
+export type DeleteOneDriverParams =
+	paths["/drivers/{id}"]["delete"]["parameters"]["path"]
+type DeleteOneDriverResponseObject =
+	paths["/drivers/{id}"]["delete"]["responses"][200]["content"]["application/json"]
+	
+export type DeleteOneDriverRequest = TypedRequest<
+	never,
+	never,
+	DeleteOneDriverParams
+>
+export type DeleteOneDriverResponse = TypedResponse<DeleteOneDriverResponseObject>
 
 // ================================================================
 // ========================== COMPONENTS ==========================

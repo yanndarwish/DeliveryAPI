@@ -680,6 +680,35 @@ export interface paths {
         };
       };
     };
+    /** Deletes a driver by id. */
+    delete: {
+      parameters: {
+        path: {
+          /** @description The id of the driver to delete */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description Driver deleted */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Driver not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
