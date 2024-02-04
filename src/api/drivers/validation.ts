@@ -30,3 +30,18 @@ export const getOneDriverParamsSchema = z.object({
 })
 
 export type GetOneDriverParams = z.infer<typeof getOneDriverParamsSchema>
+
+// UPDATE ONE DRIVER BY ID
+export const updateOneDriverParamsSchema = z.object({
+    id: z.string().refine((value) => Number(value) > 0),
+})
+
+export const updateOneDriverBodySchema = z.object({
+    firstName: z.string().min(1),
+    lastName: z.string().min(1),
+    active: z.boolean(),
+    email: z.string().email().nullable(),
+    phone: z.string().min(1).nullable(),
+})
+
+export type UpdateOneDriverParams = z.infer<typeof updateOneDriverParamsSchema>

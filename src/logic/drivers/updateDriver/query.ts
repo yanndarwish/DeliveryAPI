@@ -1,0 +1,1 @@
+export const updateDriverQuery = "CALL sp_update_driver(?, ?, ?, ?, ?, ?)"

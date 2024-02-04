@@ -284,6 +284,22 @@ export type GetOneDriverResponseObject =
 export type GetOneDriverRequest = TypedRequest<never, never, GetOneDriverParams>
 export type GetOneDriverResponse = TypedResponse<GetOneDriverResponseObject>
 
+// UPDATE ONE DRIVER BY ID
+export type UpdateOneDriverParams =
+	paths["/drivers/{id}"]["put"]["parameters"]["path"]
+export type UpdateOneDriverBody =
+	paths["/drivers/{id}"]["put"]["requestBody"]["content"]["application/json"]
+type UpdateOneDriverResponseObject =
+	paths["/drivers/{id}"]["put"]["responses"][200]["content"]["application/json"]
+
+export type UpdateOneDriverRequest = TypedRequest<
+	never,
+	UpdateOneDriverBody,
+	UpdateOneDriverParams
+>
+export type UpdateOneDriverResponse = TypedResponse<UpdateOneDriverResponseObject>
+
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

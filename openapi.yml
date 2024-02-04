@@ -55,7 +55,7 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: A JSON array of deliveries
           content:
             application/json:
@@ -109,7 +109,7 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: A delivery object
           content:
             application/json:
@@ -141,7 +141,7 @@ paths:
             schema:
               $ref: "#/components/schemas/DeliveryUpdate"
       responses:
-        "200": # status code
+        "200":
           description: Delivery updated
           content:
             application/json:
@@ -166,7 +166,7 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: Delivery deleted
           content:
             application/json:
@@ -219,7 +219,7 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: A JSON array of clients
           content:
             application/json:
@@ -274,7 +274,7 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: A client object
           content:
             application/json:
@@ -306,7 +306,7 @@ paths:
             schema:
               $ref: "#/components/schemas/ClientUpdate"
       responses:
-        "200": # status code
+        "200":
           description: Client updated
           content:
             application/json:
@@ -331,7 +331,7 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: Client deleted
           content:
             application/json:
@@ -383,7 +383,7 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: A JSON array of relays
           content:
             application/json:
@@ -438,7 +438,7 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: A relay object
           content:
             application/json:
@@ -470,7 +470,7 @@ paths:
             schema:
               $ref: "#/components/schemas/RelayUpdate"
       responses:
-        "200": # status code
+        "200":
           description: Relay updated
           content:
             application/json:
@@ -495,7 +495,7 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: Relay deleted
           content:
             application/json:
@@ -548,7 +548,7 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: A JSON array of drivers
           content:
             application/json:
@@ -589,7 +589,7 @@ paths:
           description: Bad request - validation error
         "500":
           description: Internal server error
-    
+
   /drivers/{id}:
     get:
       summary: Returns a driver by id.
@@ -603,12 +603,44 @@ paths:
           schema:
             type: string
       responses:
-        "200": # status code
+        "200":
           description: A driver object
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Driver"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Driver not found
+        "500":
+          description: Internal server error
+
+    put:
+      summary: Updates a driver by id.
+      tags:
+        - "Drivers"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the driver to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Driver object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DriverUpdate"
+      responses:
+        "200":
+          description: Driver updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
         "400":
           description: Bad request - validation error
         "404":
@@ -1364,3 +1396,6 @@ components:
         - active
         - email
         - phone
+
+    DriverUpdate:
+      $ref: "#/components/schemas/DriverCreate"

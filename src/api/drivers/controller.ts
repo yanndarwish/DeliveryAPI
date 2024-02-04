@@ -2,12 +2,19 @@ import { Router } from "express"
 
 import { Validator } from "@/middlewares/validation"
 
-import { getManyDrivers, createDriver, getOneDriverById } from "@/logic/drivers"
+import {
+	getManyDrivers,
+	createDriver,
+	getOneDriverById,
+	updateDriver,
+} from "@/logic/drivers"
 
 import {
 	getManyDriversQuerySchema,
 	createDriverBodySchema,
 	getOneDriverParamsSchema,
+	updateOneDriverParamsSchema,
+	updateOneDriverBodySchema,
 } from "./validation"
 
 import { headerSchema } from "../validation"
@@ -29,10 +36,18 @@ driversController.post(
 )
 
 driversController.get(
-    "/:id",
-    Validator(headerSchema, "headers"),
-    Validator(getOneDriverParamsSchema, "params"),
-    getOneDriverById
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(getOneDriverParamsSchema, "params"),
+	getOneDriverById
+)
+
+driversController.put(
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(updateOneDriverParamsSchema, "params"),
+	Validator(updateOneDriverBodySchema, "body"),
+	updateDriver
 )
 
 export { driversController }

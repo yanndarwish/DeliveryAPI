@@ -88,6 +88,10 @@
 
 - Tests
 
+### PUT Update Driver
+
+- Tests
+
 ## VEHICLES
 
 ## TOURS

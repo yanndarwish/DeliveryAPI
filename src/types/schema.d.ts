@@ -645,6 +645,41 @@ export interface paths {
         };
       };
     };
+    /** Updates a driver by id. */
+    put: {
+      parameters: {
+        path: {
+          /** @description The id of the driver to update */
+          id: string;
+        };
+      };
+      /** @description Driver object to be updated */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["DriverUpdate"];
+        };
+      };
+      responses: {
+        /** @description Driver updated */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Driver not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
@@ -1246,6 +1281,7 @@ export interface components {
        */
       phone: string | null;
     };
+    DriverUpdate: components["schemas"]["DriverCreate"];
   };
   responses: never;
   parameters: {
