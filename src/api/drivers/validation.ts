@@ -23,3 +23,10 @@ export const createDriverBodySchema = z.object({
 })
 
 export type CreateDriverBody = z.infer<typeof createDriverBodySchema>
+
+// GET ONE DRIVER BY ID
+export const getOneDriverParamsSchema = z.object({
+    id: z.string().refine((value) => Number(value) > 0),
+})
+
+export type GetOneDriverParams = z.infer<typeof getOneDriverParamsSchema>

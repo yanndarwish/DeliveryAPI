@@ -1,5 +1,11 @@
 # TODO
 
+## GENERAL
+
+- Authentication logic + routes + info in token to avoid sending the company-id
+- Place the header schema validator middleware once instead of repeating it in each route
+- Check that the company-id provided in the middleware exists (new error message "company does not exist")
+
 ## DELIVERIES
 
 ### GET Get Many Deliveries
@@ -75,6 +81,10 @@
 - Tests
 
 ### POST Create Driver
+
+- Tests
+
+### GET Get Driver
 
 - Tests
 

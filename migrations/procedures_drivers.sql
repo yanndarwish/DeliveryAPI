@@ -150,7 +150,7 @@ END $$
 
 -- GET A DRIVER
 DELIMITER $$
-CREATE PROCEDURE sp_get_driver_by_id(IN p_driver_id INT)
+CREATE PROCEDURE sp_get_driver(IN p_driver_id INT, IN p_company_id INT)
 BEGIN
     SELECT 
         di.driver_id,
@@ -160,7 +160,8 @@ BEGIN
         di.email,
         di.phone
     FROM view_drivers_info di
-    WHERE di.driver_id = p_driver_id;
+    WHERE di.driver_id = p_driver_id
+    AND di.company_id = p_company_id;
 END $$
 DELIMITER ;
 

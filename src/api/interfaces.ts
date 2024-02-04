@@ -275,6 +275,15 @@ type CreateDriverResponseObject =
 export type CreateDriverRequest = TypedRequest<never, CreateDriverBody, never>
 export type CreateDriverResponse = TypedResponse<CreateDriverResponseObject>
 
+// GET ONE DRIVER BY ID
+export type GetOneDriverParams =
+	paths["/drivers/{id}"]["get"]["parameters"]["path"]
+export type GetOneDriverResponseObject =
+	paths["/drivers/{id}"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetOneDriverRequest = TypedRequest<never, never, GetOneDriverParams>
+export type GetOneDriverResponse = TypedResponse<GetOneDriverResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

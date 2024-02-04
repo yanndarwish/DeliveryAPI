@@ -45,7 +45,7 @@ export interface paths {
         };
       };
       responses: {
-        /** @description A JSON array of user names */
+        /** @description A JSON array of deliveries */
         200: {
           content: {
             "application/json": {
@@ -100,7 +100,7 @@ export interface paths {
         };
       };
       responses: {
-        /** @description A JSON array of user names */
+        /** @description A delivery object */
         200: {
           content: {
             "application/json": components["schemas"]["Delivery"];
@@ -220,7 +220,7 @@ export interface paths {
         };
       };
       responses: {
-        /** @description A JSON array of user names */
+        /** @description A JSON array of clients */
         200: {
           content: {
             "application/json": {
@@ -275,7 +275,7 @@ export interface paths {
         };
       };
       responses: {
-        /** @description A JSON array of user names */
+        /** @description A client object */
         200: {
           content: {
             "application/json": components["schemas"]["Client"];
@@ -395,7 +395,7 @@ export interface paths {
         };
       };
       responses: {
-        /** @description A JSON array of user names */
+        /** @description A JSON array of relays */
         200: {
           content: {
             "application/json": {
@@ -450,7 +450,7 @@ export interface paths {
         };
       };
       responses: {
-        /** @description A JSON array of user names */
+        /** @description A relay object */
         200: {
           content: {
             "application/json": components["schemas"]["Relay"];
@@ -570,7 +570,7 @@ export interface paths {
         };
       };
       responses: {
-        /** @description A JSON array of user names */
+        /** @description A JSON array of drivers */
         200: {
           content: {
             "application/json": {
@@ -606,6 +606,37 @@ export interface paths {
         };
         /** @description Bad request - validation error */
         400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
+  "/drivers/{id}": {
+    /** Returns a driver by id. */
+    get: {
+      parameters: {
+        path: {
+          /** @description The id of the driver to retrieve */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description A driver object */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Driver"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Driver not found */
+        404: {
           content: never;
         };
         /** @description Internal server error */
