@@ -312,6 +312,24 @@ export type DeleteOneDriverRequest = TypedRequest<
 >
 export type DeleteOneDriverResponse = TypedResponse<DeleteOneDriverResponseObject>
 
+// =========================== VEHICLES ===========================
+
+// GET MANY VEHICLES
+export type GetManyVehiclesQuery =
+	paths["/vehicles"]["get"]["parameters"]["query"]
+export type VehiclesArray =
+	paths["/vehicles"]["get"]["responses"][200]["content"]["application/json"]["data"]
+type GetManyVehiclesResponseObject =
+	paths["/vehicles"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetManyVehiclesRequest = TypedRequest<
+	GetManyVehiclesQuery,
+	never,
+	never
+>
+export type GetManyVehiclesResponse = TypedResponse<GetManyVehiclesResponseObject>
+
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

@@ -2,6 +2,7 @@
 
 ## GENERAL
 
+- Offset and Limit validation if not integer
 - Authentication logic + routes + info in token to avoid sending the company-id
 - Place the header schema validator middleware once instead of repeating it in each route
 - Check that the company-id provided in the middleware exists (new error message "company does not exist")
@@ -92,6 +93,14 @@
 
 - Tests
 
+### DELETE Delete Driver
+
+- Tests
+
 ## VEHICLES
+
+### GET Get Many Vehicles
+
+- Tests
 
 ## TOURS

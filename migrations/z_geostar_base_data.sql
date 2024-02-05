@@ -42,9 +42,9 @@ CALL sp_create_driver('Johnson', 'Alice', FALSE, 'driver2@example.com', '0606060
 CALL sp_create_driver('Brown', 'Bob', TRUE, 'driver3@example.com', '0606060606', 1);
 
 -- Insert sample vehicles
-CALL sp_create_vehicle('Toyota', 'Camry', 'ABC123', TRUE);
-CALL sp_create_vehicle('Ford', 'Fusion', 'XYZ789', FALSE);
-CALL sp_create_vehicle('Honda', 'Accord', 'LMN456', TRUE);
+CALL sp_create_vehicle('Toyota', 'Camry', 'ABC123', TRUE, 1);
+CALL sp_create_vehicle('Ford', 'Fusion', 'XYZ789', FALSE, 1);
+CALL sp_create_vehicle('Honda', 'Accord', 'LMN456', TRUE, 1);
 
 -- Insert sample deliveries
 CALL sp_create_delivery(

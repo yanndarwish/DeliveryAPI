@@ -710,6 +710,56 @@ export interface paths {
       };
     };
   };
+  "/vehicles": {
+    /** Returns a list of vehicles. */
+    get: {
+      parameters: {
+        query: {
+          offset: components["parameters"]["OffsetParam"];
+          limit: components["parameters"]["LimitParam"];
+          /**
+           * @description Filter by vehicle active status
+           * @example ACTIVE
+           */
+          status?: components["schemas"]["ActiveStatus"];
+          /**
+           * @description Filter by vehicle brand
+           * @example Honda
+           */
+          brand?: string;
+          /**
+           * @description Filter by vehicle model
+           * @example Accord
+           */
+          model?: string;
+          /**
+           * @description Filter by vehicle immatriculation
+           * @example 123ABC75
+           */
+          immatriculation?: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of vehicles */
+        200: {
+          content: {
+            "application/json": {
+              data: components["schemas"]["VehiclesArray"];
+              pagination: components["schemas"]["Pagination"];
+            };
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -1311,6 +1361,34 @@ export interface components {
       phone: string | null;
     };
     DriverUpdate: components["schemas"]["DriverCreate"];
+    Vehicle: {
+      /**
+       * @description The id of the vehicle
+       * @example 1
+       */
+      id: number;
+      /**
+       * @description The brand of the vehicle
+       * @example Honda
+       */
+      brand: string;
+      /**
+       * @description The model of the vehicle
+       * @example Accord
+       */
+      model: string;
+      /**
+       * @description The immatriculation of the vehicle
+       * @example 123ABC75
+       */
+      immatriculation: string;
+      /**
+       * @description The status of the vehicle
+       * @example true
+       */
+      active: boolean;
+    };
+    VehiclesArray: components["schemas"]["Vehicle"][];
   };
   responses: never;
   parameters: {

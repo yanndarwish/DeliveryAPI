@@ -56,3 +56,14 @@ export type DriverDB = {
 }
 
 export type DriversArrayDB = DriverDB[]
+
+// ========================== VEHICLES =========================
+export type VehicleDB = {
+	vehicle_id: number
+	vehicle_brand: string
+	vehicle_model: string
+	vehicle_immatriculation: string
+	vehicle_active: boolean
+}
+
+export type VehiclesArrayDB = VehicleDB[]
