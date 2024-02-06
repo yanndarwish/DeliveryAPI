@@ -329,6 +329,14 @@ export type GetManyVehiclesRequest = TypedRequest<
 >
 export type GetManyVehiclesResponse = TypedResponse<GetManyVehiclesResponseObject>
 
+// CREATE VEHICLE
+export type CreateVehicleBody =
+	paths["/vehicles"]["post"]["requestBody"]["content"]["application/json"]
+type CreateVehicleResponseObject =
+	paths["/vehicles"]["post"]["responses"][201]["content"]["application/json"]
+
+export type CreateVehicleRequest = TypedRequest<never, CreateVehicleBody, never>
+export type CreateVehicleResponse = TypedResponse<CreateVehicleResponseObject>
 
 // ================================================================
 // ========================== COMPONENTS ==========================

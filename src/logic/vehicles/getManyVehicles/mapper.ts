@@ -24,7 +24,7 @@ export const getManyVehiclesResponseMapper = (
 		brand: vehicle.vehicle_brand,
 		model: vehicle.vehicle_model,
 		immatriculation: vehicle.vehicle_immatriculation,
-		active: vehicle.vehicle_active,
+		active: Boolean(vehicle.vehicle_active),
 	}))
 }
 

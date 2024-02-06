@@ -759,6 +759,31 @@ export interface paths {
         };
       };
     };
+    /** Creates a new vehicle. */
+    post: {
+      /** @description Vehicle object to be added to the list */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["VehicleCreate"];
+        };
+      };
+      responses: {
+        /** @description Vehicle created */
+        201: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
@@ -1389,6 +1414,28 @@ export interface components {
       active: boolean;
     };
     VehiclesArray: components["schemas"]["Vehicle"][];
+    VehicleCreate: {
+      /**
+       * @description The brand of the vehicle
+       * @example Honda
+       */
+      brand: string;
+      /**
+       * @description The model of the vehicle
+       * @example Accord
+       */
+      model: string;
+      /**
+       * @description The immatriculation of the vehicle
+       * @example 123ABC75
+       */
+      immatriculation: string;
+      /**
+       * @description The status of the vehicle
+       * @example true
+       */
+      active: boolean;
+    };
   };
   responses: never;
   parameters: {

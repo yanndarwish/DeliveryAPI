@@ -726,6 +726,29 @@ paths:
         "500":
           description: Internal server error
 
+    post:
+      summary: Creates a new vehicle.
+      tags:
+        - "Vehicles"
+      requestBody:
+        description: Vehicle object to be added to the list
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VehicleCreate"
+      responses:
+        "201":
+          description: Vehicle created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:
@@ -1515,4 +1538,30 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Vehicle"
+
+    # Vehicle creation body schema
+    VehicleCreate:
+      type: object
+      properties:
+        brand:
+          type: string
+          description: The brand of the vehicle
+          example: Honda
+        model:
+          type: string
+          description: The model of the vehicle
+          example: Accord
+        immatriculation:
+          type: string
+          description: The immatriculation of the vehicle
+          example: 123ABC75
+        active:
+          type: boolean
+          description: The status of the vehicle
+          example: true
+      required:
+        - brand
+        - model
+        - immatriculation
+        - active
 

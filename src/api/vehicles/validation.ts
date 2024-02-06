@@ -11,3 +11,13 @@ export const getManyVehiclesQuerySchema = z.object({
 })
 
 export type GetManyVehiclesQuery = z.infer<typeof getManyVehiclesQuerySchema>
+
+// CREATE VEHICLE
+export const createVehicleBodySchema = z.object({
+    brand: z.string().min(1),
+    model: z.string().min(1),
+    immatriculation: z.string().min(1),
+    active: z.boolean(),
+})
+
+export type CreateVehicleBody = z.infer<typeof createVehicleBodySchema>
