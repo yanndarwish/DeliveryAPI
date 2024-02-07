@@ -5,12 +5,15 @@ import {
 	getManyVehicles,
 	createVehicle,
 	getOneVehicleById,
+	updateVehicle,
 } from "@/logic/vehicles"
 
 import {
 	getManyVehiclesQuerySchema,
 	createVehicleBodySchema,
 	getOneVehicleParamsSchema,
+	updateVehicleParamsSchema,
+	updateVehicleBodySchema,
 } from "./validation"
 import { headerSchema } from "../validation"
 
@@ -35,6 +38,14 @@ vehiclesController.get(
 	Validator(headerSchema, "headers"),
 	Validator(getOneVehicleParamsSchema, "params"),
 	getOneVehicleById
+)
+
+vehiclesController.put(
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(updateVehicleParamsSchema, "params"),
+	Validator(updateVehicleBodySchema, "body"),
+	updateVehicle
 )
 
 export { vehiclesController }

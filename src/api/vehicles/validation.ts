@@ -31,3 +31,22 @@ export const getOneVehicleParamsSchema = z.object({
 })
 
 export type GetOneVehicleParams = z.infer<typeof getOneVehicleParamsSchema>
+
+// UPDATE VEHICLE
+export const updateVehicleParamsSchema = z.object({
+	id: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) > 0),
+})
+
+export type UpdateVehicleParams = z.infer<typeof updateVehicleParamsSchema>
+
+export const updateVehicleBodySchema = z.object({
+	brand: z.string().min(1),
+	model: z.string().min(1),
+	immatriculation: z.string().min(1),
+	active: z.boolean(),
+})
+
+export type UpdateVehicleBody = z.infer<typeof updateVehicleBodySchema>

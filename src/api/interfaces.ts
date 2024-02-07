@@ -297,20 +297,22 @@ export type UpdateOneDriverRequest = TypedRequest<
 	UpdateOneDriverBody,
 	UpdateOneDriverParams
 >
-export type UpdateOneDriverResponse = TypedResponse<UpdateOneDriverResponseObject>
+export type UpdateOneDriverResponse =
+	TypedResponse<UpdateOneDriverResponseObject>
 
 // DELETE ONE DRIVER BY ID
 export type DeleteOneDriverParams =
 	paths["/drivers/{id}"]["delete"]["parameters"]["path"]
 type DeleteOneDriverResponseObject =
 	paths["/drivers/{id}"]["delete"]["responses"][200]["content"]["application/json"]
-	
+
 export type DeleteOneDriverRequest = TypedRequest<
 	never,
 	never,
 	DeleteOneDriverParams
 >
-export type DeleteOneDriverResponse = TypedResponse<DeleteOneDriverResponseObject>
+export type DeleteOneDriverResponse =
+	TypedResponse<DeleteOneDriverResponseObject>
 
 // =========================== VEHICLES ===========================
 
@@ -327,7 +329,8 @@ export type GetManyVehiclesRequest = TypedRequest<
 	never,
 	never
 >
-export type GetManyVehiclesResponse = TypedResponse<GetManyVehiclesResponseObject>
+export type GetManyVehiclesResponse =
+	TypedResponse<GetManyVehiclesResponseObject>
 
 // CREATE VEHICLE
 export type CreateVehicleBody =
@@ -344,8 +347,28 @@ export type GetOneVehicleParams =
 export type GetOneVehicleResponseObject =
 	paths["/vehicles/{id}"]["get"]["responses"][200]["content"]["application/json"]
 
-export type GetOneVehicleRequest = TypedRequest<never, never, GetOneVehicleParams>
+export type GetOneVehicleRequest = TypedRequest<
+	never,
+	never,
+	GetOneVehicleParams
+>
 export type GetOneVehicleResponse = TypedResponse<GetOneVehicleResponseObject>
+
+// UPDATE ONE VEHICLE BY ID
+export type UpdateOneVehicleParams =
+	paths["/vehicles/{id}"]["put"]["parameters"]["path"]
+export type UpdateOneVehicleBody =
+	paths["/vehicles/{id}"]["put"]["requestBody"]["content"]["application/json"]
+type UpdateOneVehicleResponseObject =
+	paths["/vehicles/{id}"]["put"]["responses"][200]["content"]["application/json"]
+
+export type UpdateOneVehicleRequest = TypedRequest<
+	never,
+	UpdateOneVehicleBody,
+	UpdateOneVehicleParams
+>
+export type UpdateOneVehicleResponse =
+	TypedResponse<UpdateOneVehicleResponseObject>
 
 // ================================================================
 // ========================== COMPONENTS ==========================

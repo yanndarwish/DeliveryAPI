@@ -775,6 +775,38 @@ paths:
         "500":
           description: Internal server error
 
+    put:
+      summary: Updates a vehicle by id.
+      tags:
+        - "Vehicles"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the vehicle to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Vehicle object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VehicleUpdate"
+      responses:
+        "200":
+          description: Vehicle updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Vehicle not found
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:
@@ -1590,4 +1622,7 @@ components:
         - model
         - immatriculation
         - active
+
+    VehicleUpdate:
+      $ref: "#/components/schemas/VehicleCreate"
 

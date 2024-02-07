@@ -1,0 +1,1 @@
+export const updateVehicleQuery = "CALL sp_update_vehicle(?, ?, ?, ?, ?)";

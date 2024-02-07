@@ -111,4 +111,8 @@
 
 - Tests
 
+### PUT Update Vehicle
+
+- Tests
+
 ## TOURS
