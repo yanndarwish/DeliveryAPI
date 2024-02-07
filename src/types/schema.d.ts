@@ -785,6 +785,37 @@ export interface paths {
       };
     };
   };
+  "/vehicles/{id}": {
+    /** Returns a vehicle by id. */
+    get: {
+      parameters: {
+        path: {
+          /** @description The id of the vehicle to retrieve */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description A vehicle object */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Vehicle"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Vehicle not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;

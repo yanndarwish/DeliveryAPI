@@ -125,7 +125,7 @@ END $$
 
 -- GET A VEHICLE
 DELIMITER $$
-CREATE PROCEDURE sp_get_vehicle_by_id(IN p_vehicle_id INT)
+CREATE PROCEDURE sp_get_vehicle(IN p_vehicle_id INT, IN p_company_id INT)
 BEGIN
     SELECT
         vehicle_id,
@@ -133,7 +133,9 @@ BEGIN
         vehicle_model,
         vehicle_immatriculation,
         vehicle_active
-    FROM vehicles WHERE vehicle_id = p_vehicle_id;
+    FROM vehicles 
+    WHERE vehicle_id = p_vehicle_id
+    AND company_id = p_company_id;
 END $$
 DELIMITER ;
 

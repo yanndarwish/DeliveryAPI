@@ -1,0 +1,1 @@
+export const getOneVehicleByIdQuery = "CALL sp_get_vehicle(?, ?)";

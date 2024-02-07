@@ -338,6 +338,15 @@ type CreateVehicleResponseObject =
 export type CreateVehicleRequest = TypedRequest<never, CreateVehicleBody, never>
 export type CreateVehicleResponse = TypedResponse<CreateVehicleResponseObject>
 
+// GET ONE VEHICLE BY ID
+export type GetOneVehicleParams =
+	paths["/vehicles/{id}"]["get"]["parameters"]["path"]
+export type GetOneVehicleResponseObject =
+	paths["/vehicles/{id}"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetOneVehicleRequest = TypedRequest<never, never, GetOneVehicleParams>
+export type GetOneVehicleResponse = TypedResponse<GetOneVehicleResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

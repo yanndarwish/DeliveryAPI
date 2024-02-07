@@ -748,6 +748,32 @@ paths:
           description: Bad request - validation error
         "500":
           description: Internal server error
+    
+  /vehicles/{id}:
+    get:
+      summary: Returns a vehicle by id.
+      tags:
+        - "Vehicles"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the vehicle to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A vehicle object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicle"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Vehicle not found
+        "500":
+          description: Internal server error
 
 components:
   ############# PARAMETERS #################

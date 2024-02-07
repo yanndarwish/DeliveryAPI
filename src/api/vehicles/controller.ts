@@ -1,11 +1,16 @@
 import { Router } from "express"
 import { Validator } from "@/middlewares/validation"
 
-import { getManyVehicles, createVehicle } from "@/logic/vehicles"
+import {
+	getManyVehicles,
+	createVehicle,
+	getOneVehicleById,
+} from "@/logic/vehicles"
 
 import {
 	getManyVehiclesQuerySchema,
 	createVehicleBodySchema,
+	getOneVehicleParamsSchema,
 } from "./validation"
 import { headerSchema } from "../validation"
 
@@ -19,10 +24,17 @@ vehiclesController.get(
 )
 
 vehiclesController.post(
-    "/",
-    Validator(headerSchema, "headers"),
-    Validator(createVehicleBodySchema, "body"),
-    createVehicle
+	"/",
+	Validator(headerSchema, "headers"),
+	Validator(createVehicleBodySchema, "body"),
+	createVehicle
+)
+
+vehiclesController.get(
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(getOneVehicleParamsSchema, "params"),
+	getOneVehicleById
 )
 
 export { vehiclesController }

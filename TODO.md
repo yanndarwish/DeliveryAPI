@@ -103,4 +103,12 @@
 
 - Tests
 
+### POST Create Vehicle
+
+- Tests
+
+### GET Get Vehicle
+
+- Tests
+
 ## TOURS
