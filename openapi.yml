@@ -831,6 +831,47 @@ paths:
           description: Vehicle not found
         "500":
           description: Internal server error
+  
+  ############### TOURS ###################
+  /tours:
+    get:
+      summary: Returns a list of tours.
+      tags:
+        - "Tours"
+      parameters:
+        - $ref: "#/components/parameters/OffsetParam"
+        - $ref: "#/components/parameters/LimitParam"
+        - in: query
+          name: status
+          description: Filter by tour active status
+          example: ACTIVE
+          schema:
+            $ref: "#/components/schemas/ActiveStatus"
+        - in: query
+          name: name
+          description: Filter by tour name
+          example: Tour N°1
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A JSON array of tours
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ToursArray"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                required:
+                  - data
+                  - pagination
+        "400":
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
 
 components:
   ############# PARAMETERS #################
@@ -1651,3 +1692,30 @@ components:
     VehicleUpdate:
       $ref: "#/components/schemas/VehicleCreate"
 
+    ############# TOURS SCHEMAS #################
+    # Tour schema
+    Tour:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The id of the tour
+          example: 1
+        name:
+          type: string
+          description: The name of the tour
+          example: Tour N°1
+        active:
+          type: boolean
+          description: The status of the tour
+          example: true
+      required:
+        - id
+        - name
+        - active
+
+    # Tours array
+    ToursArray:
+      type: array
+      items:
+        $ref: "#/components/schemas/Tour"

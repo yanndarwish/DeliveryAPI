@@ -384,6 +384,17 @@ export type DeleteOneVehicleRequest = TypedRequest<
 export type DeleteOneVehicleResponse =
 	TypedResponse<DeleteOneVehicleResponseObject>
 
+// ============================ TOURS =============================
+// GET MANY TOURS
+export type GetManyToursQuery = paths["/tours"]["get"]["parameters"]["query"]
+export type ToursArray =
+	paths["/tours"]["get"]["responses"][200]["content"]["application/json"]["data"]
+type GetManyToursResponseObject =
+	paths["/tours"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetManyToursRequest = TypedRequest<GetManyToursQuery, never, never>
+export type GetManyToursResponse = TypedResponse<GetManyToursResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

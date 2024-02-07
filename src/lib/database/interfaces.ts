@@ -67,3 +67,12 @@ export type VehicleDB = {
 }
 
 export type VehiclesArrayDB = VehicleDB[]
+
+// ========================== TOURS ============================
+export type TourDB = {
+	tour_id: number
+	tour_name: string
+	tour_active: boolean
+}
+
+export type ToursArrayDB = TourDB[]

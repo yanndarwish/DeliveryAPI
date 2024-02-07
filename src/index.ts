@@ -15,6 +15,7 @@ import { clientsController } from "@/api/clients/controller"
 import { relaysController } from "./api/relays/controller"
 import { driversController } from "./api/drivers/controller"
 import { vehiclesController } from "./api/vehicles/controller"
+import { toursController } from "./api/tours/controller"
 
 const app = express()
 app.use(logRequest)
@@ -36,6 +37,7 @@ app.use("/clients", clientsController)
 app.use("/relays", relaysController)
 app.use("/drivers", driversController)
 app.use("/vehicles", vehiclesController)
+app.use("/tours", toursController)
 
 /**
  * Homepage (uniquement necessaire pour cette demo)
@@ -53,7 +55,4 @@ app.all("*", UnknownRoutesHandler)
  */
 app.use(ExceptionsHandler)
 
-/**
- * On demande à Express d'ecouter les requêtes sur le port défini dans la config
- */
 app.listen(config.API_PORT, () => console.log("Silence, ça tourne."))

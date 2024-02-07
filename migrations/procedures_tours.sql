@@ -53,7 +53,10 @@ DELIMITER ;
 -- GET TOURS
 DELIMITER $$
 CREATE PROCEDURE sp_get_tours(
+    IN p_offset INT,
+    IN p_limit INT,
     IN p_status VARCHAR(10),
+    IN p_name VARCHAR(30),
     IN p_company_id INT
 )
 BEGIN
@@ -61,25 +64,64 @@ BEGIN
         SELECT
             tour_id,
             tour_name,
-            tour_active,
-            company_id
-        FROM tours WHERE tour_active = TRUE AND company_id = p_company_id;
+            tour_active
+        FROM tours 
+        WHERE tour_active = TRUE 
+        AND company_id = p_company_id
+        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        LIMIT p_limit 
+        OFFSET p_offset;
     ELSEIF p_status = 'INACTIVE' THEN
         SELECT
             tour_id,
             tour_name,
-            tour_active,
-            company_id
-        FROM tours WHERE tour_active = FALSE AND company_id = p_company_id;
+            tour_active
+        FROM tours 
+        WHERE tour_active = FALSE 
+        AND company_id = p_company_id
+        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        LIMIT p_limit 
+        OFFSET p_offset;
     ELSE
         SELECT
             tour_id,
             tour_name,
-            tour_active,
-            company_id
-        FROM tours WHERE company_id = p_company_id;
+            tour_active
+        FROM tours 
+        WHERE company_id = p_company_id
+        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        LIMIT p_limit 
+        OFFSET p_offset;
     END IF;
 END $$
+DELIMITER ;
+
+-- GET TOURS COUNT
+DELIMITER $$
+CREATE PROCEDURE sp_get_tours_count(
+    IN p_status VARCHAR(10),
+    IN p_name VARCHAR(30),
+    IN p_company_id INT
+)
+BEGIN
+    IF p_status = 'ACTIVE' THEN
+        SELECT COUNT(*) AS total FROM tours 
+        WHERE tour_active = TRUE 
+        AND company_id = p_company_id
+        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL);
+    ELSEIF p_status = 'INACTIVE' THEN
+        SELECT COUNT(*) AS total FROM tours 
+        WHERE tour_active = FALSE 
+        AND company_id = p_company_id
+        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL);
+    ELSE
+        SELECT COUNT(*) AS total FROM tours 
+        WHERE company_id = p_company_id
+        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL);
+    END IF;
+END $$
+DELIMITER ;
+
 
 -- GET A TOUR
 DELIMITER $$

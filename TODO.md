@@ -120,3 +120,7 @@
 - Tests
 
 ## TOURS
+
+### GET Get Many Tours
+
+- Tests

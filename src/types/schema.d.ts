@@ -880,6 +880,46 @@ export interface paths {
       };
     };
   };
+  "/tours": {
+    /** Returns a list of tours. */
+    get: {
+      parameters: {
+        query: {
+          offset: components["parameters"]["OffsetParam"];
+          limit: components["parameters"]["LimitParam"];
+          /**
+           * @description Filter by tour active status
+           * @example ACTIVE
+           */
+          status?: components["schemas"]["ActiveStatus"];
+          /**
+           * @description Filter by tour name
+           * @example Tour N°1
+           */
+          name?: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of tours */
+        200: {
+          content: {
+            "application/json": {
+              data: components["schemas"]["ToursArray"];
+              pagination: components["schemas"]["Pagination"];
+            };
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -1532,6 +1572,24 @@ export interface components {
       active: boolean;
     };
     VehicleUpdate: components["schemas"]["VehicleCreate"];
+    Tour: {
+      /**
+       * @description The id of the tour
+       * @example 1
+       */
+      id: number;
+      /**
+       * @description The name of the tour
+       * @example Tour N°1
+       */
+      name: string;
+      /**
+       * @description The status of the tour
+       * @example true
+       */
+      active: boolean;
+    };
+    ToursArray: components["schemas"]["Tour"][];
   };
   responses: never;
   parameters: {
