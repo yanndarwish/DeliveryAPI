@@ -115,4 +115,8 @@
 
 - Tests
 
+### DELETE Delete Vehicle
+
+- Tests
+
 ## TOURS

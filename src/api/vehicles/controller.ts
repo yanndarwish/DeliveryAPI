@@ -6,6 +6,7 @@ import {
 	createVehicle,
 	getOneVehicleById,
 	updateVehicle,
+	deleteOneVehicleById,
 } from "@/logic/vehicles"
 
 import {
@@ -14,6 +15,7 @@ import {
 	getOneVehicleParamsSchema,
 	updateVehicleParamsSchema,
 	updateVehicleBodySchema,
+	deleteVehicleParamsSchema,
 } from "./validation"
 import { headerSchema } from "../validation"
 
@@ -46,6 +48,13 @@ vehiclesController.put(
 	Validator(updateVehicleParamsSchema, "params"),
 	Validator(updateVehicleBodySchema, "body"),
 	updateVehicle
+)
+
+vehiclesController.delete(
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(deleteVehicleParamsSchema, "params"),
+	deleteOneVehicleById
 )
 
 export { vehiclesController }

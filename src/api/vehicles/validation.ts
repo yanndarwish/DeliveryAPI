@@ -46,8 +46,6 @@ export const updateVehicleParamsSchema = z.object({
 		.refine((value) => Number(value) > 0),
 })
 
-export type UpdateVehicleParams = z.infer<typeof updateVehicleParamsSchema>
-
 export const updateVehicleBodySchema = z.object({
 	brand: z.string().min(1),
 	model: z.string().min(1),
@@ -55,4 +53,15 @@ export const updateVehicleBodySchema = z.object({
 	active: z.boolean(),
 })
 
+export type UpdateVehicleParams = z.infer<typeof updateVehicleParamsSchema>
 export type UpdateVehicleBody = z.infer<typeof updateVehicleBodySchema>
+
+// DELETE VEHICLE
+export const deleteVehicleParamsSchema = z.object({
+	id: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) > 0),
+})
+
+export type DeleteVehicleParams = z.infer<typeof deleteVehicleParamsSchema>

@@ -370,6 +370,20 @@ export type UpdateOneVehicleRequest = TypedRequest<
 export type UpdateOneVehicleResponse =
 	TypedResponse<UpdateOneVehicleResponseObject>
 
+// DELETE ONE VEHICLE BY ID
+export type DeleteOneVehicleParams =
+	paths["/vehicles/{id}"]["delete"]["parameters"]["path"]
+type DeleteOneVehicleResponseObject =
+	paths["/vehicles/{id}"]["delete"]["responses"][200]["content"]["application/json"]
+
+export type DeleteOneVehicleRequest = TypedRequest<
+	never,
+	never,
+	DeleteOneVehicleParams
+>
+export type DeleteOneVehicleResponse =
+	TypedResponse<DeleteOneVehicleResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

@@ -850,6 +850,35 @@ export interface paths {
         };
       };
     };
+    /** Deletes a vehicle by id. */
+    delete: {
+      parameters: {
+        path: {
+          /** @description The id of the vehicle to delete */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description Vehicle deleted */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Vehicle not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
