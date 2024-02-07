@@ -2,8 +2,14 @@ import { z } from "zod"
 
 // GET MANY CLIENTS
 export const getManyClientsQuerySchema = z.object({
-	limit: z.string().min(1),
-	offset: z.string().min(1),
+	limit: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) >= 0),
+	offset: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) >= 0),
 	status: z.string().min(2).nullable().optional(),
 	name: z.string().min(1).nullable().optional(),
 	city: z.string().min(1).nullable().optional(),

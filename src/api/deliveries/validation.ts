@@ -9,8 +9,14 @@ const pickupSchema = z.object({
 
 // GET MANY DELIVERIES
 export const getManyDeliveriesQuerySchema = z.object({
-	limit: z.string().min(1),
-	offset: z.string().min(1),
+	limit: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) >= 0),
+	offset: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) >= 0),
 	driver: z.string().min(3).nullable().optional(),
 	provider: z.string().min(3).nullable().optional(),
 	vehicle: z.string().min(3).nullable().optional(),
