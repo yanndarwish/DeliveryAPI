@@ -1,0 +1,1 @@
+export const getOneTourQuery = "CALL sp_get_tour(?, ?)";

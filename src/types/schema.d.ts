@@ -945,6 +945,37 @@ export interface paths {
       };
     };
   };
+  "/tours/{id}": {
+    /** Returns a tour by id. */
+    get: {
+      parameters: {
+        path: {
+          /** @description The id of the tour to retrieve */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description A tour object */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Tour"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Tour not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;

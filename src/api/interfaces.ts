@@ -404,6 +404,14 @@ type CreateTourResponseObject =
 export type CreateTourRequest = TypedRequest<never, CreateTourBody, never>
 export type CreateTourResponse = TypedResponse<CreateTourResponseObject>
 
+// GET ONE TOUR BY ID
+export type GetOneTourParams = paths["/tours/{id}"]["get"]["parameters"]["path"]
+export type GetOneTourResponseObject =
+	paths["/tours/{id}"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetOneTourRequest = TypedRequest<never, never, GetOneTourParams>
+export type GetOneTourResponse = TypedResponse<GetOneTourResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

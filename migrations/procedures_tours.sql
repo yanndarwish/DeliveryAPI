@@ -125,14 +125,16 @@ DELIMITER ;
 
 -- GET A TOUR
 DELIMITER $$
-CREATE PROCEDURE sp_get_tour_by_id(IN p_tour_id INT)
+CREATE PROCEDURE sp_get_tour(IN p_tour_id INT, IN p_company_id INT)
 BEGIN
     SELECT
         tour_id,
         tour_name,
         tour_active,
         company_id
-    FROM tours WHERE tour_id = p_tour_id;
+    FROM tours 
+    WHERE tour_id = p_tour_id
+    AND company_id = p_company_id;
 END $$
 
 -- UPDATE A TOUR
