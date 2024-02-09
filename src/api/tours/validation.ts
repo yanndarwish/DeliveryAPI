@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { idSchema } from "../validation"
 
 // GET MANY TOURS
 export const getManyToursQuerySchema = z.object({
@@ -15,3 +16,12 @@ export const getManyToursQuerySchema = z.object({
 })
 
 export type GetManyToursQuery = z.infer<typeof getManyToursQuerySchema>
+
+// CREATE TOUR
+export const createTourBodySchema = z.object({
+    name: z.string().min(3),
+    active: z.boolean(),
+    clientIds: idSchema.array().min(1), // array of client ids
+})
+
+export type CreateTourBody = z.infer<typeof createTourBodySchema>

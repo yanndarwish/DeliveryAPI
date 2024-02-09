@@ -124,3 +124,7 @@
 ### GET Get Many Tours
 
 - Tests
+
+### POST Create Tour
+
+- Tests

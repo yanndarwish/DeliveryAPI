@@ -8,3 +8,5 @@ export const headerSchema = z.object({
 			message: "company-id must only contain numeric characters",
 		}),
 })
+
+export const idSchema = z.number().positive()

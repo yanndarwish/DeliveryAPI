@@ -748,7 +748,7 @@ paths:
           description: Bad request - validation error
         "500":
           description: Internal server error
-    
+
   /vehicles/{id}:
     get:
       summary: Returns a vehicle by id.
@@ -831,7 +831,7 @@ paths:
           description: Vehicle not found
         "500":
           description: Internal server error
-  
+
   ############### TOURS ###################
   /tours:
     get:
@@ -868,6 +868,29 @@ paths:
                 required:
                   - data
                   - pagination
+        "400":
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
+
+    post:
+      summary: Creates a new tour.
+      tags:
+        - "Tours"
+      requestBody:
+        description: Tour object to be added to the list
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TourCreate"
+      responses:
+        "201":
+          description: Tour created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
         "400":
           description: Bad request - validation error
         "500":
@@ -943,6 +966,21 @@ components:
       enum:
         - ACTIVE
         - INACTIVE
+
+    ################ STATIC TYPES ####################
+    # Id
+    Id:
+      type: integer
+      example: 1
+
+    # Client Ids
+    ClientIds:
+      type: array
+      items:
+        $ref: "#/components/schemas/Id"
+      example:
+        - 1
+        - 2
 
     ############# DELIVERIES SCHEMAS #################
     # Base delivery schema
@@ -1656,7 +1694,7 @@ components:
         - model
         - immatriculation
         - active
-    
+
     # Vehicles array
     VehiclesArray:
       type: array
@@ -1719,3 +1757,22 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Tour"
+
+    # Tour creation body schema
+    TourCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the tour
+          example: Tour N°1
+        active:
+          type: boolean
+          description: The status of the tour
+          example: true
+        clientIds:
+          $ref: "#/components/schemas/ClientIds"
+      required:
+        - name
+        - active
+        - clientIds

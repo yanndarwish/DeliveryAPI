@@ -1,0 +1,1 @@
+export const createTourQuery = "CALL sp_create_tour(?, ?, ?, ?)"

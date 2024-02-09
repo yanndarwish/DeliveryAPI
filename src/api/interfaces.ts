@@ -395,6 +395,15 @@ type GetManyToursResponseObject =
 export type GetManyToursRequest = TypedRequest<GetManyToursQuery, never, never>
 export type GetManyToursResponse = TypedResponse<GetManyToursResponseObject>
 
+// CREATE TOUR
+export type CreateTourBody =
+	paths["/tours"]["post"]["requestBody"]["content"]["application/json"]
+type CreateTourResponseObject =
+	paths["/tours"]["post"]["responses"][201]["content"]["application/json"]
+
+export type CreateTourRequest = TypedRequest<never, CreateTourBody, never>
+export type CreateTourResponse = TypedResponse<CreateTourResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

@@ -10,7 +10,8 @@
 		"start": "node dist/index.js",
 		"test:setup": "NODE_ENV=test npm run database:reload",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"database:reload": "sh ./migration.sh"
+		"database:reload": "sh ./migration.sh",
+		"database:enter": "sh ./src/lib/database/enter.sh"
 	},
 	"keywords": [],
 	"author": "",

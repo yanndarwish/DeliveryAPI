@@ -919,6 +919,31 @@ export interface paths {
         };
       };
     };
+    /** Creates a new tour. */
+    post: {
+      /** @description Tour object to be added to the list */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["TourCreate"];
+        };
+      };
+      responses: {
+        /** @description Tour created */
+        201: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
@@ -952,6 +977,15 @@ export interface components {
      * @enum {string}
      */
     ActiveStatus: "ACTIVE" | "INACTIVE";
+    /** @example 1 */
+    Id: number;
+    /**
+     * @example [
+     *   1,
+     *   2
+     * ]
+     */
+    ClientIds: components["schemas"]["Id"][];
     Delivery: {
       /**
        * @description The id of the delivery
@@ -1590,6 +1624,19 @@ export interface components {
       active: boolean;
     };
     ToursArray: components["schemas"]["Tour"][];
+    TourCreate: {
+      /**
+       * @description The name of the tour
+       * @example Tour N°1
+       */
+      name: string;
+      /**
+       * @description The status of the tour
+       * @example true
+       */
+      active: boolean;
+      clientIds: components["schemas"]["ClientIds"];
+    };
   };
   responses: never;
   parameters: {
