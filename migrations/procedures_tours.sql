@@ -143,11 +143,46 @@ CREATE PROCEDURE sp_update_tour(
     IN p_tour_id INT,
     IN p_tour_name VARCHAR(30),
     IN p_tour_active BOOLEAN,
-    IN p_company_id INT
+    IN p_company_id INT,
+    IN p_client_ids JSON
 )
 BEGIN
+    DECLARE client_id INT;
+
+    -- Deactivate existing tour member
+    CALL sp_deactivate_all_tour_members(p_tour_id);    
+
+    -- Insert new tour members and update tours_history for creations
+    WHILE JSON_LENGTH(p_client_ids) > 0 DO
+        SET client_id = JSON_UNQUOTE(JSON_EXTRACT(p_client_ids, '$[0]'));
+        SET p_client_ids = JSON_REMOVE(p_client_ids, '$[0]');
+
+    -- Check if client already exists in the tour
+        IF EXISTS (SELECT * FROM tours_members WHERE tour_id = p_tour_id AND client_id = client_id) THEN
+            -- Activate the existing tour member
+            CALL sp_update_tour_member_status_by_client_id(p_tour_id, client_id, TRUE);
+        ELSE
+        -- Insert new tour member
+        CALL sp_create_tour_member(
+            p_tour_id,
+            client_id,
+            p_company_id
+        );
+
+        -- Insert into tours_history for creations
+        CALL sp_create_tours_history(
+            NOW(),
+            'CREATE',
+            p_tour_id,
+            client_id,
+            p_company_id
+        );
+        END IF;
+    END WHILE;
+
+    -- Update the tour details
     UPDATE tours
-    SET
+    SET 
         tour_name = p_tour_name,
         tour_active = p_tour_active,
         company_id = p_company_id

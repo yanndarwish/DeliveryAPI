@@ -1,12 +1,14 @@
 import { Router } from "express"
 import { Validator } from "@/middlewares/validation"
 
-import { getManyTours, createTour, getOneTour } from "@/logic/tours"
+import { getManyTours, createTour, getOneTour, updateTour } from "@/logic/tours"
 
 import {
 	getManyToursQuerySchema,
 	createTourBodySchema,
 	getOneTourParamsSchema,
+	updateTourParamsSchema,
+	updateTourBodySchema,
 } from "./validation"
 import { headerSchema } from "../validation"
 
@@ -31,6 +33,14 @@ toursController.get(
 	Validator(headerSchema, "headers"),
 	Validator(getOneTourParamsSchema, "params"),
 	getOneTour
+)
+
+toursController.put(
+	"/:id",
+	Validator(headerSchema, "headers"),
+	Validator(updateTourParamsSchema, "params"),
+	Validator(updateTourBodySchema, "body"),
+	updateTour
 )
 
 export { toursController }

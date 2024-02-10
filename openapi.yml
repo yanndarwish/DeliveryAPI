@@ -921,6 +921,38 @@ paths:
           description: Tour not found
         "500":
           description: Internal server error
+    
+    put:
+      summary: Updates a tour by id.
+      tags:
+        - "Tours"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the tour to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Tour object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TourUpdate"
+      responses:
+        "200":
+          description: Tour updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Tour not found
+        "500":
+          description: Internal server error
 
 components:
   ############# PARAMETERS #################
@@ -1802,3 +1834,6 @@ components:
         - name
         - active
         - clientIds
+
+    TourUpdate:
+      $ref: "#/components/schemas/TourCreate"

@@ -53,3 +53,40 @@ BEGIN
     DESC LIMIT 1;
 END $$
 DELIMITER ;
+
+-- INSERT TOURS HISTORY FOR ALL TOUR MEMBERS
+DELIMITER $$
+CREATE PROCEDURE sp_update_tours_history(
+    IN p_tour_id INT,
+    IN p_operation VARCHAR(10),
+    IN p_date DATETIME
+)
+BEGIN
+    DECLARE v_client_id INT;
+    DECLARE v_company_id INT;
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE cur CURSOR FOR
+        SELECT 
+            client_id,
+            company_id
+        FROM 
+            tours_members
+        WHERE tour_id = p_tour_id;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    OPEN cur;
+    read_loop: LOOP
+        FETCH cur INTO v_client_id, v_company_id;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        CALL sp_create_tours_history(
+            p_date,
+            p_operation,
+            p_tour_id,
+            v_client_id,
+            v_company_id
+        );
+    END LOOP;
+    CLOSE cur;
+END $$
+DELIMITER ;

@@ -131,3 +131,9 @@
 ### GET Get Tour
 
 - Tests
+
+### PUT Update Tour
+
+- Tests
+
+## TOUR MEMBERS

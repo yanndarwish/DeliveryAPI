@@ -35,3 +35,20 @@ export const getOneTourParamsSchema = z.object({
 })
 
 export type GetOneTourParams = z.infer<typeof getOneTourParamsSchema>
+
+// UPDATE TOUR
+export const updateTourParamsSchema = z.object({
+	id: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) > 0),
+})
+
+export const updateTourBodySchema = z.object({
+	name: z.string().min(3),
+	active: z.boolean(),
+	clientIds: idSchema.array().min(1), // array of client ids
+})
+
+export type UpdateTourParams = z.infer<typeof updateTourParamsSchema>
+export type UpdateTourBody = z.infer<typeof updateTourBodySchema>

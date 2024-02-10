@@ -412,6 +412,20 @@ export type GetOneTourResponseObject =
 export type GetOneTourRequest = TypedRequest<never, never, GetOneTourParams>
 export type GetOneTourResponse = TypedResponse<GetOneTourResponseObject>
 
+// UPDATE ONE TOUR BY ID
+export type UpdateOneTourParams = paths["/tours/{id}"]["put"]["parameters"]["path"]
+export type UpdateOneTourBody =
+	paths["/tours/{id}"]["put"]["requestBody"]["content"]["application/json"]
+type UpdateOneTourResponseObject =
+	paths["/tours/{id}"]["put"]["responses"][200]["content"]["application/json"]
+
+export type UpdateOneTourRequest = TypedRequest<
+	never,
+	UpdateOneTourBody,
+	UpdateOneTourParams
+>
+export type UpdateOneTourResponse = TypedResponse<UpdateOneTourResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

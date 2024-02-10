@@ -1,0 +1,1 @@
+export const updateTourQuery = "CALL sp_update_tour(?, ?, ?, ?, ?)";

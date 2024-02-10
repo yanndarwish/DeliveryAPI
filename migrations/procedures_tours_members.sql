@@ -249,6 +249,22 @@ BEGIN
 END $$
 DELIMITER ;
 
+-- UPDATE A TOUR MEMBER STATUS BY CLIENT ID
+DELIMITER $$
+CREATE PROCEDURE sp_update_tour_member_status_by_client_id(
+    IN p_tour_id INT,
+    IN p_client_id INT,
+    IN p_tour_member_active BOOLEAN
+)
+BEGIN
+    UPDATE tours_members
+    SET
+        tour_member_active = p_tour_member_active
+    WHERE tour_id = p_tour_id
+    AND client_id = p_client_id;
+END $$
+DELIMITER ;
+
 -- ADD TRIGGER TO UPDATE TOURS HISTORY
 DELIMITER $$
 CREATE TRIGGER tr_update_tours_history
@@ -306,6 +322,25 @@ BEGIN
     DELETE FROM tours_members WHERE tour_member_id = p_tour_member_id;
 END $$
 DELIMITER ;
+
+-- DEACTIVATE ALL TOUR MEMBERS
+DELIMITER $$
+CREATE PROCEDURE sp_deactivate_all_tour_members(IN p_tour_id INT)
+BEGIN
+    UPDATE tours_members
+    SET tour_member_active = FALSE
+    WHERE tour_id = p_tour_id;
+END $$
+DELIMITER ;
+
+-- DELETE ALL TOUR MEMBERS
+DELIMITER $$
+CREATE PROCEDURE sp_delete_all_tour_members(IN p_tour_id INT)
+BEGIN
+    DELETE FROM tours_members WHERE tour_id = p_tour_id;
+END $$
+DELIMITER ;
+
 
 
 

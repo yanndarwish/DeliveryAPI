@@ -975,6 +975,41 @@ export interface paths {
         };
       };
     };
+    /** Updates a tour by id. */
+    put: {
+      parameters: {
+        path: {
+          /** @description The id of the tour to update */
+          id: string;
+        };
+      };
+      /** @description Tour object to be updated */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["TourUpdate"];
+        };
+      };
+      responses: {
+        /** @description Tour updated */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Tour not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
@@ -1668,6 +1703,7 @@ export interface components {
       active: boolean;
       clientIds: components["schemas"]["ClientIds"];
     };
+    TourUpdate: components["schemas"]["TourCreate"];
   };
   responses: never;
   parameters: {
