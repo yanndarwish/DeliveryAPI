@@ -136,4 +136,8 @@
 
 - Tests
 
+### DELETE Delete Tour
+
+- Tests
+
 ## TOUR MEMBERS

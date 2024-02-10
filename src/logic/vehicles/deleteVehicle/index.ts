@@ -2,8 +2,8 @@ import { DeleteOneVehicleRequest, DeleteOneVehicleResponse } from "@/api/interfa
 import { NotFoundError } from "@/lib/errors/notFoundError";
 import { queryAsync } from "@/lib/database";
 
-import { deleteOneVehicleQuery } from "./query";
 import { getOneVehicleByIdQuery } from "../getOneVehicle/query";
+import { deleteOneVehicleQuery } from "./query";
 
 export const deleteOneVehicleById = async (
     req: DeleteOneVehicleRequest,

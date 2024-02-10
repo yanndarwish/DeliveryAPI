@@ -69,6 +69,7 @@ BEGIN
         WHERE tour_active = TRUE 
         AND company_id = p_company_id
         AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND deleted_at IS NULL
         LIMIT p_limit 
         OFFSET p_offset;
     ELSEIF p_status = 'INACTIVE' THEN
@@ -80,6 +81,7 @@ BEGIN
         WHERE tour_active = FALSE 
         AND company_id = p_company_id
         AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND deleted_at IS NULL
         LIMIT p_limit 
         OFFSET p_offset;
     ELSE
@@ -90,6 +92,7 @@ BEGIN
         FROM tours 
         WHERE company_id = p_company_id
         AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND deleted_at IS NULL
         LIMIT p_limit 
         OFFSET p_offset;
     END IF;
@@ -108,16 +111,19 @@ BEGIN
         SELECT COUNT(*) AS total FROM tours 
         WHERE tour_active = TRUE 
         AND company_id = p_company_id
-        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL);
+        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND deleted_at IS NULL;
     ELSEIF p_status = 'INACTIVE' THEN
         SELECT COUNT(*) AS total FROM tours 
         WHERE tour_active = FALSE 
         AND company_id = p_company_id
-        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL);
+        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND deleted_at IS NULL;
     ELSE
         SELECT COUNT(*) AS total FROM tours 
         WHERE company_id = p_company_id
-        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL);
+        AND (tour_name LIKE CONCAT('%', p_name, '%') OR p_name IS NULL)
+        AND deleted_at IS NULL;
     END IF;
 END $$
 DELIMITER ;
@@ -134,7 +140,8 @@ BEGIN
         company_id
     FROM tours 
     WHERE tour_id = p_tour_id
-    AND company_id = p_company_id;
+    AND company_id = p_company_id
+    AND deleted_at IS NULL;
 END $$
 
 -- UPDATE A TOUR
@@ -190,11 +197,12 @@ BEGIN
 END $$
 DELIMITER ;
 
--- DELETE A TOUR
+-- SOFT DELETE A TOUR
 DELIMITER $$
-CREATE PROCEDURE sp_delete_tour(IN p_tour_id INT)
+CREATE PROCEDURE sp_soft_delete_tour(IN p_tour_id INT)
 BEGIN
-    DELETE FROM tours WHERE tour_id = p_tour_id;
+    UPDATE tours
+    SET deleted_at = NOW()
+    WHERE tour_id = p_tour_id;
 END $$
 DELIMITER ;
-

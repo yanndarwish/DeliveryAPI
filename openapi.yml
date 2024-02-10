@@ -954,6 +954,31 @@ paths:
         "500":
           description: Internal server error
 
+    delete:
+      summary: Deletes a tour by id.
+      tags:
+        - "Tours"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the tour to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Tour deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Tour not found
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:

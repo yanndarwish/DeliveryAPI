@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS tours (
     tour_name VARCHAR(30),
     tour_active BOOLEAN,
     company_id INTEGER,
+    deleted_at DATETIME DEFAULT NULL,
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 ) ENGINE=InnoDB;
 
