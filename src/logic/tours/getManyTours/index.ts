@@ -2,9 +2,10 @@ import { GetManyToursRequest, GetManyToursResponse } from "@/api/interfaces";
 import { ToursArrayDB } from "@/lib/database/interfaces";
 import { queryAsync } from "@/lib/database";
 
+import { getPagination } from "@/utils/pagination";
+
 import { getManyToursQueryMapper, getManyToursResponseMapper, getManyToursCountQueryMapper } from "./mapper";
 import { getManyToursQuery, getManyToursCountQuery } from "./query";
-import { getPagination } from "@/utils/pagination";
 
 export const getManyTours = async (
     req: GetManyToursRequest,

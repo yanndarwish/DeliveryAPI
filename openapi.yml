@@ -921,7 +921,7 @@ paths:
           description: Tour not found
         "500":
           description: Internal server error
-    
+
     put:
       summary: Updates a tour by id.
       tags:
@@ -976,6 +976,47 @@ paths:
           description: Bad request - validation error
         "404":
           description: Tour not found
+        "500":
+          description: Internal server error
+
+  ############ TOUR MEMBERS ################
+  /tours/{tourId}/members:
+    get:
+      summary: Returns a list of members for a tour.
+      tags:
+        - "Tour Members"
+      parameters:
+        - in: path
+          name: tourId
+          description: The id of the tour to retrieve members from
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/OffsetParam"
+        - $ref: "#/components/parameters/LimitParam"
+        - in: query
+          name: status
+          description: Filter by member active status
+          example: ACTIVE
+          schema:
+            $ref: "#/components/schemas/ActiveStatus"
+      responses:
+        "200":
+          description: A JSON array of members
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/TourMembersArray"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                required:
+                  - data
+                  - pagination
+        "400":
+          description: Bad request - validation error
         "500":
           description: Internal server error
 
@@ -1862,3 +1903,73 @@ components:
 
     TourUpdate:
       $ref: "#/components/schemas/TourCreate"
+
+    ############# TOUR MEMBERS SCHEMAS #################
+    # Tour member schema
+    TourMember:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The id of the tour member
+          example: 1
+        tourId:
+          type: integer
+          description: The id of the tour
+          example: 1
+        tourName:
+          type: string
+          description: The name of the tour
+          example: Tour N°1
+        clientId:
+          type: integer
+          description: The id of the client
+          example: 1
+        clientName:
+          type: string
+          description: The name of the client
+          example: Amazon
+        streetNumber:
+          type: string
+          nullable: true
+          description: The street number of the client
+          example: 123
+        streetName:
+          type: string
+          description: The street of the client
+          example: Main St
+        city:
+          type: string
+          description: The city of the client
+          example: Paris
+        postalCode:
+          type: string
+          nullable: true
+          description: The postal code of the client
+          example: 75008
+        country:
+          type: string
+          description: The country of the client
+          example: France
+        active:
+          type: boolean
+          description: The active status of the tour member
+          example: true
+      required:
+        - id
+        - tourId
+        - tourName
+        - clientId
+        - clientName
+        - streetNumber
+        - street
+        - city
+        - postalCode
+        - country
+        - active
+
+    # Tour members array
+    TourMembersArray:
+      type: array
+      items:
+        $ref: "#/components/schemas/TourMember"

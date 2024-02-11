@@ -413,7 +413,8 @@ export type GetOneTourRequest = TypedRequest<never, never, GetOneTourParams>
 export type GetOneTourResponse = TypedResponse<GetOneTourResponseObject>
 
 // UPDATE ONE TOUR BY ID
-export type UpdateOneTourParams = paths["/tours/{id}"]["put"]["parameters"]["path"]
+export type UpdateOneTourParams =
+	paths["/tours/{id}"]["put"]["parameters"]["path"]
 export type UpdateOneTourBody =
 	paths["/tours/{id}"]["put"]["requestBody"]["content"]["application/json"]
 type UpdateOneTourResponseObject =
@@ -432,8 +433,32 @@ export type DeleteOneTourParams =
 type DeleteOneTourResponseObject =
 	paths["/tours/{id}"]["delete"]["responses"][200]["content"]["application/json"]
 
-export type DeleteOneTourRequest = TypedRequest<never, never, DeleteOneTourParams>
+export type DeleteOneTourRequest = TypedRequest<
+	never,
+	never,
+	DeleteOneTourParams
+>
 export type DeleteOneTourResponse = TypedResponse<DeleteOneTourResponseObject>
+
+// ======================== TOUR MEMBERS ==========================
+// GET MANY TOUR MEMBERS
+export type GetManyTourMembersParams =
+	paths["/tours/{tourId}/members"]["get"]["parameters"]["path"]
+export type GetManyTourMembersQuery =
+	paths["/tours/{tourId}/members"]["get"]["parameters"]["query"]
+export type TourMembersArray =
+	paths["/tours/{tourId}/members"]["get"]["responses"][200]["content"]["application/json"]["data"]
+type GetManyTourMembersResponseObject =
+	paths["/tours/{tourId}/members"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetManyTourMembersRequest = TypedRequest<
+	GetManyTourMembersQuery,
+	never,
+	GetManyTourMembersParams
+>
+
+export type GetManyTourMembersResponse =
+	TypedResponse<GetManyTourMembersResponseObject>
 
 // ================================================================
 // ========================== COMPONENTS ==========================

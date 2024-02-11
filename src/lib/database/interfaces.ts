@@ -76,3 +76,21 @@ export type TourDB = {
 }
 
 export type ToursArrayDB = TourDB[]
+
+// ===================== TOUR MEMBERS ==========================
+
+export type TourMemberDB = {
+	tour_member_id: number
+	tour_id: number
+	tour_name: string
+	client_id: number
+	client_name: string
+	address_street_number: string | null
+	address_street: string
+	address_city: string
+	address_postal_code: string | null
+	address_country: string
+	tour_member_active: string
+}
+
+export type TourMembersArrayDB = TourMemberDB[]

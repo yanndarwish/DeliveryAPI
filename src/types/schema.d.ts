@@ -1040,6 +1040,45 @@ export interface paths {
       };
     };
   };
+  "/tours/{tourId}/members": {
+    /** Returns a list of members for a tour. */
+    get: {
+      parameters: {
+        query: {
+          offset: components["parameters"]["OffsetParam"];
+          limit: components["parameters"]["LimitParam"];
+          /**
+           * @description Filter by member active status
+           * @example ACTIVE
+           */
+          status?: components["schemas"]["ActiveStatus"];
+        };
+        path: {
+          /** @description The id of the tour to retrieve members from */
+          tourId: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of members */
+        200: {
+          content: {
+            "application/json": {
+              data: components["schemas"]["TourMembersArray"];
+              pagination: components["schemas"]["Pagination"];
+            };
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -1733,6 +1772,64 @@ export interface components {
       clientIds: components["schemas"]["ClientIds"];
     };
     TourUpdate: components["schemas"]["TourCreate"];
+    TourMember: {
+      /**
+       * @description The id of the tour member
+       * @example 1
+       */
+      id: number;
+      /**
+       * @description The id of the tour
+       * @example 1
+       */
+      tourId: number;
+      /**
+       * @description The name of the tour
+       * @example Tour N°1
+       */
+      tourName: string;
+      /**
+       * @description The id of the client
+       * @example 1
+       */
+      clientId: number;
+      /**
+       * @description The name of the client
+       * @example Amazon
+       */
+      clientName: string;
+      /**
+       * @description The street number of the client
+       * @example 123
+       */
+      streetNumber: string | null;
+      /**
+       * @description The street of the client
+       * @example Main St
+       */
+      streetName?: string;
+      /**
+       * @description The city of the client
+       * @example Paris
+       */
+      city: string;
+      /**
+       * @description The postal code of the client
+       * @example 75008
+       */
+      postalCode: string | null;
+      /**
+       * @description The country of the client
+       * @example France
+       */
+      country: string;
+      /**
+       * @description The active status of the tour member
+       * @example true
+       */
+      active: boolean;
+    };
+    TourMembersArray: components["schemas"]["TourMember"][];
   };
   responses: never;
   parameters: {

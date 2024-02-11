@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { date, z } from "zod"
 import { idSchema } from "../validation"
 
 // GET MANY TOURS
@@ -62,3 +62,35 @@ export const deleteTourParamsSchema = z.object({
 })
 
 export type DeleteTourParams = z.infer<typeof deleteTourParamsSchema>
+
+// ==================================================================
+// ======================== TOUR MEMBERS ============================
+// ==================================================================
+
+// GET MANY TOUR MEMBERS
+
+export const getManyTourMembersParamsSchema = z.object({
+	tourId: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) > 0),
+})
+
+export const getManyTourMembersQuerySchema = z.object({
+	limit: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) >= 0),
+	offset: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) >= 0),
+	status: z.string().min(2).nullable().optional(),
+})
+
+export type GetManyTourMembersParams = z.infer<
+	typeof getManyTourMembersParamsSchema
+>
+export type getManyTourMembersQuery = z.infer<
+	typeof getManyTourMembersQuerySchema
+>

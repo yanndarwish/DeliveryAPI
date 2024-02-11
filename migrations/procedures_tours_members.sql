@@ -25,6 +25,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_get_tour_members(
     IN p_status VARCHAR(10),
+    IN p_tour_id INT,
     IN p_company_id INT,
     OUT tour_members JSON
 )
@@ -42,6 +43,7 @@ BEGIN
         )
         FROM tours_members
         WHERE tour_member_active = TRUE
+        AND tour_id = p_tour_id
         AND company_id = p_company_id
     );
     ELSEIF p_status = 'INACTIVE' THEN
@@ -57,6 +59,7 @@ BEGIN
         )
         FROM tours_members
         WHERE tour_member_active = FALSE
+        AND tour_id = p_tour_id
         AND company_id = p_company_id
     );
     ELSE
@@ -72,6 +75,7 @@ BEGIN
         )
         FROM tours_members
         WHERE company_id = p_company_id
+        AND tour_id = p_tour_id
     );
     END IF;
 END $$
@@ -81,6 +85,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_get_tour_members_info(
     IN p_status VARCHAR(10),
+    IN p_tour_id INT,
     IN p_company_id INT,
     IN p_offset INT,
     IN p_limit INT
@@ -89,7 +94,6 @@ BEGIN
     IF p_status = 'ACTIVE' THEN
     SELECT
         tour_member_id,
-        company_id,
         tour_id,
         tour_name,
         client_id,
@@ -102,13 +106,13 @@ BEGIN
         tour_member_active
     FROM view_tour_members_info
     WHERE tour_member_active = TRUE
+    AND tour_id = p_tour_id
     AND company_id = p_company_id
     LIMIT p_limit 
     OFFSET p_offset;
     ELSEIF p_status = 'INACTIVE' THEN
     SELECT
         tour_member_id,
-        company_id,
         tour_id,
         tour_name,
         client_id,
@@ -121,13 +125,13 @@ BEGIN
         tour_member_active
     FROM view_tour_members_info
     WHERE tour_member_active = FALSE
+    AND tour_id = p_tour_id
     AND company_id = p_company_id
     LIMIT p_limit 
     OFFSET p_offset;
     ELSE
     SELECT
         tour_member_id,
-        company_id,
         tour_id,
         tour_name,
         client_id,
@@ -140,19 +144,48 @@ BEGIN
         tour_member_active
     FROM view_tour_members_info
     WHERE company_id = p_company_id
+    AND tour_id = p_tour_id
     LIMIT p_limit 
     OFFSET p_offset;
     END IF;
 END $$
 DELIMITER ;
 
+-- GET TOUR MEMBERS COUNT
+DELIMITER $$
+CREATE PROCEDURE sp_get_tour_members_count(
+    IN p_status VARCHAR(10),
+    IN p_tour_id INT,
+    IN p_company_id INT
+)
+BEGIN
+    IF p_status = 'ACTIVE' THEN
+    SELECT COUNT(*) AS total
+    FROM tours_members
+    WHERE tour_member_active = TRUE
+    AND tour_id = p_tour_id
+    AND company_id = p_company_id;
+    ELSEIF p_status = 'INACTIVE' THEN
+    SELECT COUNT(*) AS total
+    FROM tours_members
+    WHERE tour_member_active = FALSE
+    AND tour_id = p_tour_id
+    AND company_id = p_company_id;
+    ELSE
+    SELECT COUNT(*) AS total
+    FROM tours_members
+    WHERE company_id = p_company_id
+    AND tour_id = p_tour_id;
+    END IF;
+END $$
+DELIMITER ;
+
 -- GET A TOUR MEMBER
 DELIMITER $$
-CREATE PROCEDURE sp_get_tour_member_by_id(IN p_tour_member_id INT)
+CREATE PROCEDURE sp_get_tour_member_by_id(IN p_tour_member_id INT, IN p_company_id INT)
 BEGIN
     SELECT
         tour_member_id,
-        company_id,
         tour_id,
         tour_name,
         client_id,
@@ -163,7 +196,9 @@ BEGIN
         address_postal_code,
         address_country,
         tour_member_active
-    FROM view_tour_members_info;
+    FROM view_tour_members_info
+    WHERE tour_member_id = p_tour_member_id
+    AND company_id = p_company_id;
 END $$
 DELIMITER ;
 
@@ -191,9 +226,8 @@ BEGIN
 END $$
 DELIMITER ;
 
--- GET TOUR MEMBERS STATUS AT A GIVEN DATE
 DELIMITER $$
-CREATE PROCEDURE sp_get_tour_members_status(
+CREATE PROCEDURE sp_get_active_tour_members(
     IN p_tour_id INT,
     IN p_company_id INT,
     IN p_date DATETIME
@@ -203,7 +237,7 @@ BEGIN
     SET @tour_members = JSON_ARRAY();
 
     -- assign tour_members to the result of the stored procedure
-    CALL sp_get_tour_members('all', p_company_id, @tour_members);
+    CALL sp_get_tour_members('all', p_tour_id, p_company_id, @tour_members);
     SET @active_tour_members = JSON_ARRAY();    
 
     SELECT @tour_members;
@@ -229,8 +263,7 @@ BEGIN
 
     -- return the active_tour_members array
     SELECT @active_tour_members;
-
-END $$ 
+END$$ 
 DELIMITER ;
 
 -- UPDATE A TOUR MEMBER ACTIVE STATUS
