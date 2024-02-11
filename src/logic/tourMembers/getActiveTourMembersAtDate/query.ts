@@ -1,0 +1,1 @@
+export const getActiveTourMembersAtDateQuery = "CALL sp_get_active_tour_members_at_date(?, ?, ?)"

@@ -228,7 +228,7 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE sp_get_active_tour_members(
+CREATE PROCEDURE sp_get_active_tour_members_at_date(
     IN p_tour_id INT,
     IN p_company_id INT,
     IN p_date DATETIME

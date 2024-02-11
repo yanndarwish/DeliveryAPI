@@ -460,6 +460,22 @@ export type GetManyTourMembersRequest = TypedRequest<
 export type GetManyTourMembersResponse =
 	TypedResponse<GetManyTourMembersResponseObject>
 
+// GET ACTIVE TOUR MEMBERS AT SPECIFIC DATE
+export type GetActiveTourMembersAtDateParams =
+	paths["/tours/{tourId}/active-members"]["get"]["parameters"]["path"]
+export type GetActiveTourMembersAtDateQuery =
+	paths["/tours/{tourId}/active-members"]["get"]["parameters"]["query"]
+export type GetActiveTourMembersAtDateResponseObject =
+	paths["/tours/{tourId}/active-members"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetActiveTourMembersAtDateRequest = TypedRequest<
+	GetActiveTourMembersAtDateQuery,
+	never,
+	GetActiveTourMembersAtDateParams
+>
+export type GetActiveTourMembersAtDateResponse =
+	TypedResponse<GetActiveTourMembersAtDateResponseObject>
+
 // GET ONE TOUR MEMBER BY ID
 export type GetOneTourMemberParams =
 	paths["/tours/{tourId}/members/{id}"]["get"]["parameters"]["path"]

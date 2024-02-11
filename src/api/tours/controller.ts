@@ -11,6 +11,7 @@ import {
 
 import {
 	getManyTourMembers,
+	getActiveTourMembersAtDate,
 	getOneTourMember,
 	updateTourMember,
 	deleteTourMember,
@@ -25,6 +26,8 @@ import {
 	deleteTourParamsSchema,
 	getManyTourMembersParamsSchema,
 	getManyTourMembersQuerySchema,
+	getActiveTourMembersAtDateParamsSchema,
+	getActiveTourMembersAtDateQuerySchema,
 	getOneTourMemberParamsSchema,
 	updateTourMemberStatusParamsSchema,
 	updateTourMemberStatusBodySchema,
@@ -76,6 +79,14 @@ toursController.get(
 	Validator(getManyTourMembersParamsSchema, "params"),
 	Validator(getManyTourMembersQuerySchema, "query"),
 	getManyTourMembers
+)
+
+toursController.get(
+	"/:tourId/active-members",
+	Validator(headerSchema, "headers"),
+	Validator(getActiveTourMembersAtDateParamsSchema, "params"),
+	Validator(getActiveTourMembersAtDateQuerySchema, "query"),
+	getActiveTourMembersAtDate
 )
 
 toursController.get(

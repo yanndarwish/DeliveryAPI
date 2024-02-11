@@ -1079,6 +1079,42 @@ export interface paths {
       };
     };
   };
+  "/tours/{tourId}/active-members": {
+    /** Returns a list of active members for a tour on a specific date. */
+    get: {
+      parameters: {
+        query: {
+          /**
+           * @description Filter by date
+           * @example "2021-07-01T00:00:00.000Z"
+           */
+          date: string;
+        };
+        path: {
+          /** @description The id of the tour to retrieve members from */
+          tourId: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of active members */
+        200: {
+          content: {
+            "application/json": {
+              data: components["schemas"]["TourMembersArray"];
+            };
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
   "/tours/{tourId}/members/{id}": {
     /** Returns a member by id for a tour. */
     get: {
