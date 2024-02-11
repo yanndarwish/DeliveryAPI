@@ -9,7 +9,7 @@ import {
 	deleteTour,
 } from "@/logic/tours"
 
-import { getManyTourMembers } from "@/logic/tourMembers"
+import { getManyTourMembers, getOneTourMember } from "@/logic/tourMembers"
 
 import {
 	getManyToursQuerySchema,
@@ -20,6 +20,7 @@ import {
 	deleteTourParamsSchema,
 	getManyTourMembersParamsSchema,
 	getManyTourMembersQuerySchema,
+	getOneTourMemberParamsSchema,
 } from "./validation"
 import { headerSchema } from "../validation"
 
@@ -69,4 +70,10 @@ toursController.get(
 	getManyTourMembers
 )
 
+toursController.get(
+	"/:tourId/members/:id",
+	Validator(headerSchema, "headers"),
+	Validator(getOneTourMemberParamsSchema, "params"),
+	getOneTourMember
+)
 export { toursController }

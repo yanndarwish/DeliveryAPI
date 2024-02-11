@@ -145,3 +145,7 @@
 ### GET Get Many Tour Members
 
 - Tests
+
+### GET Get Tour Member
+
+- Tests

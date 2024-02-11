@@ -1079,6 +1079,39 @@ export interface paths {
       };
     };
   };
+  "/tours/{tourId}/members/{id}": {
+    /** Returns a member by id for a tour. */
+    get: {
+      parameters: {
+        path: {
+          /** @description The id of the tour to retrieve the member from */
+          tourId: string;
+          /** @description The id of the member to retrieve */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description A member object */
+        200: {
+          content: {
+            "application/json": components["schemas"]["TourMember"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Member not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -1807,7 +1840,7 @@ export interface components {
        * @description The street of the client
        * @example Main St
        */
-      streetName?: string;
+      streetName: string;
       /**
        * @description The city of the client
        * @example Paris

@@ -1,0 +1,1 @@
+export const getOneTourMemberQuery = "CALL sp_get_tour_member_by_id(?, ?, ?)"

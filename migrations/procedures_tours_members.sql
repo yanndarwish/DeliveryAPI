@@ -182,7 +182,7 @@ DELIMITER ;
 
 -- GET A TOUR MEMBER
 DELIMITER $$
-CREATE PROCEDURE sp_get_tour_member_by_id(IN p_tour_member_id INT, IN p_company_id INT)
+CREATE PROCEDURE sp_get_tour_member_by_id(IN p_tour_member_id INT, IN p_tour_id INT, IN p_company_id INT)
 BEGIN
     SELECT
         tour_member_id,
@@ -198,6 +198,7 @@ BEGIN
         tour_member_active
     FROM view_tour_members_info
     WHERE tour_member_id = p_tour_member_id
+    AND tour_id = p_tour_id
     AND company_id = p_company_id;
 END $$
 DELIMITER ;

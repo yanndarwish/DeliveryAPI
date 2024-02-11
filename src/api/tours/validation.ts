@@ -94,3 +94,18 @@ export type GetManyTourMembersParams = z.infer<
 export type getManyTourMembersQuery = z.infer<
 	typeof getManyTourMembersQuerySchema
 >
+
+// GET ONE TOUR MEMBER
+
+export const getOneTourMemberParamsSchema = z.object({
+	tourId: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) > 0),
+	id: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) > 0),
+})
+
+export type GetOneTourMemberParams = z.infer<typeof getOneTourMemberParamsSchema>

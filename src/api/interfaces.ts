@@ -460,6 +460,20 @@ export type GetManyTourMembersRequest = TypedRequest<
 export type GetManyTourMembersResponse =
 	TypedResponse<GetManyTourMembersResponseObject>
 
+// GET ONE TOUR MEMBER BY ID
+export type GetOneTourMemberParams =
+	paths["/tours/{tourId}/members/{id}"]["get"]["parameters"]["path"]
+export type GetOneTourMemberResponseObject =
+	paths["/tours/{tourId}/members/{id}"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetOneTourMemberRequest = TypedRequest<
+	never,
+	never,
+	GetOneTourMemberParams
+>
+export type GetOneTourMemberResponse =
+	TypedResponse<GetOneTourMemberResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

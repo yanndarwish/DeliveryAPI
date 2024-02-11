@@ -1020,6 +1020,38 @@ paths:
         "500":
           description: Internal server error
 
+  /tours/{tourId}/members/{id}:
+    get:
+      summary: Returns a member by id for a tour.
+      tags:
+        - "Tour Members"
+      parameters:
+        - in: path
+          name: tourId
+          description: The id of the tour to retrieve the member from
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          description: The id of the member to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A member object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TourMember"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Member not found
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:
@@ -1962,7 +1994,7 @@ components:
         - clientId
         - clientName
         - streetNumber
-        - street
+        - streetName
         - city
         - postalCode
         - country
