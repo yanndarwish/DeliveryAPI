@@ -1052,6 +1052,44 @@ paths:
         "500":
           description: Internal server error
 
+    put:
+      summary: Updates a member's status for a tour.
+      tags:
+        - "Tour Members"
+      parameters:
+        - in: path
+          name: tourId
+          description: The id of the tour to retrieve the member from
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          description: The id of the member to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Member object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TourMemberUpdate"
+      responses:
+        "200":
+          description: Member updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Member not found
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:
@@ -2005,3 +2043,14 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/TourMember"
+
+    # Tour member update body schema
+    TourMemberUpdate:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: The active status of the tour member
+          example: true
+      required:
+        - active

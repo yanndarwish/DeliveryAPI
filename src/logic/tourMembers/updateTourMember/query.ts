@@ -1,0 +1,1 @@
+export const updateTourMemberStatusQuery = "CALL sp_update_tour_member_status(?, ?, ?)"

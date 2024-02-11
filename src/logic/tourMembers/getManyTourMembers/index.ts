@@ -15,34 +15,36 @@ import {
 import { getManyTourMembersQuery, getManyTourMembersCountQuery } from "./query"
 
 export const getManyTourMembers = async (
-    req: GetManyTourMembersRequest,
-    res: GetManyTourMembersResponse
+	req: GetManyTourMembersRequest,
+	res: GetManyTourMembersResponse
 ) => {
-    const companyId = req.headers["company-id"] as string
-    const tourId = req.params.tourId
+	const companyId = req.headers["company-id"] as string
+	const tourId = req.params.tourId
 
-    const totalResult = await queryAsync(
-        getManyTourMembersCountQuery,
-        getManyTourMembersCountQueryMapper(req.query, tourId, companyId)
-    )
+	const query = { ...req.query, tourId: Number(tourId) }
 
-    const total = totalResult[0][0].total as number
-    const pagination = getPagination({
-        offset: Number(req.query.offset),
-        limit: Number(req.query.limit),
-        total,
-    })
-    const dataResult = await queryAsync(
-        getManyTourMembersQuery,
-        getManyTourMembersQueryMapper(req.query, tourId, companyId)
-    )
+	const totalResult = await queryAsync(
+		getManyTourMembersCountQuery,
+		getManyTourMembersCountQueryMapper(query, companyId)
+	)
 
-    const data = dataResult[0] as TourMembersArrayDB
+	const total = totalResult[0][0].total as number
+	const pagination = getPagination({
+		offset: Number(req.query.offset),
+		limit: Number(req.query.limit),
+		total,
+	})
+	const dataResult = await queryAsync(
+		getManyTourMembersQuery,
+		getManyTourMembersQueryMapper(query, companyId)
+	)
 
-    const response = {
-        data: getManyTourMembersResponseMapper(data),
-        pagination,
-    }
+	const data = dataResult[0] as TourMembersArrayDB
 
-    res.send(response)
+	const response = {
+		data: getManyTourMembersResponseMapper(data),
+		pagination,
+	}
+
+	res.send(response)
 }

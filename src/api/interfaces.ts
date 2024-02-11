@@ -474,6 +474,20 @@ export type GetOneTourMemberRequest = TypedRequest<
 export type GetOneTourMemberResponse =
 	TypedResponse<GetOneTourMemberResponseObject>
 
+// UPDATE ONE TOUR MEMBER BY ID
+export type UpdateOneTourMemberParams =
+	paths["/tours/{tourId}/members/{id}"]["put"]["parameters"]["path"]
+export type UpdateOneTourMemberBody =
+	paths["/tours/{tourId}/members/{id}"]["put"]["requestBody"]["content"]["application/json"]
+type UpdateOneTourMemberResponseObject =
+	paths["/tours/{tourId}/members/{id}"]["put"]["responses"][200]["content"]["application/json"]
+
+export type UpdateOneTourMemberRequest = TypedRequest<
+	never,
+	UpdateOneTourMemberBody,
+	UpdateOneTourMemberParams
+>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

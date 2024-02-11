@@ -1111,6 +1111,43 @@ export interface paths {
         };
       };
     };
+    /** Updates a member's status for a tour. */
+    put: {
+      parameters: {
+        path: {
+          /** @description The id of the tour to retrieve the member from */
+          tourId: string;
+          /** @description The id of the member to update */
+          id: string;
+        };
+      };
+      /** @description Member object to be updated */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["TourMemberUpdate"];
+        };
+      };
+      responses: {
+        /** @description Member updated */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Member not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
@@ -1863,6 +1900,13 @@ export interface components {
       active: boolean;
     };
     TourMembersArray: components["schemas"]["TourMember"][];
+    TourMemberUpdate: {
+      /**
+       * @description The active status of the tour member
+       * @example true
+       */
+      active: boolean;
+    };
   };
   responses: never;
   parameters: {

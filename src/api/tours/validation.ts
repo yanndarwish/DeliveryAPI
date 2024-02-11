@@ -108,4 +108,30 @@ export const getOneTourMemberParamsSchema = z.object({
 		.refine((value) => Number(value) > 0),
 })
 
-export type GetOneTourMemberParams = z.infer<typeof getOneTourMemberParamsSchema>
+export type GetOneTourMemberParams = z.infer<
+	typeof getOneTourMemberParamsSchema
+>
+
+// UPDATE TOUR MEMBER STATUS
+
+export const updateTourMemberStatusParamsSchema = z.object({
+	tourId: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) > 0),
+	id: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) > 0),
+})
+
+export const updateTourMemberStatusBodySchema = z.object({
+	active: z.boolean(),
+})
+
+export type UpdateTourMemberStatusParams = z.infer<
+	typeof updateTourMemberStatusParamsSchema
+>
+export type UpdateTourMemberStatusBody = z.infer<
+	typeof updateTourMemberStatusBodySchema
+>

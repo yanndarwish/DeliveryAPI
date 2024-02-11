@@ -149,3 +149,7 @@
 ### GET Get Tour Member
 
 - Tests
+
+### PUT Update Tour Member Status
+
+- Tests
