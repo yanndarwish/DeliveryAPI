@@ -153,3 +153,7 @@
 ### PUT Update Tour Member Status
 
 - Tests
+
+### DELETE Delete Tour Member
+
+- Tests

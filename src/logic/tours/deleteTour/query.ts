@@ -1,1 +1,1 @@
-export const softDeleteTourQuery = "CALL sp_soft_delete_tour(?)";
+export const softDeleteTourQuery = "CALL sp_soft_delete_tour(?)"

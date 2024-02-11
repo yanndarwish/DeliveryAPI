@@ -330,6 +330,24 @@ BEGIN
         END IF;
     END IF;
 END $$
+DELIMITER ;
+
+-- ADD TRIGGER TO UPDATE TOURS HISTORY ON DELETE
+DELIMITER $$
+CREATE TRIGGER tr_delete_tours_history
+AFTER DELETE ON tours_members
+FOR EACH ROW
+BEGIN
+    -- insert a new row in tours_history with operation 'DELETE'
+    CALL sp_create_tours_history(
+        NOW(),
+        'DELETE',
+        OLD.tour_id,
+        OLD.client_id,
+        OLD.company_id
+    );
+END $$
+DELIMITER ;
 
 -- UPDATE A TOUR MEMBER
 DELIMITER $$

@@ -5,7 +5,7 @@ import {
 import { NotFoundError } from "@/lib/errors/notFoundError"
 import { queryAsync } from "@/lib/database"
 
-import { getOneTourMemberQuery } from "../GetOneTourMember/query"
+import { getOneTourMemberQuery } from "../getOneTourMember/query"
 import { updateTourMemberStatusQuery } from "./query"
 import { updateTourMemberBodyMapper } from "./mapper"
 

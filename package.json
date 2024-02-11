@@ -21,6 +21,7 @@
 		"@types/express-pino-logger": "^4.0.5",
 		"@types/mysql": "^2.15.25",
 		"@types/node": "^20.10.4",
+		"git-hooks": "^1.1.10",
 		"nodemon": "^3.0.2",
 		"openapi-typescript": "^6.7.2",
 		"pino-pretty": "^10.2.3",

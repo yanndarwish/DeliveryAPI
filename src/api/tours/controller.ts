@@ -13,6 +13,7 @@ import {
 	getManyTourMembers,
 	getOneTourMember,
 	updateTourMember,
+	deleteTourMember,
 } from "@/logic/tourMembers"
 
 import {
@@ -27,6 +28,7 @@ import {
 	getOneTourMemberParamsSchema,
 	updateTourMemberStatusParamsSchema,
 	updateTourMemberStatusBodySchema,
+	deleteTourMemberParamsSchema,
 } from "./validation"
 import { headerSchema } from "../validation"
 
@@ -89,6 +91,13 @@ toursController.put(
 	Validator(updateTourMemberStatusParamsSchema, "params"),
 	Validator(updateTourMemberStatusBodySchema, "body"),
 	updateTourMember
+)
+
+toursController.delete(
+	"/:tourId/members/:id",
+	Validator(headerSchema, "headers"),
+	Validator(deleteTourMemberParamsSchema, "params"),
+	deleteTourMember
 )
 
 export { toursController }

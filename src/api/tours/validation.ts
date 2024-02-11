@@ -135,3 +135,17 @@ export type UpdateTourMemberStatusParams = z.infer<
 export type UpdateTourMemberStatusBody = z.infer<
 	typeof updateTourMemberStatusBodySchema
 >
+
+// DELETE TOUR MEMBER
+export const deleteTourMemberParamsSchema = z.object({
+	tourId: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) > 0),
+	id: z
+		.string()
+		.min(1)
+		.refine((value) => Number(value) > 0),
+})
+
+export type DeleteTourMemberParams = z.infer<typeof deleteTourMemberParamsSchema>

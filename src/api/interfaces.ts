@@ -488,6 +488,20 @@ export type UpdateOneTourMemberRequest = TypedRequest<
 	UpdateOneTourMemberParams
 >
 
+// DELETE ONE TOUR MEMBER BY ID
+export type DeleteOneTourMemberParams =
+	paths["/tours/{tourId}/members/{id}"]["delete"]["parameters"]["path"]
+type DeleteOneTourMemberResponseObject =
+	paths["/tours/{tourId}/members/{id}"]["delete"]["responses"][200]["content"]["application/json"]
+
+export type DeleteOneTourMemberRequest = TypedRequest<
+	never,
+	never,
+	DeleteOneTourMemberParams
+>
+export type DeleteOneTourMemberResponse =
+	TypedResponse<DeleteOneTourMemberResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

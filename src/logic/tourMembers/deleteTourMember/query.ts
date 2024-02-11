@@ -1,0 +1,1 @@
+export const deleteTourMemberQuery = "CALL sp_delete_tour_member(?)"

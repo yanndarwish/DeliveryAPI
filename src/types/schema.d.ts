@@ -1148,6 +1148,37 @@ export interface paths {
         };
       };
     };
+    /** Deletes a member by id for a tour. */
+    delete: {
+      parameters: {
+        path: {
+          /** @description The id of the tour to retrieve the member from */
+          tourId: string;
+          /** @description The id of the member to delete */
+          id: string;
+        };
+      };
+      responses: {
+        /** @description Member deleted */
+        200: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Member not found */
+        404: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
   };
 }
 
