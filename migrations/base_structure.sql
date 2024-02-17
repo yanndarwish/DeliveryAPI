@@ -42,13 +42,9 @@ CREATE TABLE IF NOT EXISTS phones (
 CREATE TABLE IF NOT EXISTS companies (
     company_id INT AUTO_INCREMENT PRIMARY KEY,
     company_name VARCHAR(30),
-    company_headquarter INTEGER,
-    company_warehouse INTEGER,
     company_siret VARCHAR(14),
     contacts JSON,
-    company_active BOOLEAN,
-    FOREIGN KEY (company_headquarter) REFERENCES addresses(address_id),
-    FOREIGN KEY (company_warehouse) REFERENCES addresses(address_id)
+    company_active BOOLEAN
 ) ENGINE=InnoDB;
 
 -- Create clients table
@@ -377,10 +373,11 @@ SELECT
     c.contacts,
     c.company_active
 FROM companies c
-LEFT JOIN addresses a_headquarter ON c.company_headquarter = a_headquarter.address_id
-LEFT JOIN addresses a_warehouse ON c.company_warehouse = a_warehouse.address_id
+LEFT JOIN addresses a_headquarter ON c.company_id = a_headquarter.entity_id AND a_headquarter.entity_type = 'COMPANY'
+LEFT JOIN addresses a_warehouse ON c.company_id = a_warehouse.entity_id AND a_warehouse.entity_type = 'COMPANY'
 LEFT JOIN emails e ON c.company_id = e.entity_id AND e.entity_type = 'COMPANY'
-LEFT JOIN phones p ON c.company_id = p.entity_id AND p.entity_type = 'COMPANY';
+LEFT JOIN phones p ON c.company_id = p.entity_id AND p.entity_type = 'COMPANY'
+GROUP BY c.company_id;
 
 CREATE VIEW IF NOT EXISTS view_tour_members_info AS
 SELECT

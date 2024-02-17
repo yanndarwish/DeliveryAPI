@@ -94,3 +94,29 @@ export type TourMemberDB = {
 }
 
 export type TourMembersArrayDB = TourMemberDB[]
+
+// ======================== COMPANIES ==========================
+
+export type CompanyDB = {
+	company_id: number
+	company_name: string
+	company_siret: string
+	headquarter_address_id: number | null
+	headquarter_street_number: string | null
+	headquarter_street: string | null
+	headquarter_city: string | null
+	headquarter_postal_code: string | null
+	headquarter_country: string | null
+	warehouse_address_id: number | null
+	warehouse_street_number: string | null
+	warehouse_street: string | null
+	warehouse_city: string | null
+	warehouse_postal_code: string | null
+	warehouse_country: string | null
+	email: string | null
+	phone: string | null
+	contacts: string
+	company_active: boolean
+}
+
+export type CompaniesArrayDB = CompanyDB[]

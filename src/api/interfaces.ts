@@ -518,6 +518,32 @@ export type DeleteOneTourMemberRequest = TypedRequest<
 export type DeleteOneTourMemberResponse =
 	TypedResponse<DeleteOneTourMemberResponseObject>
 
+// ========================== COMPANIES ===========================
+// GET MANY COMPANIES
+export type GetManyCompaniesQuery =
+	paths["/companies"]["get"]["parameters"]["query"]
+export type CompaniesArray =
+	paths["/companies"]["get"]["responses"][200]["content"]["application/json"]["data"]
+type GetManyCompaniesResponseObject =
+	paths["/companies"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetManyCompaniesRequest = TypedRequest<
+	GetManyCompaniesQuery,
+	never,
+	never
+>
+export type GetManyCompaniesResponse =
+	TypedResponse<GetManyCompaniesResponseObject>
+
+// CREATE COMPANY
+export type CreateCompanyBody =
+	paths["/companies"]["post"]["requestBody"]["content"]["application/json"]
+type CreateCompanyResponseObject =
+	paths["/companies"]["post"]["responses"][201]["content"]["application/json"]
+
+export type CreateCompanyRequest = TypedRequest<never, CreateCompanyBody, never>
+export type CreateCompanyResponse = TypedResponse<CreateCompanyResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

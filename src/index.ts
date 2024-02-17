@@ -12,10 +12,11 @@ import { logRequest } from "@/middlewares/requestLog"
 
 import { deliveriesController } from "@/api/deliveries/controller"
 import { clientsController } from "@/api/clients/controller"
-import { relaysController } from "./api/relays/controller"
-import { driversController } from "./api/drivers/controller"
-import { vehiclesController } from "./api/vehicles/controller"
-import { toursController } from "./api/tours/controller"
+import { relaysController } from "@/api/relays/controller"
+import { driversController } from "@/api/drivers/controller"
+import { vehiclesController } from "@/api/vehicles/controller"
+import { toursController } from "@/api/tours/controller"
+import { companiesController } from "@/api/companies/controller"
 
 const app = express()
 app.use(logRequest)
@@ -38,6 +39,7 @@ app.use("/relays", relaysController)
 app.use("/drivers", driversController)
 app.use("/vehicles", vehiclesController)
 app.use("/tours", toursController)
+app.use("/companies", companiesController)
 
 /**
  * Homepage (uniquement necessaire pour cette demo)

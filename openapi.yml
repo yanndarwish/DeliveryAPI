@@ -1157,6 +1157,82 @@ paths:
         "500":
           description: Internal server error
 
+  ############## COMPANIES #################
+  /companies:
+    get:
+      summary: Returns a list of companies.
+      tags:
+        - "Companies"
+      parameters:
+        - $ref: "#/components/parameters/OffsetParam"
+        - $ref: "#/components/parameters/LimitParam"
+        - in: query
+          name: status
+          description: Filter by company active status
+          example: ACTIVE
+          schema:
+            $ref: "#/components/schemas/ActiveStatus"
+        - in: query
+          name: name
+          description: Filter by company name
+          example: Amazon
+          schema:
+            type: string
+        - in: query
+          name: siret
+          example: 12345678901234
+          description: Filter by company siret
+          schema:
+            type: string
+        - in: query
+          name: email
+          example: example@mail.com
+          description: Filter by company email
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A JSON array of companies
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/CompaniesArray"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                required:
+                  - data
+                  - pagination
+        "400":
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
+
+    post:
+      summary: Creates a new company.
+      tags:
+        - "Companies"
+      requestBody:
+        description: Company object to be added to the list
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompanyCreate"
+      responses:
+        "201":
+          description: Company created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          description: Bad request - validation error
+        "500":
+          description: Internal server error
+
 components:
   ############# PARAMETERS #################
   parameters:
@@ -2120,4 +2196,260 @@ components:
           description: The active status of the tour member
           example: true
       required:
+        - active
+
+    ############# COMPANIES SCHEMAS #################
+    # Company schema
+    Company:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The id of the company
+          example: 1
+        name:
+          type: string
+          description: The name of the company
+          example: Amazon
+        siret:
+          type: string
+          description: The siret of the company
+          example: 12345678901234
+        headquarters:
+          $ref: "#/components/schemas/Address"
+        warehouse:
+          $ref: "#/components/schemas/Address"
+        email:
+          type: string
+          nullable: true
+          description: The email of the company
+          example: example@mail.com
+        phone:
+          type: string
+          nullable: true
+          description: The phone number of the company
+          example: +33612345678
+        contacts:
+          $ref: "#/components/schemas/ContactsArray"
+        active:
+          type: boolean
+          description: The active status of the company
+          example: true
+      required:
+        - id
+        - name
+        - headquarters
+        - warehouse
+        - siret
+        - email
+        - phone
+        - contacts
+        - active
+
+    # Companies array
+    CompaniesArray:
+      type: array
+      items:
+        $ref: "#/components/schemas/Company"
+
+    # Address schema
+    Address:
+      type: object
+      properties:
+        id:
+          type: integer
+          nullable: true
+          description: The id of the address
+          example: 1
+        streetNumber:
+          type: string
+          nullable: true
+          description: The street number of the address
+          example: 123
+        streetName:
+          type: string
+          nullable: true
+          description: The street of the address
+          example: Main St
+        city:
+          type: string
+          nullable: true
+          description: The city of the address
+          example: Paris
+        postalCode:
+          type: string
+          nullable: true
+          description: The postal code of the address
+          example: 75008
+        country:
+          type: string
+          nullable: true
+          description: The country of the address
+          example: France
+      required:
+        - id
+        - streetNumber
+        - streetName
+        - city
+        - postalCode
+        - country
+
+    # Address creation body schema
+    AddressCreate:
+      type: object
+      properties:
+        streetNumber:
+          type: string
+          nullable: true
+          description: The street number of the address
+          example: 123
+        streetName:
+          type: string
+          nullable: true
+          description: The street of the address
+          example: Main St
+        city:
+          type: string
+          nullable: true
+          description: The city of the address
+          example: Paris
+        postalCode:
+          type: string
+          nullable: true
+          description: The postal code of the address
+          example: 75008
+        country:
+          type: string
+          nullable: true
+          description: The country of the address
+          example: France
+        comment:
+          type: string
+          nullable: true
+          description: The comment of the address
+          example: Derrière le hangar
+      required:
+        - streetNumber
+        - streetName
+        - city
+        - postalCode
+        - country
+
+    # Contact schema
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The id of the contact
+          example: 1
+        firstName:
+          type: string
+          description: The first name of the contact
+          example: John
+        lastName:
+          type: string
+          description: The last name of the contact
+          example: Smith
+        email:
+          type: string
+          nullable: true
+          description: The email of the contact
+          example: example@mail.com
+        phone:
+          type: string
+          nullable: true
+          description: The phone number of the contact
+          example: +33612345678
+        comment:
+          type: string
+          nullable: true
+          description: The comment of the contact
+          example: CEO
+
+    # Contact Array
+    ContactsArray:
+      type: array
+      items:
+        $ref: "#/components/schemas/Contact"
+
+    # Contact creation body schema
+    ContactCreate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: The first name of the contact
+          example: John
+        lastName:
+          type: string
+          description: The last name of the contact
+          example: Smith
+        email:
+          type: string
+          nullable: true
+          description: The email of the contact
+          example: example@mail.com
+        phone:
+          type: string
+          nullable: true
+          description: The phone number of the contact
+          example: +33612345678
+        comment:
+          type: string
+          nullable: true
+          description: The comment of the contact
+          example: CEO
+      required:
+        - firstName
+        - lastName
+        - email
+        - phone
+
+    # Contact Create Array
+    ContactCreateArray:
+      type: array
+      items:
+        $ref: "#/components/schemas/ContactCreate"
+
+    # Company creation body schema
+    CompanyCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the company
+          example: Amazon
+        siret:
+          type: string
+          description: The siret of the company
+          example: 12345678901234
+        headquarters:
+          nullable: true
+          $ref: "#/components/schemas/AddressCreate"
+        warehouse:
+          nullable: true
+          $ref: "#/components/schemas/AddressCreate"
+        email:
+          type: string
+          nullable: true
+          description: The email of the company
+          example: example@mail.com
+        phone:
+          type: string
+          nullable: true
+          description: The phone number of the company
+          example: +33612345678
+        active:
+          type: boolean
+          description: The active status of the company
+          example: true
+        contacts:
+          $ref: "#/components/schemas/ContactCreateArray"
+      required:
+        - name
+        - siret
+        - email
+        - phone
+        - contacts
         - active

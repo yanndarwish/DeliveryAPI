@@ -1216,6 +1216,81 @@ export interface paths {
       };
     };
   };
+  "/companies": {
+    /** Returns a list of companies. */
+    get: {
+      parameters: {
+        query: {
+          offset: components["parameters"]["OffsetParam"];
+          limit: components["parameters"]["LimitParam"];
+          /**
+           * @description Filter by company active status
+           * @example ACTIVE
+           */
+          status?: components["schemas"]["ActiveStatus"];
+          /**
+           * @description Filter by company name
+           * @example Amazon
+           */
+          name?: string;
+          /**
+           * @description Filter by company siret
+           * @example 12345678901234
+           */
+          siret?: string;
+          /**
+           * @description Filter by company email
+           * @example example@mail.com
+           */
+          email?: string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of companies */
+        200: {
+          content: {
+            "application/json": {
+              data: components["schemas"]["CompaniesArray"];
+              pagination: components["schemas"]["Pagination"];
+            };
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+    /** Creates a new company. */
+    post: {
+      /** @description Company object to be added to the list */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["CompanyCreate"];
+        };
+      };
+      responses: {
+        /** @description Company created */
+        201: {
+          content: {
+            "application/json": components["schemas"]["MessageResponse"];
+          };
+        };
+        /** @description Bad request - validation error */
+        400: {
+          content: never;
+        };
+        /** @description Internal server error */
+        500: {
+          content: never;
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -1973,6 +2048,197 @@ export interface components {
        * @example true
        */
       active: boolean;
+    };
+    Company: {
+      /**
+       * @description The id of the company
+       * @example 1
+       */
+      id: number;
+      /**
+       * @description The name of the company
+       * @example Amazon
+       */
+      name: string;
+      /**
+       * @description The siret of the company
+       * @example 12345678901234
+       */
+      siret: string;
+      headquarters: components["schemas"]["Address"];
+      warehouse: components["schemas"]["Address"];
+      /**
+       * @description The email of the company
+       * @example example@mail.com
+       */
+      email: string | null;
+      /**
+       * @description The phone number of the company
+       * @example 33612345678
+       */
+      phone: string | null;
+      contacts: components["schemas"]["ContactsArray"];
+      /**
+       * @description The active status of the company
+       * @example true
+       */
+      active: boolean;
+    };
+    CompaniesArray: components["schemas"]["Company"][];
+    Address: {
+      /**
+       * @description The id of the address
+       * @example 1
+       */
+      id: number | null;
+      /**
+       * @description The street number of the address
+       * @example 123
+       */
+      streetNumber: string | null;
+      /**
+       * @description The street of the address
+       * @example Main St
+       */
+      streetName: string | null;
+      /**
+       * @description The city of the address
+       * @example Paris
+       */
+      city: string | null;
+      /**
+       * @description The postal code of the address
+       * @example 75008
+       */
+      postalCode: string | null;
+      /**
+       * @description The country of the address
+       * @example France
+       */
+      country: string | null;
+    };
+    AddressCreate: {
+      /**
+       * @description The street number of the address
+       * @example 123
+       */
+      streetNumber: string | null;
+      /**
+       * @description The street of the address
+       * @example Main St
+       */
+      streetName: string | null;
+      /**
+       * @description The city of the address
+       * @example Paris
+       */
+      city: string | null;
+      /**
+       * @description The postal code of the address
+       * @example 75008
+       */
+      postalCode: string | null;
+      /**
+       * @description The country of the address
+       * @example France
+       */
+      country: string | null;
+      /**
+       * @description The comment of the address
+       * @example Derrière le hangar
+       */
+      comment?: string | null;
+    };
+    Contact: {
+      /**
+       * @description The id of the contact
+       * @example 1
+       */
+      id?: number;
+      /**
+       * @description The first name of the contact
+       * @example John
+       */
+      firstName?: string;
+      /**
+       * @description The last name of the contact
+       * @example Smith
+       */
+      lastName?: string;
+      /**
+       * @description The email of the contact
+       * @example example@mail.com
+       */
+      email?: string | null;
+      /**
+       * @description The phone number of the contact
+       * @example 33612345678
+       */
+      phone?: string | null;
+      /**
+       * @description The comment of the contact
+       * @example CEO
+       */
+      comment?: string | null;
+    };
+    ContactsArray: components["schemas"]["Contact"][];
+    ContactCreate: {
+      /**
+       * @description The first name of the contact
+       * @example John
+       */
+      firstName: string;
+      /**
+       * @description The last name of the contact
+       * @example Smith
+       */
+      lastName: string;
+      /**
+       * @description The email of the contact
+       * @example example@mail.com
+       */
+      email: string | null;
+      /**
+       * @description The phone number of the contact
+       * @example 33612345678
+       */
+      phone: string | null;
+      /**
+       * @description The comment of the contact
+       * @example CEO
+       */
+      comment?: string | null;
+    };
+    ContactCreateArray: components["schemas"]["ContactCreate"][];
+    CompanyCreate: {
+      /**
+       * @description The name of the company
+       * @example Amazon
+       */
+      name: string;
+      /**
+       * @description The siret of the company
+       * @example 12345678901234
+       */
+      siret: string;
+      headquarters?: components["schemas"]["AddressCreate"];
+      warehouse?: components["schemas"]["AddressCreate"];
+      /**
+       * @description The email of the company
+       * @example example@mail.com
+       */
+      email: string | null;
+      /**
+       * @description The phone number of the company
+       * @example 33612345678
+       */
+      phone: string | null;
+      /**
+       * @description The active status of the company
+       * @example true
+       */
+      active: boolean;
+      contacts: components["schemas"]["ContactCreateArray"];
     };
   };
   responses: never;

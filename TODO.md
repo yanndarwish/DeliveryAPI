@@ -162,3 +162,14 @@
 ### DELETE Delete Tour Member
 
 - Tests
+
+## COMPANIES
+
+### GET Get Many Companies
+
+- Tests
+- Fix empty contacts array
+
+### POST Create Company
+
+- Tests

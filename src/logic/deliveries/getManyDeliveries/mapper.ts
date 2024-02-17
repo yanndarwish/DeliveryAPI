@@ -44,7 +44,6 @@ export const getManyDeliveriesResponseMapper = (
 		hotelPrice: delivery.delivery_hotel_price,
 		outsourcedTo: delivery.delivery_outsourced_to,
 		pickups: JSON.parse(delivery.pickups).map((pickup: any) => {
-			console.log(pickup)
 			return {
 				date: pickup.date,
 				infos: {
