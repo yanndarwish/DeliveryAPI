@@ -544,6 +544,19 @@ type CreateCompanyResponseObject =
 export type CreateCompanyRequest = TypedRequest<never, CreateCompanyBody, never>
 export type CreateCompanyResponse = TypedResponse<CreateCompanyResponseObject>
 
+// GET ONE COMPANY BY ID
+export type GetOneCompanyParams =
+	paths["/companies/{id}"]["get"]["parameters"]["path"]
+export type GetOneCompanyResponseObject =
+	paths["/companies/{id}"]["get"]["responses"][200]["content"]["application/json"]
+
+export type GetOneCompanyRequest = TypedRequest<
+	never,
+	never,
+	GetOneCompanyParams
+>
+export type GetOneCompanyResponse = TypedResponse<GetOneCompanyResponseObject>
+
 // ================================================================
 // ========================== COMPONENTS ==========================
 // ================================================================

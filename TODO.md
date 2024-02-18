@@ -5,7 +5,6 @@
 - add custom error messages for zod validation
 - Authentication logic + routes + info in token to avoid sending the company-id
 - Place the header schema validator middleware once instead of repeating it in each route
-- Check that the company-id provided in the middleware exists (new error message "company does not exist")
 
 ## DELIVERIES
 
@@ -171,5 +170,9 @@
 - Fix empty contacts array
 
 ### POST Create Company
+
+- Tests
+
+### GET Get One Company
 
 - Tests

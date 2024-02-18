@@ -1232,6 +1232,32 @@ paths:
           description: Bad request - validation error
         "500":
           description: Internal server error
+    
+  /companies/{id}:
+    get:
+      summary: Returns a company by id.
+      tags:
+        - "Companies"
+      parameters:
+        - in: path
+          name: id
+          description: The id of the company to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A company object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+        "400":
+          description: Bad request - validation error
+        "404":
+          description: Company not found
+        "500":
+          description: Internal server error
 
 components:
   ############# PARAMETERS #################

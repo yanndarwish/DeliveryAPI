@@ -48,3 +48,15 @@ export const createCompanyBodySchema = z.object({
 })
 
 export type CreateCompanyBody = z.infer<typeof createCompanyBodySchema>
+
+// GET ONE COMPANY
+export const getOneCompanyParamsSchema = z.object({
+	id: z
+		.string({ required_error: "L'ID de l'entreprise est requis" })
+		.min(1)
+		.refine((value) => Number(value) > 0, {
+			message: "L'ID de l'entreprise doit être un nombre positif",
+		}),
+})
+
+export type GetOneCompanyParams = z.infer<typeof getOneCompanyParamsSchema>

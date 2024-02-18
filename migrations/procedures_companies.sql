@@ -218,12 +218,27 @@ CREATE PROCEDURE sp_get_company_by_id(
 )
 BEGIN
     SELECT
-        company_id,
-        company_name,
-        company_siret,
-        contacts,
-        company_active
-    FROM companies WHERE company_id = p_company_id;
+            company_id,
+            company_name,
+            company_siret,
+            headquarter_address_id,
+            headquarter_street_number,
+            headquarter_street,
+            headquarter_city,
+            headquarter_postal_code,
+            headquarter_country,
+            warehouse_address_id,
+            warehouse_street_number,
+            warehouse_street,
+            warehouse_city,
+            warehouse_postal_code,
+            warehouse_country,
+            email,
+            phone,
+            contacts,
+            company_active
+        FROM view_companies_info
+        WHERE company_id = p_company_id;
 END$$
 DELIMITER ;
 
